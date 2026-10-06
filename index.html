@@ -2,51 +2,175 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>GAMUCA</title>
 
 <style>
 *{box-sizing:border-box}
 
-body{
+html,body{
   margin:0;
-  min-height:100vh;
-  background:#08080d;
-  color:white;
-  font-family:Arial,sans-serif;
+  width:100%;
+  height:100%;
+  background:#08080c;
+}
+
+body{
+  overflow:hidden;
 }
 
 .screen{
-  min-height:100vh;
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  min-height:100svh;
+}
+
+.hidden{
+  display:none!important;
+}
+
+
+/* =========================
+   PANTALLA DE INICIO
+   ========================= */
+
+#home{
+  position:relative;
+  overflow:hidden;
+
+  background:
+    #08080c
+    url("file_00000000b9d881f4b24a2fea9f042d49.png")
+    center/cover
+    no-repeat;
+}
+
+
+/* BOTONES INVISIBLES
+   Están encima de los botones
+   que aparecen en la imagen */
+
+.hit{
+  position:absolute;
+  display:block;
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  z-index:10;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.hit:active{
+  background:rgba(255,255,255,.06);
+  border-radius:12px;
+}
+
+
+/* Botones centrales */
+
+.play{
+  left:22%;
+  right:22%;
+  top:56.5%;
+  height:6.5%;
+}
+
+.create{
+  left:22%;
+  right:22%;
+  top:63.2%;
+  height:6.5%;
+}
+
+.continue{
+  left:22%;
+  right:22%;
+  top:70%;
+  height:6.5%;
+}
+
+.options{
+  left:22%;
+  right:22%;
+  top:76.8%;
+  height:6.5%;
+}
+
+
+/* Menú inferior */
+
+.about{
+  left:2%;
+  width:22%;
+  bottom:1%;
+  height:8%;
+}
+
+.ranking{
+  left:26%;
+  width:22%;
+  bottom:1%;
+  height:8%;
+}
+
+.achievements{
+  left:50%;
+  width:22%;
+  bottom:1%;
+  height:8%;
+}
+
+.shop{
+  right:2%;
+  width:22%;
+  bottom:1%;
+  height:8%;
+}
+
+
+/* =========================
+   PANTALLAS DEL JUEGO
+   ========================= */
+
+.game-screen{
+  min-height:100svh;
+
   padding:24px 20px;
+
   display:flex;
   flex-direction:column;
   justify-content:space-between;
+
+  color:#fff;
+
+  font-family:Arial,sans-serif;
+
   background:
-    radial-gradient(circle at 80% 15%,#704cff 0%,transparent 35%),
-    linear-gradient(160deg,#19152d,#08080d 65%);
+    radial-gradient(
+      circle at 80% 15%,
+      #704cff 0%,
+      transparent 35%
+    ),
+    linear-gradient(
+      160deg,
+      #19152d,
+      #08080d 65%
+    );
 }
+
 
 .top{
   display:flex;
   justify-content:space-between;
   align-items:center;
+
   font-weight:bold;
-  letter-spacing:2px;
 }
 
-.badge{
-  padding:8px 12px;
-  border-radius:20px;
-  background:#ffffff15;
-  border:1px solid #ffffff25;
-  font-size:12px;
-}
-
-.hero{
-  margin-top:auto;
-  margin-bottom:auto;
-}
 
 .small{
   color:#b9adff;
@@ -55,225 +179,426 @@ body{
   letter-spacing:3px;
 }
 
-h1{
-  font-size:70px;
-  line-height:.9;
-  margin:12px 0;
-}
 
 h2{
   font-size:32px;
 }
+
 
 p{
   color:#c9c9d2;
   line-height:1.5;
 }
 
-button{
+
+button.normal{
   width:100%;
+
   padding:16px;
   margin-top:12px;
+
   border:0;
   border-radius:16px;
+
   color:white;
+
   font-weight:bold;
   font-size:16px;
-  background:linear-gradient(100deg,#ff3f9f,#7355ff);
+
+  background:
+    linear-gradient(
+      100deg,
+      #ff3f9f,
+      #7355ff
+    );
 }
 
-.secondary{
-  background:#ffffff10;
-  border:1px solid #ffffff25;
+
+.back{
+  width:auto!important;
+  padding:10px 15px!important;
+  background:#ffffff12!important;
 }
+
 
 input{
   width:100%;
+
   padding:16px;
   margin:10px 0 15px;
+
   border-radius:14px;
+
   border:1px solid #ffffff25;
+
   background:#ffffff0d;
+
   color:white;
+
   font-size:16px;
 }
 
-.hidden{
-  display:none;
-}
 
 .card{
   margin-top:25px;
+
   padding:20px;
+
   border-radius:22px;
+
   background:#ffffff0b;
+
   border:1px solid #ffffff15;
 }
+
 
 .option{
   padding:18px;
   margin:10px 0;
+
   border-radius:16px;
+
   background:#ffffff0b;
+
   border:1px solid #ffffff15;
+
   cursor:pointer;
 }
+
 
 .stats{
   display:flex;
   gap:10px;
 }
 
+
 .stat{
   padding:10px 14px;
+
   border-radius:12px;
+
   background:#ffffff10;
 }
 
-.back{
-  width:auto;
-  padding:10px 15px;
-  background:#ffffff10;
-}
 </style>
 </head>
 
+
 <body>
+
+
+<!-- =========================
+     INICIO
+     ========================= -->
 
 <div id="home" class="screen">
 
-  <div class="top">
-    <span>GAMUCA</span>
-    <span class="badge">CAMPUS</span>
-  </div>
-
-  <div class="hero">
-    <div class="small">VIDA UNIVERSITARIA</div>
-
-    <h1>GAMUCA</h1>
-
-    <p>
-      Tu campus.<br>
-      Tus decisiones.<br>
-      Tu partida.
-    </p>
-
-    <button onclick="show('character')">
-      JUGAR
-    </button>
-
-    <button class="secondary" onclick="continueGame()">
-      CONTINUAR
-    </button>
-  </div>
-
-  <div>━━━━━━</div>
-
-</div>
+  <button
+    class="hit play"
+    aria-label="Jugar"
+    onclick="show('character')">
+  </button>
 
 
-<div id="character" class="screen hidden">
+  <button
+    class="hit create"
+    aria-label="Crear personaje"
+    onclick="show('character')">
+  </button>
 
-  <div>
-    <button class="back" onclick="show('home')">←</button>
 
-    <div class="small">NUEVA PARTIDA</div>
+  <button
+    class="hit continue"
+    aria-label="Continuar partida"
+    onclick="continueGame()">
+  </button>
 
-    <h2>Crea tu personaje</h2>
 
-    <p>¿Cómo quieres que aparezca tu personaje?</p>
+  <button
+    class="hit options"
+    aria-label="Opciones"
+    onclick="alert('Opciones de GAMUCA próximamente.')">
+  </button>
 
-    <input id="name" maxlength="18" placeholder="Escribe tu nombre">
 
-    <div class="card">
+  <!-- MENÚ INFERIOR -->
 
-      <div class="option" onclick="selectAvatar('🧑‍🎓')">🧑‍🎓 Estudiante</div>
+  <button
+    class="hit about"
+    aria-label="Sobre"
+    onclick="alert('GAMUCA — videojuego universitario.')">
+  </button>
 
-      <div class="option" onclick="selectAvatar('👩‍🎓')">👩‍🎓 Estudiante</div>
 
-      <div class="option" onclick="selectAvatar('🧑‍💻')">🧑‍💻 Informático</div>
+  <button
+    class="hit ranking"
+    aria-label="Ranking"
+    onclick="alert('Ranking próximamente.')">
+  </button>
 
-      <div class="option" onclick="selectAvatar('👩‍💻')">👩‍💻 Informática</div>
 
-    </div>
+  <button
+    class="hit achievements"
+    aria-label="Logros"
+    onclick="alert('Logros próximamente.')">
+  </button>
 
-  </div>
 
-  <button onclick="startGame()">
-    EMPEZAR
+  <button
+    class="hit shop"
+    aria-label="Tienda"
+    onclick="alert('Tienda próximamente.')">
   </button>
 
 </div>
 
 
-<div id="game" class="screen hidden">
+
+<!-- =========================
+     CREAR PERSONAJE
+     ========================= -->
+
+<div
+  id="character"
+  class="game-screen hidden"
+>
+
+  <div>
+
+    <button
+      class="normal back"
+      onclick="show('home')">
+      ←
+    </button>
+
+
+    <div class="small">
+      NUEVA PARTIDA
+    </div>
+
+
+    <h2>
+      Crea tu personaje
+    </h2>
+
+
+    <p>
+      ¿Cómo quieres que aparezca tu personaje?
+    </p>
+
+
+    <input
+      id="name"
+      maxlength="18"
+      placeholder="Escribe tu nombre"
+    >
+
+
+    <div class="card">
+
+      <div
+        class="option"
+        onclick="selectAvatar('🧑‍🎓')">
+        🧑‍🎓 Estudiante
+      </div>
+
+
+      <div
+        class="option"
+        onclick="selectAvatar('👩‍🎓')">
+        👩‍🎓 Estudiante
+      </div>
+
+
+      <div
+        class="option"
+        onclick="selectAvatar('🧑‍💻')">
+        🧑‍💻 Informático
+      </div>
+
+
+      <div
+        class="option"
+        onclick="selectAvatar('👩‍💻')">
+        👩‍💻 Informática
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button
+    class="normal"
+    onclick="startGame()">
+
+    EMPEZAR
+
+  </button>
+
+</div>
+
+
+
+<!-- =========================
+     JUEGO
+     ========================= -->
+
+<div
+  id="game"
+  class="game-screen hidden"
+>
 
   <div>
 
     <div class="top">
 
-      <span id="avatar">🧑‍🎓</span>
+      <span id="avatar">
+        🧑‍🎓
+      </span>
+
 
       <div class="stats">
-        <div class="stat">⭐ <span id="xp">0</span></div>
-        <div class="stat">🪙 <span id="coins">0</span></div>
+
+        <div class="stat">
+          ⭐
+          <span id="xp">
+            0
+          </span>
+        </div>
+
+
+        <div class="stat">
+          🪙
+          <span id="coins">
+            0
+          </span>
+        </div>
+
       </div>
 
     </div>
 
+
     <p id="welcome"></p>
 
-    <div class="small">CAMPUS</div>
 
-    <h2>¿Dónde vas?</h2>
+    <div class="small">
+      CAMPUS
+    </div>
+
+
+    <h2>
+      ¿Dónde vas?
+    </h2>
+
 
     <div class="card">
 
-      <div class="option" onclick="visit('Facultad')">
-        🏛️ <b>Facultad</b><br>
-        <small>Clases y retos</small>
+      <div
+        class="option"
+        onclick="visit('Facultad')">
+
+        🏛️
+        <b>
+          Facultad
+        </b>
+
+        <br>
+
+        <small>
+          Clases y retos
+        </small>
+
       </div>
 
-      <div class="option" onclick="visit('Biblioteca')">
-        📚 <b>Biblioteca</b><br>
-        <small>Estudia y gana XP</small>
+
+      <div
+        class="option"
+        onclick="visit('Biblioteca')">
+
+        📚
+        <b>
+          Biblioteca
+        </b>
+
+        <br>
+
+        <small>
+          Estudia y gana XP
+        </small>
+
       </div>
 
-      <div class="option" onclick="visit('Cafetería')">
-        ☕ <b>Cafetería</b><br>
-        <small>Descansa un poco</small>
+
+      <div
+        class="option"
+        onclick="visit('Cafetería')">
+
+        ☕
+        <b>
+          Cafetería
+        </b>
+
+        <br>
+
+        <small>
+          Descansa un poco
+        </small>
+
       </div>
 
     </div>
 
   </div>
 
-  <button onclick="mission()">
+
+  <button
+    class="normal"
+    onclick="mission()">
+
     ⚡ MISIÓN
+
   </button>
 
 </div>
 
 
+
 <script>
 
-let player = JSON.parse(
-  localStorage.getItem("gamuca")
-) || {
-  name:"",
-  avatar:"🧑‍🎓",
-  xp:0,
-  coins:0
-};
+
+let player =
+  JSON.parse(
+    localStorage.getItem("gamuca")
+  )
+  ||
+  {
+    name:"",
+    avatar:"🧑‍🎓",
+    xp:0,
+    coins:0
+  };
+
+
 
 function show(id){
 
-  document.querySelectorAll(".screen")
-  .forEach(x => x.classList.add("hidden"));
+  document
+    .querySelectorAll(".screen")
+    .forEach(
+      x =>
+        x.classList.add("hidden")
+    );
 
-  document.getElementById(id)
-  .classList.remove("hidden");
+
+  document
+    .getElementById(id)
+    .classList.remove("hidden");
+
 }
+
+
 
 function selectAvatar(avatar){
 
@@ -281,26 +606,42 @@ function selectAvatar(avatar){
 
 }
 
+
+
 function startGame(){
 
   const name =
-    document.getElementById("name").value.trim();
+    document
+      .getElementById("name")
+      .value
+      .trim();
+
 
   if(!name){
 
-    alert("Escribe un nombre para tu personaje.");
+    alert(
+      "Escribe un nombre para tu personaje."
+    );
 
     return;
+
   }
+
 
   player.name = name;
 
+
   save();
+
 
   updateGame();
 
+
   show("game");
+
 }
+
+
 
 function continueGame(){
 
@@ -309,37 +650,60 @@ function continueGame(){
     show("character");
 
     return;
+
   }
+
 
   updateGame();
 
+
   show("game");
+
 }
+
+
 
 function updateGame(){
 
-  document.getElementById("avatar")
-  .textContent = player.avatar;
+  document
+    .getElementById("avatar")
+    .textContent =
+      player.avatar;
 
-  document.getElementById("welcome")
-  .textContent =
-    "Hola, " + player.name + ". ¿Qué hacemos hoy?";
 
-  document.getElementById("xp")
-  .textContent = player.xp;
+  document
+    .getElementById("welcome")
+    .textContent =
+      "Hola, "
+      + player.name
+      + ". ¿Qué hacemos hoy?";
 
-  document.getElementById("coins")
-  .textContent = player.coins;
+
+  document
+    .getElementById("xp")
+    .textContent =
+      player.xp;
+
+
+  document
+    .getElementById("coins")
+    .textContent =
+      player.coins;
+
 }
+
+
 
 function visit(place){
 
   if(place === "Facultad"){
 
     player.xp += 5;
+
     player.coins += 1;
 
   }
+
 
   if(place === "Biblioteca"){
 
@@ -347,39 +711,55 @@ function visit(place){
 
   }
 
+
   if(place === "Cafetería"){
 
     player.coins += 2;
 
   }
 
+
   save();
+
 
   updateGame();
 
+
   alert(
-    place +
-    " visitada.\n\n" +
-    "⭐ XP: " + player.xp +
-    "\n🪙 Monedas: " + player.coins
+    place
+    + " visitada.\n\n"
+    + "⭐ XP: "
+    + player.xp
+    + "\n🪙 Monedas: "
+    + player.coins
   );
+
 }
+
+
 
 function mission(){
 
   player.xp += 20;
+
   player.coins += 5;
+
 
   save();
 
+
   updateGame();
 
+
   alert(
-    "¡Misión completada!\n\n" +
-    "+20 XP\n" +
-    "+5 monedas"
+    "¡Misión completada!\n\n"
+    + "+20 XP\n"
+    + "+5 monedas"
   );
+
 }
+
+
 
 function save(){
 
