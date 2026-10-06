@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAMUCA</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:#08080d;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+.screen{
+  min-height:100vh;
+  padding:24px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  background:
+    radial-gradient(circle at 80% 15%,#704cff 0%,transparent 35%),
+    linear-gradient(160deg,#19152d,#08080d 65%);
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+
+.badge{
+  padding:8px 12px;
+  border-radius:20px;
+  background:#ffffff15;
+  border:1px solid #ffffff25;
+  font-size:12px;
+}
+
+.hero{
+  margin-top:auto;
+  margin-bottom:auto;
+}
+
+.small{
+  color:#b9adff;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:3px;
+}
+
+h1{
+  font-size:70px;
+  line-height:.9;
+  margin:12px 0;
+}
+
+h2{
+  font-size:32px;
+}
+
+p{
+  color:#c9c9d2;
+  line-height:1.5;
+}
+
+button{
+  width:100%;
+  padding:16px;
+  margin-top:12px;
+  border:0;
+  border-radius:16px;
+  color:white;
+  font-weight:bold;
+  font-size:16px;
+  background:linear-gradient(100deg,#ff3f9f,#7355ff);
+}
+
+.secondary{
+  background:#ffffff10;
+  border:1px solid #ffffff25;
+}
+
+input{
+  width:100%;
+  padding:16px;
+  margin:10px 0 15px;
+  border-radius:14px;
+  border:1px solid #ffffff25;
+  background:#ffffff0d;
+  color:white;
+  font-size:16px;
+}
+
+.hidden{
+  display:none;
+}
+
+.card{
+  margin-top:25px;
+  padding:20px;
+  border-radius:22px;
+  background:#ffffff0b;
+  border:1px solid #ffffff15;
+}
+
+.option{
+  padding:18px;
+  margin:10px 0;
+  border-radius:16px;
+  background:#ffffff0b;
+  border:1px solid #ffffff15;
+  cursor:pointer;
+}
+
+.stats{
+  display:flex;
+  gap:10px;
+}
+
+.stat{
+  padding:10px 14px;
+  border-radius:12px;
+  background:#ffffff10;
+}
+
+.back{
+  width:auto;
+  padding:10px 15px;
+  background:#ffffff10;
+}
+</style>
+</head>
+
+<body>
+
+<div id="home" class="screen">
+
+  <div class="top">
+    <span>GAMUCA</span>
+    <span class="badge">CAMPUS</span>
+  </div>
+
+  <div class="hero">
+    <div class="small">VIDA UNIVERSITARIA</div>
+
+    <h1>GAMUCA</h1>
+
+    <p>
+      Tu campus.<br>
+      Tus decisiones.<br>
+      Tu partida.
+    </p>
+
+    <button onclick="show('character')">
+      JUGAR
+    </button>
+
+    <button class="secondary" onclick="continueGame()">
+      CONTINUAR
+    </button>
+  </div>
+
+  <div>━━━━━━</div>
+
+</div>
+
+
+<div id="character" class="screen hidden">
+
+  <div>
+    <button class="back" onclick="show('home')">←</button>
+
+    <div class="small">NUEVA PARTIDA</div>
+
+    <h2>Crea tu personaje</h2>
+
+    <p>¿Cómo quieres que aparezca tu personaje?</p>
+
+    <input id="name" maxlength="18" placeholder="Escribe tu nombre">
+
+    <div class="card">
+
+      <div class="option" onclick="selectAvatar('🧑‍🎓')">🧑‍🎓 Estudiante</div>
+
+      <div class="option" onclick="selectAvatar('👩‍🎓')">👩‍🎓 Estudiante</div>
+
+      <div class="option" onclick="selectAvatar('🧑‍💻')">🧑‍💻 Informático</div>
+
+      <div class="option" onclick="selectAvatar('👩‍💻')">👩‍💻 Informática</div>
+
+    </div>
+
+  </div>
+
+  <button onclick="startGame()">
+    EMPEZAR
+  </button>
+
+</div>
+
+
+<div id="game" class="screen hidden">
+
+  <div>
+
+    <div class="top">
+
+      <span id="avatar">🧑‍🎓</span>
+
+      <div class="stats">
+        <div class="stat">⭐ <span id="xp">0</span></div>
+        <div class="stat">🪙 <span id="coins">0</span></div>
+      </div>
+
+    </div>
+
+    <p id="welcome"></p>
+
+    <div class="small">CAMPUS</div>
+
+    <h2>¿Dónde vas?</h2>
+
+    <div class="card">
+
+      <div class="option" onclick="visit('Facultad')">
+        🏛️ <b>Facultad</b><br>
+        <small>Clases y retos</small>
+      </div>
+
+      <div class="option" onclick="visit('Biblioteca')">
+        📚 <b>Biblioteca</b><br>
+        <small>Estudia y gana XP</small>
+      </div>
+
+      <div class="option" onclick="visit('Cafetería')">
+        ☕ <b>Cafetería</b><br>
+        <small>Descansa un poco</small>
+      </div>
+
+    </div>
+
+  </div>
+
+  <button onclick="mission()">
+    ⚡ MISIÓN
+  </button>
+
+</div>
+
+
+<script>
+
+let player = JSON.parse(
+  localStorage.getItem("gamuca")
+) || {
+  name:"",
+  avatar:"🧑‍🎓",
+  xp:0,
+  coins:0
+};
+
+function show(id){
+
+  document.querySelectorAll(".screen")
+  .forEach(x => x.classList.add("hidden"));
+
+  document.getElementById(id)
+  .classList.remove("hidden");
+}
+
+function selectAvatar(avatar){
+
+  player.avatar = avatar;
+
+}
+
+function startGame(){
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  if(!name){
+
+    alert("Escribe un nombre para tu personaje.");
+
+    return;
+  }
+
+  player.name = name;
+
+  save();
+
+  updateGame();
+
+  show("game");
+}
+
+function continueGame(){
+
+  if(!player.name){
+
+    show("character");
+
+    return;
+  }
+
+  updateGame();
+
+  show("game");
+}
+
+function updateGame(){
+
+  document.getElementById("avatar")
+  .textContent = player.avatar;
+
+  document.getElementById("welcome")
+  .textContent =
+    "Hola, " + player.name + ". ¿Qué hacemos hoy?";
+
+  document.getElementById("xp")
+  .textContent = player.xp;
+
+  document.getElementById("coins")
+  .textContent = player.coins;
+}
+
+function visit(place){
+
+  if(place === "Facultad"){
+
+    player.xp += 5;
+    player.coins += 1;
+
+  }
+
+  if(place === "Biblioteca"){
+
+    player.xp += 10;
+
+  }
+
+  if(place === "Cafetería"){
+
+    player.coins += 2;
+
+  }
+
+  save();
+
+  updateGame();
+
+  alert(
+    place +
+    " visitada.\n\n" +
+    "⭐ XP: " + player.xp +
+    "\n🪙 Monedas: " + player.coins
+  );
+}
+
+function mission(){
+
+  player.xp += 20;
+  player.coins += 5;
+
+  save();
+
+  updateGame();
+
+  alert(
+    "¡Misión completada!\n\n" +
+    "+20 XP\n" +
+    "+5 monedas"
+  );
+}
+
+function save(){
+
+  localStorage.setItem(
+    "gamuca",
+    JSON.stringify(player)
+  );
+
+}
+
+</script>
+
+</body>
+</html>
