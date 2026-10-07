@@ -61,11 +61,19 @@ button{
 ========================================================= */
 
 #home{
-  min-height:100vh;
+  width:min(100vw, 56.25vh);
+  height:min(177.7777778vw, 100vh);
+  min-height:0;
+  aspect-ratio:9/16;
+  margin:0 auto;
+
+  position:relative;
+  overflow:hidden;
+
   background:
     #08080c
     url("file_00000000b9d881f4b24a2fea9f042d49.png")
-    center top / cover no-repeat;
+    center center / cover no-repeat;
 }
 
 /* zonas invisibles sobre los botones de la portada */
