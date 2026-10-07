@@ -163,7 +163,22 @@ button{
 
   overflow:hidden;
 }
+/* =========================================================
+   PERSONAJE BASE
+========================================================= */
 
+.character-base{
+  position:absolute;
+  z-index:12;
+  left:50%;
+  top:30.5%;
+  width:10.8%;
+  height:auto;
+  transform:translateX(-50%);
+  display:block;
+  pointer-events:none;
+  user-select:none;
+}
 /* =========================================================
    EFECTOS AMBIENTALES
 ========================================================= */
@@ -598,7 +613,12 @@ button{
       <div class="spark s4"></div>
       <div class="spark s5"></div>
     </div>
-
+<!-- PERSONAJE BASE -->
+<img
+  id="characterBase"
+  class="character-base"
+  src="archivo_00000000dbac82109b35918672afabd5.png"
+  alt="Personaje GAMUCA">
     <!-- VOLVER -->
     <button
       class="creator-button back-hit"
