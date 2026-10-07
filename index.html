@@ -22,17 +22,8 @@ html, body{
   overflow-x:hidden;
 }
 
-button, input{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-/* =========================================================
-   CONTENEDOR GENERAL (RELACIÓN DE ASPECTO 9:16)
-========================================================= */
+button, input{ font:inherit; }
+button{ cursor:pointer; }
 
 .game{
   width:100%;
@@ -53,16 +44,14 @@ button{
   margin: auto;
 }
 
-.screen.active{
-  display:block;
-}
+.screen.active{ display:block; }
 
 /* =========================================================
-   PORTADA
+   PORTADA (IMAGEN DEL REPO)
 ========================================================= */
 
 #home{
-  background: #08080c url("file_00000000b9d881f4b24a2fea9f042d49.png") center center / cover no-repeat;
+  background: #08080c url("./file_00000000b9d881f4b24a2fea9f042d49.png") center center / cover no-repeat;
 }
 
 .home-hit{
@@ -72,27 +61,25 @@ button{
   z-index:10;
 }
 
-/* Alineación exacta con los botones dibujados en la portada */
+/* Hitboxes calculadas exactamente sobre la ilustración de la portada */
 .home-play      { left:26.5%; width:47%; top:62.8%; height:5.8%; }
 .home-create    { left:27.5%; width:45%; top:69.5%; height:5.2%; }
 .home-continue  { left:27.5%; width:45%; top:75.2%; height:5.2%; }
 .home-options   { left:32.0%; width:36%; top:81.0%; height:5.0%; }
 
-/* Botones inferiores */
 .home-about     { left:16%; width:16%; bottom:2.5%; height:5%; }
 .home-ranking   { left:34%; width:16%; bottom:2.5%; height:5%; }
 .home-achievements { left:52%; width:16%; bottom:2.5%; height:5%; }
 .home-shop      { left:70%; width:16%; bottom:2.5%; height:5%; }
 
 /* =========================================================
-   CREADOR DE PERSONAJE
+   CREADOR DE PERSONAJE (IMAGEN DEL REPO)
 ========================================================= */
 
 #creator{
-  background: #09070d url("file_000000008f9081f48664970b19944855.png") center top / cover no-repeat;
+  background: #09070d url("./file_000000008f9081f48664970b19944855.png") center top / cover no-repeat;
 }
 
-/* Botón "X" arriba a la derecha */
 .close-stage-hit {
   position: absolute;
   top: 1.5%;
@@ -104,7 +91,6 @@ button{
   z-index: 40;
 }
 
-/* Personaje montado sobre el espejo */
 .character-base-img {
   position: absolute;
   top: 11.2%;
@@ -117,7 +103,6 @@ button{
   filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
 }
 
-/* Pestañas de Personalización (Alineadas con la rejilla beige/negra) */
 .creator-tab {
   position: absolute;
   top: 51.0%;
@@ -133,7 +118,6 @@ button{
 .tab-pendientes { left: 60%;   width: 18%; }
 .tab-extras     { left: 78%;   width: 16%; }
 
-/* Hitboxes transparentes sobre los elementos dinámicos dentro del recuadro del arte */
 .options-overlay-panel {
   position: absolute;
   top: 56.5%;
@@ -148,12 +132,8 @@ button{
   gap: 6px;
 }
 
-.options-overlay-panel::-webkit-scrollbar {
-  width: 4px;
-}
-.options-overlay-panel::-webkit-scrollbar-thumb {
-  background: #49374d;
-}
+.options-overlay-panel::-webkit-scrollbar { width: 4px; }
+.options-overlay-panel::-webkit-scrollbar-thumb { background: #49374d; }
 
 .pixel-section-title {
   color: #d9a86c;
@@ -186,7 +166,6 @@ button{
   box-shadow: 0 0 6px rgba(189, 104, 255, 0.5);
 }
 
-/* Botón "CREAR PERSONAJE" centrado en el banner inferior */
 .create-btn-hit {
   position: absolute;
   top: 87.5%;
@@ -198,10 +177,7 @@ button{
   z-index: 40;
 }
 
-/* =========================================================
-   EFECTOS Y MODALES
-========================================================= */
-
+/* MODALES */
 .modal{
   display:none;
   position:fixed;
@@ -228,48 +204,11 @@ button{
   padding:16px;
 }
 
-.modal-title{
-  font-size:16px;
-  color:#e8aaff;
-  text-align:center;
-  margin-bottom:12px;
-}
-
-.close-modal-btn{
-  float:right;
-  background:#241427;
-  border:1px solid #d48cff;
-  color:#f1c9ff;
-  padding:4px 8px;
-}
-
-.career-search{
-  width:100%;
-  padding:10px;
-  background:#0a080d;
-  color:white;
-  border:1px solid #6e4a78;
-  outline:none;
-  margin-bottom:10px;
-}
-
-.career-list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  max-height:40vh;
-  overflow:auto;
-}
-
-.career-card{
-  text-align:left;
-  padding:8px;
-  background:#100c13;
-  border:1px solid #3b2a40;
-  color:#eee;
-  font-size:12px;
-}
-
+.modal-title{ font-size:16px; color:#e8aaff; text-align:center; margin-bottom:12px; }
+.close-modal-btn{ float:right; background:#241427; border:1px solid #d48cff; color:#f1c9ff; padding:4px 8px; }
+.career-search{ width:100%; padding:10px; background:#0a080d; color:white; border:1px solid #6e4a78; outline:none; margin-bottom:10px; }
+.career-list{ display:flex; flex-direction:column; gap:6px; max-height:40vh; overflow:auto; }
+.career-card{ text-align:left; padding:8px; background:#100c13; border:1px solid #3b2a40; color:#eee; font-size:12px; }
 .career-card strong{ display:block; color:#f3c9dc; }
 .career-card small{ color:#a995a9; }
 .career-card:hover, .career-card.selected{ border-color:#bd68ff; background:#21132b; }
@@ -290,10 +229,7 @@ button{
   transition:.3s;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 
@@ -316,26 +252,20 @@ button{
 
 <!-- CREADOR DE PERSONAJE -->
 <section id="creator" class="screen">
-
-  <!-- Botón Salir (X) -->
   <button class="close-stage-hit" onclick="goHome()" aria-label="Cerrar"></button>
 
-  <!-- Imagen recortada del personaje montada sobre el Espejo -->
-  <img src="file_00000000dbac82109b35918672afabd5.png" alt="Personaje Base" class="character-base-img">
+  <!-- IMAGEN BASE DEL PERSONAJE DEL REPO -->
+  <img src="./file_00000000dbac82109b35918672afabd5.png" alt="Personaje Base" class="character-base-img">
 
-  <!-- Pestañas transparentes sobre el diseño -->
   <button class="creator-tab tab-apariencia" onclick="switchCategory('APARIENCIA')"></button>
   <button class="creator-tab tab-peinado"    onclick="switchCategory('PEINADO')"></button>
   <button class="creator-tab tab-ropa"       onclick="switchCategory('ROPA')"></button>
   <button class="creator-tab tab-pendientes" onclick="switchCategory('PENDIENTES')"></button>
   <button class="creator-tab tab-extras"     onclick="switchCategory('EXTRAS')"></button>
 
-  <!-- Opciones internas dinámicas -->
   <div class="options-overlay-panel" id="optionsPanel"></div>
 
-  <!-- Botón "CREAR PERSONAJE" -->
   <button class="create-btn-hit" onclick="createCharacter()" aria-label="Crear Personaje"></button>
-
 </section>
 
 </div>
@@ -366,153 +296,4 @@ let character = {
   extras:"Ninguno"
 };
 
-const careers = [
-  ["Administración y Dirección de Empresas","Jerez / Algeciras"],
-  ["Ingeniería Informática","Cádiz"],
-  ["Derecho","Jerez / Algeciras"],
-  ["Medicina","Cádiz"],
-  ["Criminología y Seguridad","Jerez"],
-  ["Biotecnología","Puerto Real"],
-  ["Marketing e Investigación de Mercados","Jerez"],
-  ["Psicología","Cádiz"]
-];
-
-const customization = {
-  APARIENCIA:{
-    "TIPO DE CARA":["Cara 1","Cara 2","Cara 3","Cara 4","Cara 5"],
-    "TONO DE PIEL":["Claro","Neutro","Bronze","Oscuro","Muy Oscuro"],
-    "EXPRESIÓN":["Neutra","Sonriente","Seria","Tímida","Enfadada"],
-    "COLOR DE OJOS":["Marrón","Avellana","Verde","Azul","Gris","Rojo"]
-  },
-  PEINADO:{
-    "CORTES":["Largo","Corto","Bob","Pixie","Coleta","Rizos","Flequillo","Undercut"]
-  },
-  ROPA:{
-    "ESTILOS":["Casual","Universitario","Gótico","Formal","Deportivo","Rock","Metal"]
-  },
-  PENDIENTES:{
-    "OPCIONES":["Ninguno","Aros","Cruz","Estrella","Piercing"]
-  },
-  EXTRAS:{
-    "UNIVERSIDAD":["Mochila UCA","Portátil","Apuntes","Gafas","Café"]
-  }
-};
-
-function showScreen(id){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0,0);
-}
-
-function openCreator(){
-  showScreen("creator");
-  switchCategory("APARIENCIA");
-}
-
-function goHome(){
-  showScreen("home");
-}
-
-function switchCategory(category){
-  const panel = document.getElementById("optionsPanel");
-  panel.innerHTML = "";
-
-  const groups = customization[category];
-  if(!groups) return;
-
-  Object.entries(groups).forEach(([groupName, items]) => {
-    const title = document.createElement("div");
-    title.className = "pixel-section-title";
-    title.textContent = "◆ " + groupName;
-    panel.appendChild(title);
-
-    const grid = document.createElement("div");
-    grid.className = "pixel-grid";
-
-    items.forEach(item => {
-      const btn = document.createElement("button");
-      btn.className = "pixel-opt-btn";
-      btn.textContent = item;
-
-      btn.onclick = () => {
-        grid.querySelectorAll(".pixel-opt-btn").forEach(b => b.classList.remove("selected"));
-        btn.classList.add("selected");
-        showMessage("Seleccionado: " + item);
-      };
-
-      grid.appendChild(btn);
-    });
-
-    panel.appendChild(grid);
-  });
-}
-
-function openCareer(){
-  document.getElementById("careerModal").classList.add("open");
-  renderCareers(careers);
-}
-
-function renderCareers(list){
-  const container = document.getElementById("careerList");
-  container.innerHTML = "";
-
-  list.forEach(([name, campus]) => {
-    const button = document.createElement("button");
-    button.className = "career-card";
-    button.innerHTML = "<strong>" + name + "</strong><small>Campus: " + campus + "</small>";
-
-    button.onclick = () => {
-      character.career = name;
-      character.campus = campus;
-      closeModal("careerModal");
-      showMessage("Carrera: " + name);
-    };
-
-    container.appendChild(button);
-  });
-}
-
-function filterCareers(){
-  const search = document.getElementById("careerSearch").value.toLowerCase().trim();
-  const filtered = careers.filter(([name, campus]) =>
-    (name + " " + campus).toLowerCase().includes(search)
-  );
-  renderCareers(filtered);
-}
-
-function closeModal(id){
-  document.getElementById(id).classList.remove("open");
-}
-
-function continueGame(){
-  const saved = localStorage.getItem("gamucaCharacter");
-  if(saved){
-    character = JSON.parse(saved);
-    showMessage("Cargando partida guardada...");
-    openCreator();
-  }else{
-    showMessage("No hay ninguna partida guardada.");
-  }
-}
-
-function createCharacter(){
-  if(!character.career){
-    openCareer();
-    return;
-  }
-  localStorage.setItem("gamucaCharacter", JSON.stringify(character));
-  showMessage("✓ ¡Personaje guardado correctamente!");
-}
-
-let toastTimer;
-function showMessage(message){
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { toast.classList.remove("show"); }, 2200);
-}
-</script>
-
-</body>
-</html>
+const careers =
