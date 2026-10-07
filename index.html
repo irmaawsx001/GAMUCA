@@ -25,8 +25,7 @@ body{
   overflow-x:hidden;
 }
 
-button,
-input{
+button, input{
   font:inherit;
 }
 
@@ -34,10 +33,7 @@ button{
   cursor:pointer;
 }
 
-/* =========================================================
-   CONTENEDOR GENERAL
-========================================================= */
-
+/* CONTENEDOR GENERAL */
 .game{
   width:100%;
   min-height:100vh;
@@ -56,95 +52,86 @@ button{
   display:block;
 }
 
-/* =========================================================
-   PORTADA
-========================================================= */
-
+/* PORTADA */
 #home{
   width:min(100vw, 56.25vh);
   height:min(177.7777778vw, 100vh);
   min-height:0;
   aspect-ratio:9/16;
   margin:0 auto;
-
   position:relative;
   overflow:hidden;
-
-  background:
-    #08080c
-    url("file_00000000b9d881f4b24a2fea9f042d49.png")
-    center center / cover no-repeat;
+  background: radial-gradient(circle at center, #261238 0%, #08070c 80%);
+  border: 2px solid #5a2a82;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-/* zonas invisibles sobre los botones de la portada */
-
-.home-hit{
-  position:absolute;
-  background:transparent;
-  border:0;
-  z-index:10;
+.home-title {
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #bd68ff;
 }
 
-.home-play{
-  left:22%;
-  right:22%;
-  top:56.5%;
-  height:6.5%;
+.home-title h1 {
+  font-size: 38px;
+  color: #e8aaff;
+  margin: 0;
+  letter-spacing: 4px;
 }
 
-.home-create{
-  left:22%;
-  right:22%;
-  top:63.2%;
-  height:6.5%;
+.home-title p {
+  font-size: 12px;
+  color: #a995a9;
+  margin-top: 5px;
 }
 
-.home-continue{
-  left:22%;
-  right:22%;
-  top:70%;
-  height:6.5%;
+.home-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 70%;
+  z-index: 10;
 }
 
-.home-options{
-  left:22%;
-  right:22%;
-  top:76.8%;
-  height:6.5%;
+.home-btn {
+  background: #17101d;
+  border: 2px solid #9b4cff;
+  color: #f1c9ff;
+  padding: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  box-shadow: 0 4px 0 #3b195e;
 }
 
-.home-about{
-  left:2%;
-  width:22%;
-  bottom:1%;
-  height:8%;
+.home-btn:hover, .home-btn:active {
+  background: #9b4cff;
+  color: #fff;
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #3b195e;
 }
 
-.home-ranking{
-  left:26%;
-  width:22%;
-  bottom:1%;
-  height:8%;
+.home-bottom-nav {
+  position: absolute;
+  bottom: 15px;
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+  z-index: 10;
 }
 
-.home-achievements{
-  left:50%;
-  width:22%;
-  bottom:1%;
-  height:8%;
+.home-sub-btn {
+  background: #100c13;
+  border: 1px solid #6e4a78;
+  color: #d48cff;
+  padding: 8px 10px;
+  font-size: 11px;
 }
 
-.home-shop{
-  right:2%;
-  width:22%;
-  bottom:1%;
-  height:8%;
-}
-
-/* =========================================================
-   CREADOR
-========================================================= */
-
+/* CREADOR */
 #creator{
   background:#09070d;
 }
@@ -156,33 +143,133 @@ button{
   aspect-ratio:9/16;
   max-width:1000px;
   margin:auto;
-
-  background:
-    url(file_000000008f9081f48664970b19944855.png)
-    center top / cover no-repeat;
-
+  background: linear-gradient(180deg, #140c1d 0%, #08070c 100%);
+  border: 1px solid #3b2a40;
   overflow:hidden;
 }
-/* =========================================================
-   PERSONAJE BASE
-========================================================= */
 
-.character-base{
-  position:absolute;
-  z-index:12;
-  left:50%;
-  top:30.5%;
-  width:10.8%;
-  height:auto;
-  transform:translateX(-50%);
-  display:block;
-  pointer-events:none;
-  user-select:none;
+.creator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: rgba(20, 12, 29, 0.8);
+  border-bottom: 1px solid #49374d;
+  z-index: 30;
+  position: relative;
 }
-/* =========================================================
-   EFECTOS AMBIENTALES
-========================================================= */
 
+.btn-back {
+  background: #241427;
+  border: 1px solid #d48cff;
+  color: #f1c9ff;
+  padding: 6px 12px;
+}
+
+.tabs-bar {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  padding: 10px 15px;
+  background: #100c13;
+  border-bottom: 1px solid #281930;
+  z-index: 30;
+  position: relative;
+}
+
+.tab-btn {
+  background: #17101d;
+  border: 1px solid #49374d;
+  color: #c9a8db;
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover, .tab-btn.active {
+  background: #9b4cff;
+  color: #fff;
+  border-color: #e8aaff;
+}
+
+/* PERSONAJE PREVIEW */
+.avatar-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  z-index: 25;
+  position: relative;
+}
+
+.avatar-box {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 3px solid #9b4cff;
+  background: #1c1326;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  box-shadow: 0 0 20px rgba(155, 76, 255, 0.4);
+}
+
+.avatar-info {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.avatar-info h3 {
+  margin: 0;
+  color: #e8aaff;
+  font-size: 16px;
+}
+
+.avatar-info p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: #a995a9;
+}
+
+/* PANEL DE CONFIGURACIÓN */
+.creator-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 20px;
+  z-index: 30;
+  position: relative;
+}
+
+.control-btn {
+  background: #120d15;
+  border: 1px solid #49374d;
+  color: #f0d8e9;
+  padding: 12px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control-btn:hover {
+  border-color: #c26bff;
+  background: #24152d;
+}
+
+.control-btn.primary {
+  background: #9b4cff;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  justify-content: center;
+  margin-top: 10px;
+  box-shadow: 0 0 15px rgba(155, 76, 255, 0.5);
+}
+
+/* EFECTOS AMBIENTALES */
 .ambient{
   position:absolute;
   inset:0;
@@ -208,22 +295,10 @@ button{
 .light.l5{left:45%;top:91%;animation-duration:2.3s}
 
 @keyframes flicker{
-  0%{
-    opacity:.25;
-    transform:scale(.85);
-  }
-  35%{
-    opacity:.75;
-    transform:scale(1.08);
-  }
-  60%{
-    opacity:.4;
-    transform:scale(.92);
-  }
-  100%{
-    opacity:.85;
-    transform:scale(1.12);
-  }
+  0%{ opacity:.25; transform:scale(.85); }
+  35%{ opacity:.75; transform:scale(1.08); }
+  60%{ opacity:.4; transform:scale(.92); }
+  100%{ opacity:.85; transform:scale(1.12); }
 }
 
 .spark{
@@ -243,126 +318,12 @@ button{
 .s5{left:55%;top:78%;animation-delay:4s}
 
 @keyframes floatSpark{
-  0%{
-    opacity:0;
-    transform:translateY(15px);
-  }
-  30%{
-    opacity:.8;
-  }
-  100%{
-    opacity:0;
-    transform:translateY(-70px);
-  }
+  0%{ opacity:0; transform:translateY(15px); }
+  30%{ opacity:.8; }
+  100%{ opacity:0; transform:translateY(-70px); }
 }
 
-/* =========================================================
-   BOTONES TRANSPARENTES SOBRE EL MOCKUP
-========================================================= */
-
-.creator-button{
-  position:absolute;
-  z-index:30;
-  background:transparent;
-  border:0;
-  color:transparent;
-}
-
-/* volver */
-
-.back-hit{
-  left:2%;
-  top:1%;
-  width:22%;
-  height:6%;
-}
-
-/* pestañas */
-
-.tab-appearance{
-  left:42%;
-  top:18.5%;
-  width:16%;
-  height:6%;
-}
-
-.tab-hair{
-  left:58%;
-  top:18.5%;
-  width:14%;
-  height:6%;
-}
-
-.tab-clothes{
-  left:72%;
-  top:18.5%;
-  width:14%;
-  height:6%;
-}
-
-.tab-earrings{
-  left:86%;
-  top:18.5%;
-  width:12%;
-  height:6%;
-}
-
-.tab-extras{
-  left:88%;
-  top:18.5%;
-  width:11%;
-  height:6%;
-}
-
-/* aleatorio */
-
-.random-hit{
-  left:8%;
-  top:58%;
-  width:31%;
-  height:6%;
-}
-
-/* carrera */
-
-.career-hit{
-  left:4%;
-  top:64%;
-  width:48%;
-  height:18%;
-}
-
-/* curso */
-
-.course-hit{
-  left:54%;
-  top:64%;
-  width:42%;
-  height:7%;
-}
-
-/* personalidad */
-
-.personality-hit{
-  left:55%;
-  top:72%;
-  width:42%;
-  height:15%;
-}
-
-/* crear */
-
-.create-character-hit{
-  left:53%;
-  top:87%;
-  width:44%;
-  height:7%;
-}
-
-/* =========================================================
-   MODAL DE PERSONALIZACIÓN
-========================================================= */
-
+/* MODALES */
 .modal{
   display:none;
   position:fixed;
@@ -383,17 +344,14 @@ button{
   width:min(94vw,700px);
   max-height:90vh;
   overflow:auto;
-  background:
-    linear-gradient(180deg,#17101d,#0c0910);
+  background: linear-gradient(180deg,#17101d,#0c0910);
   border:3px solid #9b4cff;
-  box-shadow:
-    0 0 0 3px #26142e,
-    0 0 30px rgba(175,77,255,.35);
+  box-shadow: 0 0 0 3px #26142e, 0 0 30px rgba(175,77,255,.35);
   padding:20px;
 }
 
 .modal-title{
-  font-size:clamp(18px,4vw,30px);
+  font-size:clamp(18px,4vw,24px);
   color:#e8aaff;
   text-align:center;
   margin-bottom:18px;
@@ -412,37 +370,32 @@ button{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:9px;
+  margin-bottom: 15px;
 }
 
 .option{
-  min-height:55px;
-  padding:9px 5px;
+  min-height:50px;
+  padding:8px 5px;
   background:#120d15;
   border:1px solid #49374d;
   color:#f0d8e9;
+  font-size: 12px;
 }
 
-.option:hover,
-.option.selected{
+.option:hover, .option.selected{
   border-color:#c26bff;
   box-shadow:0 0 12px rgba(194,107,255,.35);
   background:#24152d;
   color:#fff;
 }
 
-.option.big{
-  grid-column:span 2;
-}
-
 .section-title{
   color:#e6a9c9;
-  margin:20px 0 9px;
-  font-size:15px;
+  margin:15px 0 8px;
+  font-size:14px;
+  border-bottom: 1px solid #3b2a40;
+  padding-bottom: 4px;
 }
-
-/* =========================================================
-   CARRERAS
-========================================================= */
 
 .career-search{
   width:100%;
@@ -458,7 +411,7 @@ button{
   display:flex;
   flex-direction:column;
   gap:6px;
-  max-height:50vh;
+  max-height:45vh;
   overflow:auto;
 }
 
@@ -479,50 +432,21 @@ button{
   color:#a995a9;
 }
 
-.career-card:hover,
-.career-card.selected{
+.career-card:hover, .career-card.selected{
   border-color:#bd68ff;
   background:#21132b;
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
+/* RESPONSIVE */
 @media(max-width:600px){
-
   .creator-stage{
     width:100vw;
-    height:177.777vw;
-    min-height:0;
-    max-height:none;
+    min-height:100vh;
   }
-
-  .modal{
-    padding:2vh 2vw;
-  }
-
-  .modal-box{
-    padding:14px;
-  }
-
-  .option-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+  .modal{ padding:2vh 2vw; }
+  .modal-box{ padding:14px; }
+  .option-grid{ grid-template-columns:repeat(2,1fr); }
 }
-
-/* pantallas grandes */
-
-@media(min-width:900px){
-  .creator-stage{
-    height:100vh;
-    width:auto;
-  }
-}
-
-/* =========================================================
-   MENSAJE
-========================================================= */
 
 .toast{
   position:fixed;
@@ -550,63 +474,37 @@ button{
 
 <div class="game">
 
-<!-- =====================================================
-     PORTADA
-===================================================== -->
-
+<!-- PORTADA -->
 <section id="home" class="screen active">
+  <div class="home-title">
+    <h1>GAMUCA</h1>
+    <p>UNIVERSIDAD DE CÁDIZ</p>
+  </div>
 
-  <button class="home-hit home-play"
-          onclick="openCreator()"
-          aria-label="Jugar"></button>
+  <div class="home-menu">
+    <button class="home-btn" onclick="openCreator()">🎮 Nueva Partida</button>
+    <button class="home-btn" onclick="continueGame()">📂 Continuar</button>
+    <button class="home-btn" onclick="showMessage('Opciones próximamente')">⚙️ Opciones</button>
+  </div>
 
-  <button class="home-hit home-create"
-          onclick="openCreator()"
-          aria-label="Crear personaje"></button>
-
-  <button class="home-hit home-continue"
-          onclick="continueGame()"
-          aria-label="Continuar partida"></button>
-
-  <button class="home-hit home-options"
-          onclick="showMessage('Opciones próximamente')"
-          aria-label="Opciones"></button>
-
-  <button class="home-hit home-about"
-          onclick="showMessage('GAMUCA · Tu carrera. Tu personaje. Tu partida.')"
-          aria-label="Sobre"></button>
-
-  <button class="home-hit home-ranking"
-          onclick="showMessage('Ranking próximamente')"
-          aria-label="Ranking"></button>
-
-  <button class="home-hit home-achievements"
-          onclick="showMessage('Logros próximamente')"
-          aria-label="Logros"></button>
-
-  <button class="home-hit home-shop"
-          onclick="showMessage('Tienda próximamente')"
-          aria-label="Tienda"></button>
-
+  <div class="home-bottom-nav">
+    <button class="home-sub-btn" onclick="showMessage('GAMUCA · Tu carrera. Tu personaje. Tu partida.')">ℹ️ Info</button>
+    <button class="home-sub-btn" onclick="showMessage('Ranking próximamente')">🏆 Ranks</button>
+    <button class="home-sub-btn" onclick="showMessage('Logros próximamente')">⭐ Logros</button>
+    <button class="home-sub-btn" onclick="showMessage('Tienda próximamente')">🛒 Tienda</button>
+  </div>
 </section>
 
-
-<!-- =====================================================
-     CREADOR
-===================================================== -->
-
+<!-- CREADOR -->
 <section id="creator" class="screen">
-
   <div class="creator-stage">
 
-    <!-- EFECTOS -->
     <div class="ambient">
       <div class="light l1"></div>
       <div class="light l2"></div>
       <div class="light l3"></div>
       <div class="light l4"></div>
       <div class="light l5"></div>
-
       <div class="spark s1"></div>
       <div class="spark s2"></div>
       <div class="spark s3"></div>
@@ -614,270 +512,130 @@ button{
       <div class="spark s5"></div>
     </div>
 
-    <!-- VOLVER -->
-    <button
-      class="creator-button back-hit"
-      onclick="goHome()"
-      aria-label="Volver">
-    </button>
+    <!-- CABECERA -->
+    <div class="creator-header">
+      <button class="btn-back" onclick="goHome()">◄ Volver</button>
+      <span style="color:#e8aaff; font-weight:bold;">CREADOR</span>
+      <button class="btn-back" onclick="randomCharacter()">🎲 Random</button>
+    </div>
 
-    <!-- PESTAÑAS -->
-    <button
-      class="creator-button tab-appearance"
-      onclick="openCustomization('APARIENCIA')">
-    </button>
+    <!-- PESTAÑAS DE APARIENCIA -->
+    <div class="tabs-bar">
+      <button class="tab-btn" onclick="openCustomization('APARIENCIA')">👤 Apariencia</button>
+      <button class="tab-btn" onclick="openCustomization('PEINADO')">✂️ Peinado</button>
+      <button class="tab-btn" onclick="openCustomization('ROPA')">👕 Ropa</button>
+      <button class="tab-btn" onclick="openCustomization('PENDIENTES')">💎 Pendientes</button>
+      <button class="tab-btn" onclick="openCustomization('EXTRAS')">🎒 Extras</button>
+    </div>
 
-    <button
-      class="creator-button tab-hair"
-      onclick="openCustomization('PEINADO')">
-    </button>
+    <!-- VISTA PREVIA DEL PERSONAJE -->
+    <div class="avatar-preview">
+      <div class="avatar-box" id="avatarEmoji">🎓</div>
+      <div class="avatar-info">
+        <h3 id="previewCareer">Selecciona tu Carrera</h3>
+        <p id="previewSub">Curso / Personalidad no asignados</p>
+      </div>
+    </div>
 
-    <button
-      class="creator-button tab-clothes"
-      onclick="openCustomization('ROPA')">
-    </button>
+    <!-- CONTROLES PRINCIPALES -->
+    <div class="creator-controls">
+      <button class="control-btn" onclick="openCareer()">
+        <span>🎓 Carrera:</span>
+        <strong id="lblCareer">Sin elegir</strong>
+      </button>
 
-    <button
-      class="creator-button tab-earrings"
-      onclick="openCustomization('PENDIENTES')">
-    </button>
+      <button class="control-btn" onclick="openCourse()">
+        <span>📚 Curso:</span>
+        <strong id="lblCourse">Sin elegir</strong>
+      </button>
 
-    <button
-      class="creator-button tab-extras"
-      onclick="openCustomization('EXTRAS')">
-    </button>
+      <button class="control-btn" onclick="openPersonality()">
+        <span>🧠 Personalidad:</span>
+        <strong id="lblPersonality">Sin elegir</strong>
+      </button>
 
-    <!-- ALEATORIO -->
-    <button
-      class="creator-button random-hit"
-      onclick="randomCharacter()">
-    </button>
-
-    <!-- CARRERA -->
-    <button
-      class="creator-button career-hit"
-      onclick="openCareer()">
-    </button>
-
-    <!-- CURSO -->
-    <button
-      class="creator-button course-hit"
-      onclick="openCourse()">
-    </button>
-
-    <!-- PERSONALIDAD -->
-    <button
-      class="creator-button personality-hit"
-      onclick="openPersonality()">
-    </button>
-
-    <!-- CREAR -->
-    <button
-      class="creator-button create-character-hit"
-      onclick="createCharacter()">
-    </button>
+      <button class="control-btn primary" onclick="createCharacter()">
+        ✨ CREAR PERSONAJE ✨
+      </button>
+    </div>
 
   </div>
 </section>
 
 </div>
 
-
-<!-- =====================================================
-     MODAL PERSONALIZACIÓN
-===================================================== -->
-
+<!-- MODAL PERSONALIZACIÓN -->
 <div id="customModal" class="modal">
-
   <div class="modal-box">
-
-    <button class="close" onclick="closeModal('customModal')">
-      ✕
-    </button>
-
-    <div id="customTitle" class="modal-title">
-      APARIENCIA
-    </div>
-
+    <button class="close" onclick="closeModal('customModal')">✕</button>
+    <div id="customTitle" class="modal-title">APARIENCIA</div>
     <div id="customContent"></div>
-
   </div>
 </div>
 
-
-<!-- =====================================================
-     MODAL CARRERA
-===================================================== -->
-
+<!-- MODAL CARRERA -->
 <div id="careerModal" class="modal">
-
   <div class="modal-box">
-
-    <button class="close" onclick="closeModal('careerModal')">
-      ✕
-    </button>
-
-    <div class="modal-title">
-      🎓 ELIGE TU CARRERA
-    </div>
-
-    <input
-      id="careerSearch"
-      class="career-search"
-      placeholder="Buscar carrera..."
-      oninput="filterCareers()">
-
+    <button class="close" onclick="closeModal('careerModal')">✕</button>
+    <div class="modal-title">🎓 ELIGE TU CARRERA</div>
+    <input id="careerSearch" class="career-search" placeholder="Buscar carrera..." oninput="filterCareers()">
     <div id="careerList" class="career-list"></div>
-
   </div>
 </div>
 
-
-<!-- =====================================================
-     MODAL CURSO
-===================================================== -->
-
+<!-- MODAL CURSO -->
 <div id="courseModal" class="modal">
-
   <div class="modal-box">
-
-    <button class="close" onclick="closeModal('courseModal')">
-      ✕
-    </button>
-
-    <div class="modal-title">
-      📚 CURSO
-    </div>
-
+    <button class="close" onclick="closeModal('courseModal')">✕</button>
+    <div class="modal-title">📚 CURSO</div>
     <div class="option-grid">
-
-      <button class="option"
-              onclick="selectCourse('1º')">
-        1º
-      </button>
-
-      <button class="option"
-              onclick="selectCourse('2º')">
-        2º
-      </button>
-
-      <button class="option"
-              onclick="selectCourse('3º')">
-        3º
-      </button>
-
-      <button class="option"
-              onclick="selectCourse('4º')">
-        4º
-      </button>
-
+      <button class="option" onclick="selectCourse('1º')">1º Curso</button>
+      <button class="option" onclick="selectCourse('2º')">2º Curso</button>
+      <button class="option" onclick="selectCourse('3º')">3º Curso</button>
+      <button class="option" onclick="selectCourse('4º')">4º Curso</button>
     </div>
-
   </div>
 </div>
 
-
-<!-- =====================================================
-     MODAL PERSONALIDAD
-===================================================== -->
-
+<!-- MODAL PERSONALIDAD -->
 <div id="personalityModal" class="modal">
-
   <div class="modal-box">
-
-    <button class="close" onclick="closeModal('personalityModal')">
-      ✕
-    </button>
-
-    <div class="modal-title">
-      🧠 PERSONALIDAD
-    </div>
-
+    <button class="close" onclick="closeModal('personalityModal')">✕</button>
+    <div class="modal-title">🧠 PERSONALIDAD</div>
     <div class="option-grid">
-
-      <button class="option"
-              onclick="selectPersonality('ESTUDIOSO/A')">
-        📚<br>ESTUDIOSO/A
-      </button>
-
-      <button class="option"
-              onclick="selectPersonality('SOCIAL')">
-        💬<br>SOCIAL
-      </button>
-
-      <button class="option"
-              onclick="selectPersonality('REBELDE')">
-        🔥<br>REBELDE
-      </button>
-
-      <button class="option"
-              onclick="selectPersonality('AMBICIOSO/A')">
-        🎯<br>AMBICIOSO/A
-      </button>
-
-      <button class="option"
-              onclick="selectPersonality('CAÓTICO/A')">
-        💀<br>CAÓTICO/A
-      </button>
-
-      <button class="option"
-              onclick="selectPersonality('CREATIVO/A')">
-        🎨<br>CREATIVO/A
-      </button>
-
-      <button class="option"
-              onclick="selectPersonality('TRANQUILO/A')">
-        🌙<br>TRANQUILO/A
-      </button>
-
-      <button class="option"
-              onclick="selectPersonality('COMPETITIVO/A')">
-        🏆<br>COMPETITIVO/A
-      </button>
-
+      <button class="option" onclick="selectPersonality('ESTUDIOSO/A')">📚 ESTUDIOSO/A</button>
+      <button class="option" onclick="selectPersonality('SOCIAL')">💬 SOCIAL</button>
+      <button class="option" onclick="selectPersonality('REBELDE')">🔥 REBELDE</button>
+      <button class="option" onclick="selectPersonality('AMBICIOSO/A')">🎯 AMBICIOSO/A</button>
+      <button class="option" onclick="selectPersonality('CAÓTICO/A')">💀 CAÓTICO/A</button>
+      <button class="option" onclick="selectPersonality('CREATIVO/A')">🎨 CREATIVO/A</button>
+      <button class="option" onclick="selectPersonality('TRANQUILO/A')">🌙 TRANQUILO/A</button>
+      <button class="option" onclick="selectPersonality('COMPETITIVO/A')">🏆 COMPETITIVO/A</button>
     </div>
-
   </div>
 </div>
-
 
 <div id="toast" class="toast"></div>
 
-
 <script>
-
-/* =========================================================
-   DATOS DEL PERSONAJE
-========================================================= */
-
 let character = {
-
-  name:"",
-  career:"",
-  campus:"",
-  course:"",
-  personality:"",
-
-  appearance:"Tipo 1",
-  skin:"Tono 1",
-  eyes:"Ojos 1",
-  brows:"Cejas 1",
-  expression:"Expresión 1",
-
-  hair:"Pelo 1",
-  clothes:"Ropa 1",
-  earrings:"Ninguno",
-  extras:"Ninguno"
-
+  name: "Estudiante UCA",
+  career: "",
+  campus: "",
+  course: "",
+  personality: "",
+  appearance: "Cara 1",
+  skin: "Tono 1",
+  eyes: "Ojos marrones",
+  brows: "Cejas 1",
+  expression: "Neutra",
+  hair: "Largo ondulado",
+  clothes: "Casual",
+  earrings: "Ninguno",
+  extras: "Ninguno"
 };
 
-
-/* =========================================================
-   CARRERAS UCA
-========================================================= */
-
 const careers = [
-
   ["Administración y Dirección de Empresas","Jerez / Algeciras"],
   ["Arquitectura Naval e Ingeniería Marítima","Cádiz"],
   ["Biotecnología","Puerto Real"],
@@ -924,9 +682,6 @@ const careers = [
   ["Relaciones Laborales y Recursos Humanos","Jerez"],
   ["Trabajo Social","Jerez"],
   ["Turismo","Jerez"],
-
-  /* DOBLES GRADOS */
-
   ["Doble Grado: ADE + Derecho","Jerez"],
   ["Doble Grado: ADE + Finanzas y Contabilidad","Jerez"],
   ["Doble Grado: Ciencias del Mar + Ambientales","Puerto Real"],
@@ -947,636 +702,224 @@ const careers = [
   ["Doble Grado: Publicidad + Turismo","Jerez"],
   ["Doble Grado: Publicidad + Marketing","Jerez"],
   ["Doble Grado: Química + Enología","Puerto Real"]
-
 ];
 
-
-/* =========================================================
-   PERSONALIZACIÓN
-========================================================= */
-
 const customization = {
-
   APARIENCIA:{
-
-    "TIPO DE CARA":[
-      "Cara 1","Cara 2","Cara 3",
-      "Cara 4","Cara 5","Cara 6","Cara 7"
-    ],
-
-    "COLOR DE PIEL":[
-      "Tono 1","Tono 2","Tono 3",
-      "Tono 4","Tono 5","Tono 6"
-    ],
-
-    "OJOS":[
-      "Ojos marrones","Ojos avellana",
-      "Ojos verdes","Ojos grises",
-      "Ojos azules","Ojos oscuros"
-    ],
-
-    "CEJAS":[
-      "Cejas 1","Cejas 2","Cejas 3",
-      "Cejas 4","Cejas 5","Cejas 6"
-    ],
-
-    "EXPRESIÓN":[
-      "Neutra","Sonriente",
-      "Seria","Tímida",
-      "Enfadada","Cansada"
-    ]
-
+    "TIPO DE CARA":["Cara 1","Cara 2","Cara 3","Cara 4","Cara 5","Cara 6","Cara 7"],
+    "COLOR DE PIEL":["Tono 1","Tono 2","Tono 3","Tono 4","Tono 5","Tono 6"],
+    "OJOS":["Ojos marrones","Ojos avellana","Ojos verdes","Ojos grises","Ojos azules","Ojos oscuros"],
+    "CEJAS":["Cejas 1","Cejas 2","Cejas 3","Cejas 4","Cejas 5","Cejas 6"],
+    "EXPRESIÓN":["Neutra","Sonriente","Seria","Tímida","Enfadada","Cansada"]
   },
-
   PEINADO:{
-
-    "CORTES":[
-      "Largo ondulado",
-      "Largo liso",
-      "Corto",
-      "Bob",
-      "Pixie",
-      "Coleta",
-      "Coletas",
-      "Trenzas",
-      "Moño",
-      "Media melena",
-      "Rizos",
-      "Flequillo",
-      "Undercut",
-      "Mohicano"
-    ],
-
-    "COLORES":[
-      "Negro",
-      "Castaño",
-      "Rubio",
-      "Pelirrojo",
-      "Blanco",
-      "Rosa",
-      "Morado",
-      "Azul",
-      "Verde"
-    ]
-
+    "CORTES":["Largo ondulado","Largo liso","Corto","Bob","Pixie","Coleta","Coletas","Trenzas","Moño","Media melena","Rizos","Flequillo","Undercut","Mohicano"],
+    "COLORES":["Negro","Castaño","Rubio","Pelirrojo","Blanco","Rosa","Morado","Azul","Verde"]
   },
-
   ROPA:{
-
-    "ESTILOS":[
-
-      "Casual",
-      "Universitario",
-      "Gótico",
-      "Formal",
-      "Deportivo",
-      "Vintage",
-
-      "⚖️ Abogado/a",
-      "🎀 Cayetana",
-
-      "🇪🇸 España",
-      "⚽ Fútbol",
-
-      "🖤 Rock",
-      "🎸 Metal",
-      "👑 Elegante"
-
-    ],
-
-    "PRENDAS":[
-
-      "Camiseta básica",
-      "Sudadera universitaria",
-      "Chaqueta de cuero",
-      "Camisa blanca",
-      "Jersey clásico",
-
-      "Traje de abogado",
-      "Toga jurídica",
-      "Camisa + corbata",
-      "Maletín",
-
-      "Polo clásico",
-      "Jersey sobre los hombros",
-      "Cazadora elegante",
-      "Mocasines",
-
-      "Camiseta de fútbol",
-      "Camiseta del Betis",
-      "Bufanda de fútbol",
-
-      "Vestido",
-      "Corsé",
-      "Abrigo largo",
-      "Botas"
-    ]
-
+    "ESTILOS":["Casual","Universitario","Gótico","Formal","Deportivo","Vintage","⚖️ Abogado/a","🎀 Cayetana","🇪🇸 España","⚽ Fútbol","🖤 Rock","🎸 Metal","👑 Elegante"],
+    "PRENDAS":["Camiseta básica","Sudadera universitaria","Chaqueta de cuero","Camisa blanca","Jersey clásico","Traje de abogado","Toga jurídica","Camisa + corbata","Maletín","Polo clásico","Jersey sobre los hombros","Cazadora elegante","Mocasines","Camiseta de fútbol","Camiseta del Betis","Bufanda de fútbol","Vestido","Corsé","Abrigo largo","Botas"]
   },
-
   PENDIENTES:{
-
-    "PENDIENTES":[
-      "Ninguno",
-      "Aros pequeños",
-      "Aros grandes",
-      "Pendientes de cruz",
-      "Pendientes de estrella",
-      "Pendientes de luna",
-      "Pendientes de corazón",
-      "Cadenas",
-      "Piercings"
-    ]
-
+    "PENDIENTES":["Ninguno","Aros pequeños","Aros grandes","Pendientes de cruz","Pendientes de estrella","Pendientes de luna","Pendientes de corazón","Cadenas","Piercings"]
   },
-
   EXTRAS:{
-
-    "ESPAÑA":[
-      "🇪🇸 Pulsera de España",
-      "🇪🇸 Pulsera roja y amarilla",
-      "🇪🇸 Pin de España",
-      "🇪🇸 Mini bandera",
-      "🇪🇸 Abanico"
-    ],
-
-    "ACCESORIOS":[
-      "Gafas",
-      "Gafas de sol",
-      "Mochila",
-      "Bolso",
-      "Maletín",
-      "Collar",
-      "Cadena",
-      "Pulseras",
-      "Anillos",
-      "Medalla",
-      "Rosario"
-    ],
-
-    "UNIVERSIDAD":[
-      "Libro",
-      "Carpeta",
-      "Apuntes",
-      "Portátil",
-      "Café",
-      "Mochila UCA"
-    ]
-
+    "ESPAÑA":["🇪🇸 Pulsera de España","🇪🇸 Pulsera roja y amarilla","🇪🇸 Pin de España","🇪🇸 Mini bandera","🇪🇸 Abanico"],
+    "ACCESORIOS":["Gafas","Gafas de sol","Mochila","Bolso","Maletín","Collar","Cadena","Pulseras","Anillos","Medalla","Rosario"],
+    "UNIVERSIDAD":["Libro","Carpeta","Apuntes","Portátil","Café","Mochila UCA"]
   }
-
 };
 
+function updateUI() {
+  document.getElementById("lblCareer").textContent = character.career || "Sin elegir";
+  document.getElementById("lblCourse").textContent = character.course || "Sin elegir";
+  document.getElementById("lblPersonality").textContent = character.personality || "Sin elegir";
 
-/* =========================================================
-   PANTALLAS
-========================================================= */
+  document.getElementById("previewCareer").textContent = character.career || "Selecciona tu Carrera";
+  let sub = [];
+  if(character.campus) sub.push("Campus: " + character.campus);
+  if(character.course) sub.push(character.course);
+  if(character.personality) sub.push(character.personality);
+  document.getElementById("previewSub").textContent = sub.length ? sub.join(" • ") : "Curso / Personalidad no asignados";
+}
 
 function showScreen(id){
-
-  document
-    .querySelectorAll(".screen")
-    .forEach(s=>s.classList.remove("active"));
-
-  document
-    .getElementById(id)
-    .classList.add("active");
-
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
   window.scrollTo(0,0);
 }
 
-function openCreator(){
-  showScreen("creator");
-}
-
-function goHome(){
-  showScreen("home");
-}
+function openCreator(){ showScreen("creator"); updateUI(); }
+function goHome(){ showScreen("home"); }
 
 function continueGame(){
-
-  const saved =
-    localStorage.getItem("gamucaCharacter");
-
+  const saved = localStorage.getItem("gamucaCharacter");
   if(saved){
-
     character = JSON.parse(saved);
-
-    showMessage(
-      "Partida encontrada: " +
-      (character.career || "personaje creado")
-    );
-
+    updateUI();
+    showMessage("Partida cargada: " + (character.career || "Personaje"));
     openCreator();
-
   }else{
-
-    showMessage("Todavía no tienes una partida guardada.");
-
+    showMessage("No hay ninguna partida guardada.");
   }
-
 }
 
-
-/* =========================================================
-   MODALES
-========================================================= */
-
 function closeModal(id){
-
-  document
-    .getElementById(id)
-    .classList.remove("open");
-
+  document.getElementById(id).classList.remove("open");
 }
 
 function openCustomization(category){
-
-  const modal =
-    document.getElementById("customModal");
-
-  const title =
-    document.getElementById("customTitle");
-
-  const content =
-    document.getElementById("customContent");
+  const modal = document.getElementById("customModal");
+  const title = document.getElementById("customTitle");
+  const content = document.getElementById("customContent");
 
   title.textContent = category;
-
   content.innerHTML = "";
 
-  const groups =
-    customization[category];
+  const groups = customization[category];
 
-  Object.entries(groups).forEach(
-    ([group,items])=>{
+  Object.entries(groups).forEach(([group, items])=>{
+    const heading = document.createElement("div");
+    heading.className = "section-title";
+    heading.textContent = group;
+    content.appendChild(heading);
 
-      const heading =
-        document.createElement("div");
+    const grid = document.createElement("div");
+    grid.className = "option-grid";
 
-      heading.className="section-title";
-      heading.textContent=group;
+    items.forEach(item => {
+      const button = document.createElement("button");
+      button.className = "option";
+      button.textContent = item;
 
-      content.appendChild(heading);
+      button.onclick = () => {
+        grid.querySelectorAll(".option").forEach(b => b.classList.remove("selected"));
+        button.classList.add("selected");
 
-      const grid =
-        document.createElement("div");
+        if(category==="APARIENCIA"){
+          if(group==="TIPO DE CARA") character.appearance=item;
+          if(group==="COLOR DE PIEL") character.skin=item;
+          if(group==="OJOS") character.eyes=item;
+          if(group==="CEJAS") character.brows=item;
+          if(group==="EXPRESIÓN") character.expression=item;
+        }
+        if(category==="PEINADO") character.hair=item;
+        if(category==="ROPA") character.clothes=item;
+        if(category==="PENDIENTES") character.earrings=item;
+        if(category==="EXTRAS") character.extras=item;
 
-      grid.className="option-grid";
+        showMessage("Seleccionado: " + item);
+      };
 
-      items.forEach(item=>{
+      grid.appendChild(button);
+    });
 
-        const button =
-          document.createElement("button");
-
-        button.className="option";
-        button.textContent=item;
-
-        button.onclick=()=>{
-
-          if(category==="APARIENCIA"){
-
-            if(group==="TIPO DE CARA")
-              character.appearance=item;
-
-            if(group==="COLOR DE PIEL")
-              character.skin=item;
-
-            if(group==="OJOS")
-              character.eyes=item;
-
-            if(group==="CEJAS")
-              character.brows=item;
-
-            if(group==="EXPRESIÓN")
-              character.expression=item;
-
-          }
-
-          if(category==="PEINADO")
-            character.hair=item;
-
-          if(category==="ROPA"){
-
-            if(group==="ESTILOS")
-              character.clothes=item;
-
-            if(group==="PRENDAS")
-              character.clothes=item;
-
-          }
-
-          if(category==="PENDIENTES")
-            character.earrings=item;
-
-          if(category==="EXTRAS")
-            character.extras=item;
-
-          showMessage("Seleccionado: "+item);
-
-        };
-
-        grid.appendChild(button);
-
-      });
-
-      content.appendChild(grid);
-
-    }
-  );
+    content.appendChild(grid);
+  });
 
   modal.classList.add("open");
 }
 
-
-/* =========================================================
-   CARRERAS
-========================================================= */
-
 function openCareer(){
-
-  document
-    .getElementById("careerModal")
-    .classList.add("open");
-
+  document.getElementById("careerModal").classList.add("open");
   renderCareers(careers);
-
 }
 
 function renderCareers(list){
+  const container = document.getElementById("careerList");
+  container.innerHTML = "";
 
-  const container =
-    document.getElementById("careerList");
+  list.forEach(([name, campus]) => {
+    const button = document.createElement("button");
+    button.className = "career-card";
+    if(character.career === name) button.classList.add("selected");
 
-  container.innerHTML="";
+    button.innerHTML = "<strong>" + name + "</strong><small>Campus: " + campus + "</small>";
 
-  list.forEach(([name,campus])=>{
-
-    const button =
-      document.createElement("button");
-
-    button.className="career-card";
-
-    button.innerHTML=
-      "<strong>"+name+"</strong>"+
-      "<small>Campus: "+campus+"</small>";
-
-    button.onclick=()=>{
-
-      character.career=name;
-      character.campus=campus;
-
+    button.onclick = () => {
+      character.career = name;
+      character.campus = campus;
+      updateUI();
       closeModal("careerModal");
-
-      showMessage(
-        "Carrera seleccionada: "+name
-      );
-
+      showMessage("Carrera: " + name);
     };
 
     container.appendChild(button);
-
   });
-
 }
 
 function filterCareers(){
-
-  const search =
-    document
-      .getElementById("careerSearch")
-      .value
-      .toLowerCase()
-      .trim();
-
-  const filtered =
-    careers.filter(([name,campus])=>
-      (name+" "+campus)
-        .toLowerCase()
-        .includes(search)
-    );
-
+  const search = document.getElementById("careerSearch").value.toLowerCase().trim();
+  const filtered = careers.filter(([name, campus]) =>
+    (name + " " + campus).toLowerCase().includes(search)
+  );
   renderCareers(filtered);
-
 }
 
-
-/* =========================================================
-   CURSO
-========================================================= */
-
-function openCourse(){
-
-  document
-    .getElementById("courseModal")
-    .classList.add("open");
-
-}
+function openCourse(){ document.getElementById("courseModal").classList.add("open"); }
 
 function selectCourse(course){
-
-  character.course=course;
-
+  character.course = course;
+  updateUI();
   closeModal("courseModal");
-
-  showMessage(
-    "Curso seleccionado: "+course
-  );
-
+  showMessage("Curso: " + course);
 }
 
-
-/* =========================================================
-   PERSONALIDAD
-========================================================= */
-
-function openPersonality(){
-
-  document
-    .getElementById("personalityModal")
-    .classList.add("open");
-
-}
+function openPersonality(){ document.getElementById("personalityModal").classList.add("open"); }
 
 function selectPersonality(personality){
-
-  character.personality=personality;
-
+  character.personality = personality;
+  updateUI();
   closeModal("personalityModal");
-
-  showMessage(
-    "Personalidad: "+personality
-  );
-
+  showMessage("Personalidad: " + personality);
 }
 
-
-/* =========================================================
-   ALEATORIO
-========================================================= */
-
 function randomItem(array){
-  return array[
-    Math.floor(
-      Math.random()*array.length
-    )
-  ];
+  return array[Math.floor(Math.random() * array.length)];
 }
 
 function randomCharacter(){
+  const car = randomItem(careers);
+  character.career = car[0];
+  character.campus = car[1];
+  character.course = randomItem(["1º", "2º", "3º", "4º"]);
+  character.personality = randomItem(["ESTUDIOSO/A", "SOCIAL", "REBELDE", "AMBICIOSO/A", "CAÓTICO/A", "CREATIVO/A"]);
+  character.hair = randomItem(customization.PEINADO["CORTES"]);
+  character.clothes = randomItem(customization.ROPA["PRENDAS"]);
 
-  character.appearance=
-    randomItem(customization.APARIENCIA["TIPO DE CARA"]);
-
-  character.skin=
-    randomItem(customization.APARIENCIA["COLOR DE PIEL"]);
-
-  character.eyes=
-    randomItem(customization.APARIENCIA["OJOS"]);
-
-  character.brows=
-    randomItem(customization.APARIENCIA["CEJAS"]);
-
-  character.expression=
-    randomItem(customization.APARIENCIA["EXPRESIÓN"]);
-
-  character.hair=
-    randomItem(customization.PEINADO["CORTES"]);
-
-  character.clothes=
-    randomItem(customization.ROPA["PRENDAS"]);
-
-  character.earrings=
-    randomItem(customization.PENDIENTES["PENDIENTES"]);
-
-  character.extras=
-    randomItem(customization.EXTRAS["ACCESORIOS"]);
-
-  showMessage("🎲 Personaje aleatorio creado");
-
+  updateUI();
+  showMessage("🎲 Personaje aleatorio generado");
 }
-
-
-/* =========================================================
-   CREAR PERSONAJE
-========================================================= */
 
 function createCharacter(){
+  if(!character.career){ showMessage("Elige una carrera."); openCareer(); return; }
+  if(!character.course){ showMessage("Elige tu curso."); openCourse(); return; }
+  if(!character.personality){ showMessage("Elige una personalidad."); openPersonality(); return; }
 
-  if(!character.career){
-
-    showMessage(
-      "Primero elige una carrera."
-    );
-
-    openCareer();
-
-    return;
-  }
-
-  if(!character.course){
-
-    showMessage(
-      "Primero elige tu curso."
-    );
-
-    openCourse();
-
-    return;
-  }
-
-  if(!character.personality){
-
-    showMessage(
-      "Elige una personalidad."
-    );
-
-    openPersonality();
-
-    return;
-  }
-
-  localStorage.setItem(
-    "gamucaCharacter",
-    JSON.stringify(character)
-  );
-
-  showMessage(
-    "✓ Personaje creado y guardado"
-  );
-
-  console.log(
-    "PERSONAJE GAMUCA",
-    character
-  );
-
+  localStorage.setItem("gamucaCharacter", JSON.stringify(character));
+  showMessage("✓ ¡Personaje creado y guardado con éxito!");
 }
-
-
-/* =========================================================
-   MENSAJES
-========================================================= */
 
 let toastTimer;
-
 function showMessage(message){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent=message;
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
   toast.classList.add("show");
-
   clearTimeout(toastTimer);
-
-  toastTimer=setTimeout(()=>{
-
-    toast.classList.remove("show");
-
-  },2200);
-
+  toastTimer = setTimeout(() => { toast.classList.remove("show"); }, 2200);
 }
 
-
-/* =========================================================
-   CERRAR MODALES TOCANDO FUERA
-========================================================= */
-
-document
-  .querySelectorAll(".modal")
-  .forEach(modal=>{
-
-    modal.addEventListener("click",event=>{
-
-      if(event.target===modal)
-        modal.classList.remove("open");
-
-    });
-
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", event => {
+    if(event.target === modal) modal.classList.remove("open");
   });
+});
 
-
-/* =========================================================
-   ESC PARA CERRAR
-========================================================= */
-
-document.addEventListener(
-  "keydown",
-  event=>{
-
-    if(event.key==="Escape"){
-
-      document
-        .querySelectorAll(".modal")
-        .forEach(m=>
-          m.classList.remove("open")
-        );
-
-    }
-
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape"){
+    document.querySelectorAll(".modal").forEach(m => m.classList.remove("open"));
   }
-);
-
+});
 </script>
 
 </body>
