@@ -3,31 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GAMUCA</title>
+<title>GAMUCA - Tu Vida Universitaria</title>
 
 <style>
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
+  user-select: none;
 }
 
 html, body{
   margin:0;
   padding:0;
   width:100%;
-  min-height:100vh;
+  height:100vh;
   background:#08070c;
   color:#f4d9c8;
   font-family:"Courier New", monospace;
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
-button, input{ font:inherit; }
+button, input, select, textarea{ font:inherit; }
 button{ cursor:pointer; }
 
 .game{
-  width:100%;
-  min-height:100vh;
+  width:100vw;
+  height:100vh;
   background:#08070c;
   display:flex;
   justify-content:center;
@@ -37,144 +38,666 @@ button{ cursor:pointer; }
 .screen{
   display:none;
   position:relative;
-  width:min(100vw, 56.25vh);
-  height:min(177.7777778vw, 100vh);
-  aspect-ratio:9/16;
+  width:100%;
+  height:100%;
   overflow:hidden;
-  margin: auto;
 }
 
-.screen.active{ display:block; }
-
-/* =========================================================
-   PORTADA (IMAGEN DEL REPO)
-========================================================= */
-
-#home{
-  background: #08080c url("./file_00000000b9d881f4b24a2fea9f042d49.png") center center / cover no-repeat;
+.screen.active{ 
+  display:flex; 
+  flex-direction:column;
 }
 
-.home-hit{
-  position:absolute;
-  background:transparent;
-  border:0;
-  z-index:10;
+/* TRANSICIÓN Y EFECTO HOVER (AGRANDADO) */
+button,
+.pixel-opt-card,
+.location-card,
+.career-card,
+.tier-card,
+.dashboard-panel,
+.achievement-card,
+.friend-item,
+.shop-item-card,
+.skill-node,
+.case-card {
+  transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.18s ease, border-color 0.18s ease !important;
 }
 
-/* Hitboxes calculadas exactamente sobre la ilustración de la portada */
-.home-play      { left:26.5%; width:47%; top:62.8%; height:5.8%; }
-.home-create    { left:27.5%; width:45%; top:69.5%; height:5.2%; }
-.home-continue  { left:27.5%; width:45%; top:75.2%; height:5.2%; }
-.home-options   { left:32.0%; width:36%; top:81.0%; height:5.0%; }
-
-.home-about     { left:16%; width:16%; bottom:2.5%; height:5%; }
-.home-ranking   { left:34%; width:16%; bottom:2.5%; height:5%; }
-.home-achievements { left:52%; width:16%; bottom:2.5%; height:5%; }
-.home-shop      { left:70%; width:16%; bottom:2.5%; height:5%; }
-
-/* =========================================================
-   CREADOR DE PERSONAJE (IMAGEN DEL REPO)
-========================================================= */
-
-#creator{
-  background: #09070d url("./file_000000008f9081f48664970b19944855.png") center top / cover no-repeat;
+button:hover,
+.pixel-opt-card:hover,
+.location-card:hover,
+.career-card:hover,
+.tier-card:hover,
+.dashboard-panel:hover,
+.achievement-card:hover,
+.friend-item:hover,
+.shop-item-card:hover,
+.skill-node:hover,
+.case-card:hover {
+  transform: scale(1.04);
+  z-index: 5;
+  box-shadow: 0 4px 15px rgba(189, 104, 255, 0.35);
+  border-color: #f3c9dc;
 }
 
-.close-stage-hit {
-  position: absolute;
-  top: 1.5%;
-  right: 3%;
-  width: 10%;
-  height: 5.5%;
-  background: transparent;
-  border: 0;
-  z-index: 40;
+/* ANIMACIÓN DE SELECCIÓN EN CLIC */
+@keyframes pixelSelect {
+  0% { transform: scale(1); box-shadow: 0 0 0px rgba(189, 104, 255, 0); }
+  50% { transform: scale(0.94); box-shadow: 0 0 16px rgba(189, 104, 255, 0.9); }
+  100% { transform: scale(1.04); box-shadow: 0 0 4px rgba(189, 104, 255, 0.4); }
 }
 
-.character-base-img {
-  position: absolute;
-  top: 11.2%;
-  left: 17.5%;
-  width: 20%;
-  height: auto;
-  z-index: 12;
-  pointer-events: none;
-  user-select: none;
-  filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
+.pixel-select-anim {
+  animation: pixelSelect 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.creator-tab {
-  position: absolute;
-  top: 51.0%;
-  height: 4.2%;
-  background: transparent;
-  border: 0;
-  z-index: 30;
+/* PORTADA */
+#home {
+  background: linear-gradient(180deg, #09070f 0%, #1c0e2a 60%, #08070c 100%);
+  justify-style: space-between;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 20px;
 }
 
-.tab-apariencia { left: 6%;   width: 18.5%; }
-.tab-peinado    { left: 24.5%; width: 17%; }
-.tab-ropa       { left: 41.5%; width: 18.5%; }
-.tab-pendientes { left: 60%;   width: 18%; }
-.tab-extras     { left: 78%;   width: 16%; }
+.title-box {
+  text-align: center;
+  margin-top: 10px;
+}
 
-.options-overlay-panel {
-  position: absolute;
-  top: 56.5%;
-  left: 6%;
-  width: 88%;
-  height: 29.5%;
-  z-index: 35;
-  overflow-y: auto;
-  padding: 6px 4px;
+.title-box h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: #f3c9dc;
+  text-shadow: 0 0 16px #bd68ff, 4px 4px 0px #000;
+  margin: 0;
+  letter-spacing: 6px;
+}
+
+.title-box p {
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  color: #a995a9;
+  margin-top: 8px;
+}
+
+.menu-buttons {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+  width: min(100%, 400px);
 }
 
-.options-overlay-panel::-webkit-scrollbar { width: 4px; }
-.options-overlay-panel::-webkit-scrollbar-thumb { background: #49374d; }
-
-.pixel-section-title {
-  color: #d9a86c;
-  font-size: 9px;
+.btn-pixel {
+  background: #180e20;
+  border: 2px solid #bd68ff;
+  color: #f0d8e9;
+  padding: 12px;
+  font-weight: bold;
+  font-size: clamp(0.85rem, 2vw, 1rem);
   text-transform: uppercase;
-  margin-top: 2px;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  box-shadow: 3px 3px 0 #000;
+}
+
+.btn-pixel:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #000;
+  background: #bd68ff;
+  color: #000;
+}
+
+.btn-pixel.danger {
+  border-color: #ff4444;
+  color: #ff8888;
+}
+
+.btn-pixel.disabled {
+  opacity: 0.4;
+  border-color: #555;
+  color: #777;
+  pointer-events: none;
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  width: 100%;
+  border-top: 1px solid #3b2a40;
+  padding-top: 15px;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: #d9a86c;
+  font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+}
+
+/* CREADOR, ARMARIO, EXPLORACIÓN Y SALA */
+#creator, #wardrobe, #explorationScreen, #seasonPassScreen, #roomScreen {
+  background: linear-gradient(180deg, #100b17 0%, #09070d 100%);
+  overflow-y: auto;
+}
+
+.creator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: rgba(24, 14, 32, 0.9);
+  border-bottom: 1px solid #3b2a40;
+}
+
+.close-btn {
+  background: #241427;
+  border: 1px solid #d48cff;
+  color: #f1c9ff;
+  padding: 4px 12px;
+}
+
+.creator-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  max-width: 850px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.character-identity-box {
+  background: #120c1a;
+  border: 1px solid #3b2a40;
+  border-radius: 8px;
+  padding: 15px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-field {
+  background: #08050e;
+  border: 1px solid #3b2a40;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.avatar-preview-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#characterCanvas, #wardrobeCanvas, #roomCanvas {
+  background: #150f1d;
+  border-radius: 8px;
+  border: 2px solid #3b2a40;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+
+.creator-tabs-bar {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  background: #120d15;
+  border-top: 1px solid #3b2a40;
+  border-bottom: 1px solid #3b2a40;
+  padding: 8px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #a995a9;
+  padding: 8px 12px;
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  color: #f3c9dc;
+  border-bottom: 2px solid #bd68ff;
+  background: rgba(189, 104, 255, 0.1);
+}
+
+.options-container {
+  background: #120c1a;
+  border: 1px solid #3b2a40;
+  border-radius: 8px;
+  padding: 15px;
+  width: 100%;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.sub-section-title {
+  color: #d9a86c;
+  font-size: 11px;
+  text-transform: uppercase;
+  margin: 12px 0 6px 0;
+  border-bottom: 1px dashed #3b2a40;
+  padding-bottom: 3px;
+}
+
+.sub-section-title:first-child {
+  margin-top: 0;
 }
 
 .pixel-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
 }
 
-.pixel-opt-btn {
-  background: rgba(18, 13, 21, 0.75);
+.pixel-opt-card {
+  background: rgba(18, 13, 21, 0.85);
   border: 1px solid #3b2a40;
-  border-radius: 3px;
+  border-radius: 6px;
   color: #f0d8e9;
-  padding: 5px 2px;
-  font-size: 9px;
+  padding: 8px;
+  font-size: 10px;
   text-align: center;
-  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
 }
 
-.pixel-opt-btn:hover, .pixel-opt-btn.selected {
+.pixel-opt-card.selected {
   border-color: #f3c9dc;
   background: rgba(189, 104, 255, 0.3);
-  box-shadow: 0 0 6px rgba(189, 104, 255, 0.5);
+  box-shadow: 0 0 8px rgba(189, 104, 255, 0.5);
 }
 
-.create-btn-hit {
-  position: absolute;
-  top: 87.5%;
-  left: 18.5%;
-  width: 63%;
-  height: 5.2%;
-  background: transparent;
-  border: 0;
-  z-index: 40;
+.opt-preview-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #bd68ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* PASE DE TEMPORADA */
+.season-progress-box {
+  background: #120c1a;
+  border: 2px solid #bd68ff;
+  border-radius: 8px;
+  padding: 15px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.season-bar {
+  font-size: 18px;
+  color: #2bff88;
+  letter-spacing: 2px;
+  margin: 10px 0;
+}
+
+.tier-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.tier-card {
+  background: #160e22;
+  border: 1px solid #3b2a40;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.tier-card.unlocked {
+  border-color: #ffd700;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+/* GAMUCA AWARDS */
+.awards-card {
+  background: linear-gradient(180deg, #1d122b 0%, #0e0817 100%);
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.awards-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.awards-stat-item {
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid #ffd700;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 11px;
+}
+
+/* DASHBOARD & EXPLORACIÓN */
+#uniDashboard {
+  background: #09070d;
+  overflow-y: auto;
+}
+
+.dashboard-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-summary-card {
+  background: #120c1a;
+  border: 2px solid #bd68ff;
+  border-radius: 8px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 0 15px rgba(189, 104, 255, 0.2);
+  flex-wrap: wrap;
+}
+
+.profile-info h2 {
+  margin: 0;
+  color: #f3c9dc;
+  font-size: 1.3rem;
+}
+
+.profile-info p {
+  margin: 5px 0 0 0;
+  color: #a995a9;
+  font-size: 0.85rem;
+}
+
+.gpa-badge {
+  margin-top: 10px;
+  display: inline-block;
+  background: #180e20;
+  border: 1px solid #d9a86c;
+  color: #d9a86c;
+  padding: 4px 10px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-radius: 4px;
+}
+
+.coins-badge {
+  background: #251c08;
+  border: 1px solid #ffd700;
+  color: #ffd700;
+  padding: 4px 10px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.xp-badge {
+  background: #0f251c;
+  border: 1px solid #2bff88;
+  color: #2bff88;
+  padding: 4px 10px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-panel {
+  background: #120c1a;
+  border: 1px solid #3b2a40;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel-title {
+  color: #bd68ff;
+  font-size: 1rem;
+  margin: 0;
+  border-bottom: 1px solid #3b2a40;
+  padding-bottom: 8px;
+}
+
+.grade-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grades-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.grade-item {
+  background: #1a1224;
+  border: 1px solid #3b2a40;
+  padding: 8px 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.grade-item.pass { border-left: 4px solid #2bff88; }
+.grade-item.fail { border-left: 4px solid #ff4444; }
+
+.btn-small {
+  background: #241427;
+  border: 1px solid #bd68ff;
+  color: #fff;
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+
+.btn-small.delete {
+  border-color: #ff4444;
+  color: #ff8888;
+}
+
+.achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.achievement-card {
+  background: #1a1224;
+  border: 1px solid #3b2a40;
+  padding: 10px;
+  border-radius: 4px;
+  opacity: 0.4;
+}
+
+.achievement-card.unlocked {
+  opacity: 1;
+  border-color: #d9a86c;
+  background: rgba(217, 168, 108, 0.1);
+}
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.friend-item {
+  background: #1a1224;
+  border: 1px solid #3b2a40;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.status-online { background: #2bff88; box-shadow: 0 0 6px #2bff88; }
+.status-offline { background: #666; }
+
+/* TIENDA & GACHAPON */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.shop-item-card {
+  background: #120c1a;
+  border: 1px solid #3b2a40;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.shop-item-card.comun { border-color: #888; }
+.shop-item-card.rara { border-color: #2b75ff; }
+.shop-item-card.epica { border-color: #bd68ff; box-shadow: 0 0 8px rgba(189,104,255,0.4); }
+.shop-item-card.mitica { border-color: #ffd700; box-shadow: 0 0 12px rgba(255,215,0,0.5); }
+
+/* EXPLORACIÓN DE LA UCA */
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.location-card {
+  background: #120c1a;
+  border: 1px solid #3b2a40;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.location-card.discovered {
+  border-color: #bd68ff;
+  box-shadow: 0 0 10px rgba(189, 104, 255, 0.2);
+}
+
+/* ÁRBOL DE HABILIDADES CON EXPERIENCIA */
+.skill-tree-branch {
+  background: #180e20;
+  border: 1px solid #3b2a40;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.skill-node {
+  background: #100a18;
+  border: 1px solid #bd68ff;
+  border-radius: 4px;
+  padding: 6px 10px;
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+
+.skill-node.unlocked {
+  background: rgba(43, 255, 136, 0.1);
+  border-color: #2bff88;
+}
+
+/* CASOS DE INVESTIGACIÓN */
+.case-card {
+  background: #160e22;
+  border: 2px solid #bd68ff;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+/* SECCIONES DESPLEGABLES */
+.accordion-header {
+  background: #180e20;
+  border: 1px solid #bd68ff;
+  color: #f3c9dc;
+  padding: 10px 14px;
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 4px;
+  margin-top: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-body {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.accordion-body.open {
+  display: flex;
 }
 
 /* MODALES */
@@ -184,8 +707,7 @@ button{ cursor:pointer; }
   inset:0;
   z-index:100;
   background:rgba(4,3,8,.88);
-  padding:5vh 4vw;
-  overflow:auto;
+  padding:20px;
 }
 
 .modal.open{
@@ -195,38 +717,39 @@ button{ cursor:pointer; }
 }
 
 .modal-box{
-  width:min(94vw,500px);
+  width:min(100%, 580px);
   max-height:85vh;
   overflow:auto;
   background: linear-gradient(180deg,#17101d,#0c0910);
   border:2px solid #9b4cff;
-  box-shadow:0 0 20px rgba(175,77,255,.35);
-  padding:16px;
+  box-shadow:0 0 25px rgba(175,77,255,.35);
+  padding:20px;
+  border-radius: 8px;
 }
 
 .modal-title{ font-size:16px; color:#e8aaff; text-align:center; margin-bottom:12px; }
-.close-modal-btn{ float:right; background:#241427; border:1px solid #d48cff; color:#f1c9ff; padding:4px 8px; }
-.career-search{ width:100%; padding:10px; background:#0a080d; color:white; border:1px solid #6e4a78; outline:none; margin-bottom:10px; }
-.career-list{ display:flex; flex-direction:column; gap:6px; max-height:40vh; overflow:auto; }
-.career-card{ text-align:left; padding:8px; background:#100c13; border:1px solid #3b2a40; color:#eee; font-size:12px; }
+.close-modal-btn{ float:right; background:#241427; border:1px solid #d48cff; color:#f1c9ff; padding:4px 10px; }
+.career-search{ width:100%; padding:12px; background:#0a080d; color:white; border:1px solid #6e4a78; outline:none; margin-bottom:12px; border-radius: 4px; }
+.career-card{ text-align:left; padding:10px; background:#100c13; border:1px solid #3b2a40; color:#eee; font-size:13px; border-radius: 4px; }
 .career-card strong{ display:block; color:#f3c9dc; }
 .career-card small{ color:#a995a9; }
-.career-card:hover, .career-card.selected{ border-color:#bd68ff; background:#21132b; }
 
 .toast{
   position:fixed;
   left:50%;
-  bottom:25px;
+  bottom:30px;
   transform:translateX(-50%) translateY(30px);
   background:#180e20;
   border:1px solid #bd68ff;
   color:#fff;
-  padding:10px 16px;
-  font-size:12px;
+  padding:12px 20px;
+  font-size:13px;
   z-index:300;
   opacity:0;
   pointer-events:none;
   transition:.3s;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(189, 104, 255, 0.4);
 }
 
 .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
@@ -237,63 +760,2293 @@ button{ cursor:pointer; }
 
 <div class="game">
 
-<!-- PORTADA -->
-<section id="home" class="screen active">
-  <button class="home-hit home-play" onclick="openCreator()" aria-label="Jugar"></button>
-  <button class="home-hit home-create" onclick="openCreator()" aria-label="Crear personaje"></button>
-  <button class="home-hit home-continue" onclick="continueGame()" aria-label="Continuar partida"></button>
-  <button class="home-hit home-options" onclick="showMessage('Opciones próximamente')" aria-label="Opciones"></button>
+  <!-- PORTADA -->
+  <section id="home" class="screen active">
+    <div class="title-box">
+      <h1>GAMUCA</h1>
+      <p>Tu carrera. Tu personaje. Tu expediente.</p>
+    </div>
 
-  <button class="home-hit home-about" onclick="showMessage('GAMUCA · Tu carrera. Tu personaje. Tu partida.')" aria-label="Sobre"></button>
-  <button class="home-hit home-ranking" onclick="showMessage('Ranking próximamente')" aria-label="Ranking"></button>
-  <button class="home-hit home-achievements" onclick="showMessage('Logros próximamente')" aria-label="Logros"></button>
-  <button class="home-hit home-shop" onclick="showMessage('Tienda próximamente')" aria-label="Tienda"></button>
-</section>
+    <div class="menu-buttons">
+      <button class="btn-pixel" id="btnCreateMain" onclick="openCreator()">CREAR PERSONAJE</button>
+      <button class="btn-pixel" id="btnContinue" onclick="continueGame()">CONTINUAR EXPEDIENTE</button>
+      <button class="btn-pixel" id="btnExploreMain" onclick="openExplorationFromHome()">🗺️ EXPLORAR UCA</button>
+      <button class="btn-pixel" id="btnSeasonPassMain" onclick="openSeasonPassFromHome()">🎟️ PASE DE TEMPORADA</button>
+      <button class="btn-pixel danger" id="btnDeleteMain" onclick="deleteCharacter()">BORRAR PERSONAJE</button>
+    </div>
 
-<!-- CREADOR DE PERSONAJE -->
-<section id="creator" class="screen">
-  <button class="close-stage-hit" onclick="goHome()" aria-label="Cerrar"></button>
+    <div class="bottom-nav">
+      <button class="btn-icon" onclick="showMessage('GAMUCA v1.0 · Tu gestor universitario')">ℹ SOBRE</button>
+      <button class="btn-icon" onclick="openAchievementsModal()">🎖 LOGROS</button>
+      <button class="btn-icon" onclick="openShopModal()">🛒 TIENDA</button>
+    </div>
+  </section>
 
-  <!-- IMAGEN BASE DEL PERSONAJE DEL REPO -->
-  <img src="./file_00000000dbac82109b35918672afabd5.png" alt="Personaje Base" class="character-base-img">
+  <!-- CREADOR DE PERSONAJE -->
+  <section id="creator" class="screen">
+    <div class="creator-header">
+      <span style="color:#d9a86c; font-size:13px;">CREADOR DE PERSONAJE</span>
+      <button class="close-btn" onclick="goHome()">✕</button>
+    </div>
 
-  <button class="creator-tab tab-apariencia" onclick="switchCategory('APARIENCIA')"></button>
-  <button class="creator-tab tab-peinado"    onclick="switchCategory('PEINADO')"></button>
-  <button class="creator-tab tab-ropa"       onclick="switchCategory('ROPA')"></button>
-  <button class="creator-tab tab-pendientes" onclick="switchCategory('PENDIENTES')"></button>
-  <button class="creator-tab tab-extras"     onclick="switchCategory('EXTRAS')"></button>
+    <div class="creator-body">
+      <div class="character-identity-box">
+        <div>
+          <label style="font-size:11px; color:#a995a9; display:block; margin-bottom:4px;">NOMBRE DEL PERSONAJE:</label>
+          <input type="text" id="charNameInput" class="input-field" placeholder="Ej: Laura" value="Estudiante">
+        </div>
+        <div>
+          <label style="font-size:11px; color:#a995a9; display:block; margin-bottom:4px;">GÉNERO / ESTILO:</label>
+          <select id="charGenderSelect" class="input-field" onchange="character.gender=this.value; renderCharacterPreview();">
+            <option value="femenino">Femenino</option>
+            <option value="masculino">Masculino</option>
+            <option value="androgino">Andrógino</option>
+          </select>
+        </div>
+      </div>
 
-  <div class="options-overlay-panel" id="optionsPanel"></div>
+      <div class="avatar-preview-area">
+        <canvas id="characterCanvas" width="260" height="300"></canvas>
+      </div>
 
-  <button class="create-btn-hit" onclick="createCharacter()" aria-label="Crear Personaje"></button>
-</section>
+      <div class="creator-tabs-bar">
+        <button class="tab-btn active" onclick="switchCategory('APARIENCIA', this)">Apariencia</button>
+        <button class="tab-btn" onclick="switchCategory('PEINADO', this)">Pelo</button>
+        <button class="tab-btn" onclick="switchCategory('ROPA', this)">Ropa</button>
+        <button class="tab-btn" onclick="switchCategory('ACCESORIOS', this)">Accesorios</button>
+      </div>
+
+      <div class="options-container" id="optionsPanel"></div>
+
+      <button class="btn-pixel" style="width:100%; max-width:400px;" onclick="saveCharacterAndOpenCareer()">ELEGIR CARRERA Y COMENZAR</button>
+    </div>
+  </section>
+
+  <!-- ARMARIO POS-CREACIÓN -->
+  <section id="wardrobe" class="screen">
+    <div class="creator-header">
+      <span style="color:#d9a86c; font-size:13px;">ARMARIO & COSMÉTICOS</span>
+      <button class="close-btn" onclick="openDashboard()">🏠 VOLVER AL EXPEDIENTE</button>
+    </div>
+
+    <div class="creator-body">
+      <div class="avatar-preview-area">
+        <canvas id="wardrobeCanvas" width="260" height="300"></canvas>
+      </div>
+
+      <div class="creator-tabs-bar">
+        <button class="tab-btn active" onclick="switchWardrobeCategory('ROPA', this)">Ropa</button>
+        <button class="tab-btn" onclick="switchWardrobeCategory('ACCESORIOS', this)">Accesorios</button>
+        <button class="tab-btn" onclick="switchWardrobeCategory('COMPRADOS', this)">Comprados</button>
+      </div>
+
+      <div class="options-container" id="wardrobeOptionsPanel"></div>
+
+      <button class="btn-pixel" style="width:100%; max-width:400px;" onclick="saveGame(); checkAchievements(); openDashboard(); showMessage('¡Estilo guardado!');">GUARDAR ESTILO</button>
+    </div>
+  </section>
+
+  <!-- SALA GAMUCA (HABITACIÓN / ESPACIO PERSONAL) -->
+  <section id="roomScreen" class="screen">
+    <div class="creator-header">
+      <span style="color:#d9a86c; font-size:13px;">🏠 SALA GAMUCA — ESPACIO PERSONAL</span>
+      <button class="close-btn" onclick="openDashboard()">🏠 VOLVER AL EXPEDIENTE</button>
+    </div>
+
+    <div class="creator-body">
+      <div style="text-align:center;">
+        <h2 style="color:#f3c9dc; margin:0;" id="roomOwnerTitle">Mi Sala de Estudiante</h2>
+        <p style="color:#a995a9; font-size:11px; margin-top:4px;">Decora tu espacio con trofeos, diplomas, mascotas, objetos y recuerdos.</p>
+      </div>
+
+      <div class="avatar-preview-area">
+        <canvas id="roomCanvas" width="360" height="240"></canvas>
+      </div>
+
+      <div style="width:100%; max-width:500px; display:flex; flex-direction:column; gap:8px;">
+        <div class="sub-section-title">OBJETOS EXHIBIDOS EN TU SALA:</div>
+        <div id="roomItemsList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:8px;"></div>
+      </div>
+
+      <div style="width:100%; max-width:500px; margin-top:10px; border-top:1px dashed #3b2a40; padding-top:10px;">
+        <div class="sub-section-title">👥 VISITAR SALAS DE OTROS JUGADORES:</div>
+        <div style="display:flex; gap:6px;">
+          <select id="visitFriendRoomSelect" class="input-field" style="flex:1;"></select>
+          <button class="btn-pixel" style="font-size:10px; padding:6px;" onclick="visitSelectedFriendRoom()">VISITAR</button>
+          <button class="btn-pixel danger" style="font-size:10px; padding:6px; display:none;" id="btnReturnMyRoom" onclick="renderMyRoom()">MI SALA</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASE DE TEMPORADA -->
+  <section id="seasonPassScreen" class="screen">
+    <div class="creator-header">
+      <span style="color:#d9a86c; font-size:13px;">🎓 TEMPORADA 1 — INICIO DE CURSO</span>
+      <button class="close-btn" onclick="goHome()">🏠 PORTADA</button>
+    </div>
+
+    <div class="creator-body">
+      <div class="season-progress-box">
+        <h2 style="color:#f3c9dc; margin:0 0 4px 0;">Pase de Temporada Gratuito</h2>
+        <p style="color:#a995a9; font-size:11px; margin:0;">Gana XP estudiando, haciendo exámenes y explorando para subir niveles.</p>
+        
+        <div id="seasonLevelText" style="color:#ffd700; font-weight:bold; margin-top:10px; font-size:14px;">Nivel Actual: 1</div>
+        <div id="seasonProgressBar" class="season-bar">░░░░░░░░░░ 0%</div>
+        <div id="seasonXpText" style="color:#2bff88; font-size:11px;">0 / 5000 XP acumulados</div>
+      </div>
+
+      <div class="tier-list" id="seasonTiersContainer"></div>
+
+      <button class="btn-pixel" style="width:100%; max-width:400px; margin-top:15px;" onclick="openDashboard()">VOLVER AL EXPEDIENTE</button>
+    </div>
+  </section>
+
+  <!-- PANTALLA DE EXPLORACIÓN -->
+  <section id="explorationScreen" class="screen">
+    <div class="creator-header">
+      <span style="color:#d9a86c; font-size:13px;">🗺️ EXPLORACIÓN DE CAMPUS Y LUGARES UCA</span>
+      <button class="close-btn" onclick="goHome()">🏠 PORTADA</button>
+    </div>
+
+    <div class="creator-body">
+      <div style="text-align:center; margin-bottom:10px;">
+        <h2 style="color:#f3c9dc; margin:0;">Zonas de Interés y Actividades</h2>
+        <p style="color:#a995a9; font-size:12px; margin-top:4px;">Visita puntos clave del campus para descubrir secretos, objetos y completar misiones.</p>
+      </div>
+
+      <div class="map-grid" id="explorationGrid"></div>
+
+      <button class="btn-pixel" style="width:100%; max-width:400px; margin-top:15px;" onclick="openDashboard()">VOLVER AL EXPEDIENTE</button>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="uniDashboard" class="screen">
+    <div class="creator-header">
+      <span style="color:#d9a86c; font-size:13px;">EXPEDIENTE ACADÉMICO</span>
+      <button class="close-btn" onclick="goHome()">🏠 PORTADA</button>
+    </div>
+
+    <div class="dashboard-container">
+      <div class="profile-summary-card">
+        <div style="display:flex; align-items:center; gap:15px;">
+          <canvas id="dashboardAvatarCanvas" width="120" height="150"></canvas>
+          <div class="profile-info">
+            <h2 id="dashStudentName">Estudiante</h2>
+            <p id="dashCareerTitle">Carrera no seleccionada</p>
+            <div class="gpa-badge" id="dashGpaBadge">MEDIA: -- / 10</div>
+            <div class="coins-badge" id="dashCoinsBadge">🪙 0 UCAnedas</div>
+            <div class="xp-badge" id="dashXpBadge">⚡ 0 XP (Nivel 1)</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <button class="btn-pixel" style="padding:6px 10px; font-size:10px;" onclick="openPersonalDataModal()">🆔 DATOS PERSONALES</button>
+          <button class="btn-pixel" style="padding:6px 10px; font-size:10px;" onclick="openWardrobe()">🧥 ARMARIO / ROPA</button>
+          <button class="btn-pixel" style="padding:6px 10px; font-size:10px;" onclick="openRoomScreen()">🏠 SALA GAMUCA</button>
+          <button class="btn-pixel" style="padding:6px 10px; font-size:10px;" onclick="openGamucaAwardsModal()">🎓 GAMUCA AWARDS</button>
+          <button class="btn-pixel" style="padding:6px 10px; font-size:10px;" onclick="openSkillsModal()">🌲 ÁRBOL DE HABILIDADES</button>
+          <button class="btn-pixel" id="btnCriminologyCase" style="padding:6px 10px; font-size:10px; display:none;" onclick="openInvestigationModal()">🔎 CASOS CRIMINOLOGÍA</button>
+          <button class="btn-pixel" style="padding:6px 10px; font-size:10px;" onclick="openShopModal()">🛒 TIENDA & GACHA</button>
+          <button class="btn-pixel danger" style="padding:6px 10px; font-size:10px;" onclick="deleteCharacter()">BORRAR PARTIDA</button>
+        </div>
+      </div>
+
+      <!-- PANEL DE MISIONES DIARIAS Y SEMANALES -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:15px;">
+        <div class="dashboard-panel" style="border-color:#2bff88; background:rgba(43,255,136,0.05);">
+          <h3 class="panel-title" style="color:#2bff88;">📅 MISIONES DIARIAS (FÁCILES)</h3>
+          <div id="dailyQuestsBox" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+
+        <div class="dashboard-panel" style="border-color:#ffd700; background:rgba(255,215,0,0.05);">
+          <h3 class="panel-title" style="color:#ffd700;">🧪 DESAFÍO DE LA SEMANA</h3>
+          <div id="weeklyChallengeBox" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Panel 1: Notas -->
+        <div class="dashboard-panel">
+          <h3 class="panel-title" id="formPanelTitle">📝 Anotar Examen / Tarea</h3>
+          <form class="grade-form" onsubmit="handleGradeSubmit(event)">
+            <input type="hidden" id="editingGradeIndex" value="-1">
+            <input type="text" id="gradeSubject" class="input-field" placeholder="Asignatura (ej. Criminología)" required>
+            <select id="gradeType" class="input-field">
+              <option value="Examen">Examen</option>
+              <option value="Trabajo">Trabajo Práctico</option>
+              <option value="Tarea">Entrega / Tarea</option>
+            </select>
+            <input type="number" id="gradeScore" class="input-field" placeholder="Nota (0 - 10)" step="0.1" min="0" max="10" required>
+            <button type="submit" id="gradeFormSubmitBtn" class="btn-pixel" style="padding:8px;">REGISTRAR NOTA</button>
+            <button type="button" id="cancelEditBtn" class="btn-pixel" style="padding:5px; display:none; background:#333;" onclick="cancelGradeEdit()">CANCELAR EDICIÓN</button>
+          </form>
+
+          <h4 style="color:#a995a9; margin:10px 0 5px 0; font-size:0.85rem;">Historial de Notas:</h4>
+          <div class="grades-list" id="gradesList"></div>
+        </div>
+
+        <!-- Panel 2: Quiz Específico -->
+        <div class="dashboard-panel">
+          <h3 class="panel-title">🧠 Quiz (+UCAnedas y +50 XP)</h3>
+          <div id="quizContainer" style="display:flex; flex-direction:column; gap:10px; font-size:12px;">
+            <div id="quizQuestionText" style="color:#f3c9dc; font-weight:bold;">Pulsa abajo para responder preguntas de tu carrera.</div>
+            <div id="quizAnswersBox" style="display:flex; flex-direction:column; gap:5px;"></div>
+            <button class="btn-pixel" style="padding:8px;" onclick="generateQuizQuestion()">GENERAR PREGUNTA</button>
+          </div>
+        </div>
+
+        <!-- Panel 3: Amigos -->
+        <div class="dashboard-panel">
+          <h3 class="panel-title">👥 Lista de Amigos</h3>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <input type="text" id="friendNameInput" class="input-field" placeholder="Nombre de tu amigo/a">
+            <select id="friendCareerSelect" class="input-field"></select>
+            <button class="btn-pixel" style="padding:8px;" onclick="addFriend()">AÑADIR AMIGO/A</button>
+          </div>
+          <div class="friends-list" id="friendsList" style="margin-top:10px;"></div>
+        </div>
+
+        <!-- Panel 4: Logros -->
+        <div class="dashboard-panel" style="grid-column: 1 / -1;">
+          <h3 class="panel-title">🏆 Logros Universitarios</h3>
+          <div class="achievements-list" id="achievementsList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </div>
 
-<!-- MODAL DE CARRERA -->
+<!-- MODAL GAMUCA AWARDS (FINAL DE CURSO) -->
+<div id="gamucaAwardsModal" class="modal">
+  <div class="modal-box" style="border-color:#ffd700;">
+    <button class="close-modal-btn" onclick="closeModal('gamucaAwardsModal')">✕</button>
+    <div class="modal-title" style="color:#ffd700;">🎓 GAMUCA AWARDS — RESUMEN DE TEMPORADA</div>
+    <div class="awards-card" id="gamucaAwardsContent"></div>
+  </div>
+</div>
+
+<!-- MODAL INVESTIGACIONES & CASOS -->
+<div id="investigationModal" class="modal">
+  <div class="modal-box">
+    <button class="close-modal-btn" onclick="closeModal('investigationModal')">✕</button>
+    <div class="modal-title">🔎 MÓDULO DE INVESTIGACIÓN & CASOS (CRIMINOLOGÍA)</div>
+    <div id="investigationContent"></div>
+  </div>
+</div>
+
+<!-- MODAL ÁRBOL DE HABILIDADES POR EXPERIENCIA -->
+<div id="skillsModal" class="modal">
+  <div class="modal-box">
+    <button class="close-modal-btn" onclick="closeModal('skillsModal')">✕</button>
+    <div class="modal-title">🌲 ÁRBOL DE HABILIDADES (XP)</div>
+    <div id="skillsContainer"></div>
+  </div>
+</div>
+
+<!-- MODAL DATOS PERSONALES -->
+<div id="personalDataModal" class="modal">
+  <div class="modal-box">
+    <button class="close-modal-btn" onclick="closeModal('personalDataModal')">✕</button>
+    <div class="modal-title">🆔 DATOS PERSONALES DEL ESTUDIANTE</div>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div>
+        <label style="font-size:11px; color:#a995a9;">CIUDAD DE ORIGEN:</label>
+        <input type="text" id="personalHometown" class="input-field" style="width:100%;" placeholder="Ej: Jerez de la Frontera, Cádiz...">
+      </div>
+      <div>
+        <label style="font-size:11px; color:#a995a9;">FECHA DE CUMPLEAÑOS:</label>
+        <input type="date" id="personalBirthday" class="input-field" style="width:100%;">
+      </div>
+      <div>
+        <label style="font-size:11px; color:#a995a9;">ESTADO DE ÁNIMO / LEMA:</label>
+        <input type="text" id="personalMood" class="input-field" style="width:100%;" placeholder="Ej: List@ para aprobar todo 💪">
+      </div>
+      <div>
+        <label style="font-size:11px; color:#a995a9;">BIOGRAFÍA / SOBRE MÍ:</label>
+        <textarea id="personalBio" class="input-field" style="width:100%; height:70px; resize:none;" placeholder="Escribe un breve resumen sobre ti..."></textarea>
+      </div>
+      <button class="btn-pixel" onclick="savePersonalData()">GUARDAR DATOS</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE TIENDA Y GACHAPON -->
+<div id="shopModal" class="modal">
+  <div class="modal-box">
+    <button class="close-modal-btn" onclick="closeModal('shopModal')">✕</button>
+    <div class="modal-title">🛒 TIENDA DE UCANEDAS & GACHAPÓN</div>
+    
+    <div style="text-align:center; margin-bottom:15px;">
+      <span class="coins-badge" id="shopCoinsBadge" style="font-size:14px;">🪙 0 UCAnedas</span>
+    </div>
+
+    <!-- Gachapón -->
+    <div style="background:#150f20; border:2px solid #ffd700; border-radius:8px; padding:15px; text-align:center; margin-bottom:15px;">
+      <h3 style="color:#ffd700; margin:0 0 5px 0;">🎰 Gachapón de Mascotas</h3>
+      <p style="font-size:10px; color:#a995a9; margin-bottom:8px;">Coste: 100 UCAnedas por tirada</p>
+      
+      <div style="font-size:10px; display:flex; justify-content:center; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+        <span style="color:#888;">⚪ Común: 60%</span>
+        <span style="color:#2b75ff;">🔵 Rara: 25%</span>
+        <span style="color:#bd68ff;">🟣 Épica: 10%</span>
+        <span style="color:#ffd700;">🟡 Mítica: 5%</span>
+      </div>
+
+      <button class="btn-pixel" style="background:#ffd700; color:#000;" onclick="rollGachapon()">TIRAR GACHAPÓN (100 🪙)</button>
+    </div>
+
+    <!-- Cosméticos Comprables -->
+    <h4 style="color:#bd68ff; margin:10px 0 5px 0; font-size:12px;">COSMÉTICOS DISPONIBLES:</h4>
+    <div class="shop-grid" id="shopCosmeticsGrid" style="margin-bottom:15px;"></div>
+
+    <!-- Mis Mascotas -->
+    <h4 style="color:#bd68ff; margin:10px 0 5px 0; font-size:12px;">MIS MASCOTAS:</h4>
+    <div class="shop-grid" id="petsInventoryGrid"></div>
+  </div>
+</div>
+
+<!-- MODAL DE CARRERA CON DESPLEGABLES -->
 <div id="careerModal" class="modal">
   <div class="modal-box">
     <button class="close-modal-btn" onclick="closeModal('careerModal')">✕</button>
-    <div class="modal-title">🎓 ELIGE TU CARRERA</div>
-    <input id="careerSearch" class="career-search" placeholder="Buscar carrera..." oninput="filterCareers()">
-    <div id="careerList" class="career-list"></div>
+    <div class="modal-title">🎓 ELIGE TU TITULACIÓN</div>
+    <input id="careerSearch" class="career-search" placeholder="Buscar Grado, Doble Grado o FP..." oninput="filterCareers()">
+    <div id="careerAccordionContainer"></div>
+  </div>
+</div>
+
+<!-- MODAL DE LOGROS -->
+<div id="achievementsModal" class="modal">
+  <div class="modal-box">
+    <button class="close-modal-btn" onclick="closeModal('achievementsModal')">✕</button>
+    <div class="modal-title">🎖 MIS LOGROS UNIVERSITARIOS</div>
+    <div id="modalAchievementsContent" class="achievements-list"></div>
+  </div>
+</div>
+
+<!-- MODAL PERFIL DE AMIGO -->
+<div id="friendProfileModal" class="modal">
+  <div class="modal-box">
+    <button class="close-modal-btn" onclick="closeModal('friendProfileModal')">✕</button>
+    <div class="modal-title" id="friendModalTitle">PERFIL DE AMIGO/A</div>
+    <div style="display:flex; flex-direction:column; gap:12px; font-size:12px;" id="friendModalContent"></div>
   </div>
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script>
+// Estado Global
 let character = {
-  career:"",
-  campus:"",
-  appearance:"Cara 1",
-  skin:"Tono 1",
-  eyes:"Ojos marrones",
-  expression:"Neutra",
-  hair:"Largo ondulado",
-  clothes:"Casual",
-  earrings:"Ninguno",
-  extras:"Ninguno"
+  name: "Estudiante",
+  gender: "femenino",
+  career: "",
+  skin: "#ffdbac",
+  eyes: "#4b2d0b",
+  nose: "normal",
+  mouth: "sonrisa",
+  height: "media",
+  bodyType: "media",
+  hairStyle: "largo_ondulado",
+  hairColor: "#3a1e05",
+  beardStyle: "ninguna",
+  clothesCategory: "casual",
+  shirtColor: "#bd68ff",
+  jacketType: "ninguna",
+  glasses: "ninguna",
+  earrings: "ninguno",
+  piercing: "ninguno",
+  headwear: "ninguno",
+  equippedPet: null,
+  ucanedas: 0,
+  xp: 0,
+  pets: [],
+  ownedCosmetics: [],
+  skillsUnlocked: [],
+  solvedCases: [],
+  discoveredLocations: [],
+  claimedSeasonTiers: [],
+  weeklyChallengeCompleted: false,
+  dailyQuestCompleted: false,
+  completedMissionsCount: 0,
+  maxStreakDays: 1,
+  duelsCount: 0,
+  eventsCount: 0,
+  quizStreak: 0,
+  hometown: "",
+  birthday: "",
+  mood: "",
+  bio: "",
+  grades: [],
+  friends: []
 };
 
-const careers =
+// MISIONES DIARIAS
+const dailyQuests = [
+  { id: "dq_grade", text: "Anota 1 examen o entrega en tu expediente.", rewardCoins: 30, rewardXp: 50 },
+  { id: "dq_quiz", text: "Responde a 1 pregunta del Quiz de tu carrera.", rewardCoins: 30, rewardXp: 50 },
+  { id: "dq_wardrobe", text: "Guarda un cambio de ropa o accesorio en el Armario.", rewardCoins: 30, rewardXp: 50 }
+];
+
+// DESAFÍOS DE LA SEMANA
+const weeklyChallenges = [
+  { id: "ch_interfacultad", text: "Participa en una actividad de otra facultad.", rewardCoins: 150, rewardXp: 200 },
+  { id: "ch_nueva_actividad", text: "Completa una actividad que nunca hayas hecho.", rewardCoins: 150, rewardXp: 200 },
+  { id: "ch_estudio_grupo", text: "Organiza una sesión de estudio en la Biblioteca Central.", rewardCoins: 120, rewardXp: 180 }
+];
+
+// RECOMPENSAS PASE DE TEMPORADA
+const seasonTiers = [
+  { level: 10, rewardText: "🪙 100 UCAnedas", type: "coins", amount: 100 },
+  { level: 20, rewardText: "🎒 Objeto Exclusivo: Mochila Universitaria", type: "item", item: "Mochila Píxel" },
+  { level: 30, rewardText: "🐾 Mascota: Gato Píxel", type: "pet", petId: "cat" },
+  { level: 40, rewardText: "🏷️ Título: 'Estudiante Leyenda'", type: "title", title: "Estudiante Leyenda" },
+  { level: 50, rewardText: "🎁 Recompensa Legendaria: Chaqueta Dorada UCA", type: "cosmetic", cosmeticId: "gold_jacket" }
+];
+
+// LUGARES DE EXPLORACIÓN UCA
+const explorationLocations = [
+  {
+    id: "loc_biblio",
+    title: "📚 Biblioteca Central",
+    desc: "El corazón del estudio. Encuentras un rincón de concentración máxima.",
+    rewardCoins: 40,
+    rewardXp: 80,
+    secret: "🔖 Marcapáginas de Edición Especial",
+    mission: "Completaste la Misión: 'Maratón de Apuntes'."
+  },
+  {
+    id: "loc_cafeteria",
+    title: "☕ Cafetería del Campus",
+    desc: "Lugar ideal para socializar y recuperar energía entre clases.",
+    rewardCoins: 30,
+    rewardXp: 50,
+    secret: "☕ Vale por un Café Píxel Gratis",
+    mission: "Completaste la Misión: 'Pausa para la Merienda'."
+  },
+  {
+    id: "loc_aulario",
+    title: "🏛️ Aulario Principal",
+    desc: "Aulas magnas y pasillos llenos de carteles informativos.",
+    rewardCoins: 50,
+    rewardXp: 100,
+    secret: "🔑 Llave del Aula de Estudio Nocturno",
+    mission: "Completaste la Misión: 'Orientación de Pasillos'."
+  },
+  {
+    id: "loc_secretaria",
+    title: "📋 Secretaría e Información",
+    desc: "Ventanillas administrativas y entrega de solicitudes oficiales.",
+    rewardCoins: 60,
+    rewardXp: 120,
+    secret: "📜 Sello Universitario Conmemorativo",
+    mission: "Completaste la Misión: 'Trámites al Día'."
+  },
+  {
+    id: "loc_decanato",
+    title: "🏢 Decanato y Despachos",
+    desc: "La zona más formal. El ambiente respira respeto y conocimiento.",
+    rewardCoins: 80,
+    rewardXp: 150,
+    secret: "🖊️ Pluma Estilográfica del Decano",
+    mission: "Completaste la Misión: 'Reunión de Honor'."
+  }
+];
+
+// Árbol de Habilidades por Puntos de Experiencia (XP)
+const skillTreeData = [
+  {
+    branch: "📚 Académica",
+    nodes: [
+      { id: "acad_estudio", name: "Estudio Concentrado", xpCost: 100 },
+      { id: "acad_memoria", name: "Memoria Fotográfica", xpCost: 250 },
+      { id: "acad_orga", name: "Organización de Apuntes", xpCost: 400 },
+      { id: "acad_inves", name: "Investigación Avanzada", xpCost: 600 }
+    ]
+  },
+  {
+    branch: "⚖️ Jurídica",
+    nodes: [
+      { id: "jur_arg", name: "Argumentación Sólida", xpCost: 100 },
+      { id: "jur_leg", name: "Dominio de Legislación", xpCost: 250 },
+      { id: "jur_analisis", name: "Análisis Jurídico", xpCost: 400 }
+    ]
+  },
+  {
+    branch: "🕵️ Criminológica",
+    nodes: [
+      { id: "crim_inves", name: "Métodos de Investigación", xpCost: 100 },
+      { id: "crim_obse", name: "Observación de Detalles", xpCost: 250 },
+      { id: "crim_analisis", name: "Análisis Criminal", xpCost: 400 },
+      { id: "crim_perfil", name: "Perfilación Conductual", xpCost: 600 }
+    ]
+  },
+  {
+    branch: "🤝 Social",
+    nodes: [
+      { id: "soc_equipo", name: "Trabajo en Equipo", xpCost: 100 },
+      { id: "soc_part", name: "Participación Activa", xpCost: 250 },
+      { id: "soc_com", name: "Comunicación Asertiva", xpCost: 400 }
+    ]
+  }
+];
+
+// CASO DE INVESTIGACIÓN #014
+const investigationCase014 = {
+  id: "case_014",
+  title: "🔎 CASO #014 — EL EXPEDIENTE PERDIDO",
+  intro: "Ha desaparecido la única copia física del acta final de notas del Campus. Hay 3 sospechosos con declaraciones contradictorias.",
+  clues: [
+    "Pista 1: El registro de acceso al edificio indica que las tarjetas de Carlos y Elena entraron a las 21:00h.",
+    "Pista 2: Carlos afirma que estaba estudiando solo en la biblioteca del campus hasta las 22:00h.",
+    "Pista 3: Elena testifica que vio a Carlos salir corriendo de secretaría a las 21:15h.",
+    "Pista 4: El conserje declara que las llaves de secretaría nunca salieron del cajón blindado."
+  ],
+  decisions: [
+    { text: "Acusar a Carlos: Duplicó su tarjeta y accedió a secretaría.", rewardCoins: 200, rewardXp: 300, desc: "¡ACIERTO TOTAL! Descubriste que Carlos clonó la tarjeta para alterar su examen. Ganaste 200 UCAnedas y 300 XP." },
+    { text: "Acusar a Elena: Intentó culpar a Carlos.", rewardCoins: 50, rewardXp: 50, desc: "ERROR. Elena era inocente y solo testificó lo que vio. Recompensa parcial de 50 UCAnedas." },
+    { text: "Culpar al Conserje por negligencia.", rewardCoins: 20, rewardXp: 20, desc: "ERROR GRAVE. El conserje cumplió todo el protocolo. Recompensa mínima." }
+  ]
+};
+
+const achievements = [
+  { id: "first_grade", name: "🐣 Primer Paso", desc: "Añade tu primera nota al expediente", coins: 50, unlocked: false },
+  { id: "pass_exam", name: "📚 Aprobado", desc: "Obtén un 5 o más en cualquier examen", coins: 100, unlocked: false },
+  { id: "perfect_ten", name: "🌟 Matrícula de Honor", desc: "Saca un 10 rotundo en una entrega o examen", coins: 300, unlocked: false },
+  { id: "friends_quad", name: "🤝 Social", desc: "Añade al menos 3 amigos a tu lista", coins: 150, unlocked: false },
+  { id: "quiz_master", name: "🧠 Mente Brillante", desc: "Responde a 5 preguntas del Quiz con éxito", coins: 200, unlocked: false },
+  { id: "pet_lover", name: "🐾 Compañero Fiel", desc: "Equipa tu primera mascota conseguida", coins: 100, unlocked: false },
+  { id: "style_icon", name: "🧥 A la Moda", desc: "Personaliza tu estilo en el Armario pos-creación", coins: 75, unlocked: false },
+  { id: "full_profile", name: "🆔 Identidad Completa", desc: "Rellena tus datos personales de estudiante", coins: 100, unlocked: false },
+  { id: "detective", name: "🔎 Detective Universitario", desc: "Resuelve tu primer Caso de Investigación", coins: 250, unlocked: false },
+  { id: "explorer", name: "🗺️ Explorador del Campus", desc: "Descubre al menos 3 zonas de la UCA", coins: 150, unlocked: false }
+];
+
+const petsDatabase = [
+  { id: "cat", name: "Gato Píxel", rarity: "Común", color: "#888", icon: "🐱" },
+  { id: "dog", name: "Perro Píxel", rarity: "Común", color: "#b87333", icon: "🐶" },
+  { id: "owl", name: "Búho Sabio", rarity: "Rara", color: "#2b75ff", icon: "🦉" },
+  { id: "fox", name: "Zorro Místico", rarity: "Épica", color: "#bd68ff", icon: "🦊" },
+  { id: "penguin", name: "Pingüino Píxel", rarity: "Épica", color: "#2bff88", icon: "🐧" },
+  { id: "dragon", name: "Dragón Dorado", rarity: "Mítica", color: "#ffd700", icon: "🐉" }
+];
+
+const shopCosmeticsDatabase = [
+  { id: "golden_glasses", name: "Gafas de Oro", type: "glasses", value: "oro", cost: 150, icon: "👓" },
+  { id: "cyber_headphones", name: "Cascos Cyber", type: "headwear", value: "cyber", cost: 200, icon: "🎧" },
+  { id: "gold_jacket", name: "Chaqueta Dorada", type: "jacketType", value: "dorada", cost: 300, icon: "🧥" }
+];
+
+const careersByCampus = [
+  {
+    title: "📍 Campus Bahía de Algeciras",
+    items: [
+      "Grado en Administración y Dirección de Empresas",
+      "Grado en Derecho",
+      "Grado en Enfermería",
+      "Grado en Relaciones Laborales y Recursos Humanos",
+      "Grado en Ingeniería Civil",
+      "Grado en Ingeniería Eléctrica",
+      "Grado en Ingeniería Electrónica Industrial",
+      "Grado en Ingeniería en Tecnologías Industriales",
+      "Grado en Ingeniería Mecánica",
+      "Grado en Ingeniería en Energías Renovables (Nueva 2026/27)",
+      "Doble Grado en Derecho + Relaciones Laborales"
+    ]
+  },
+  {
+    title: "📍 Campus de Jerez",
+    items: [
+      "Grado en Administración y Dirección de Empresas",
+      "Grado en Derecho",
+      "Grado en Criminología y Seguridad",
+      "Grado en Enfermería",
+      "Grado en Gestión y Administración Pública",
+      "Grado en Marketing e Investigación de Mercados",
+      "Grado en Publicidad y Relaciones Públicas",
+      "Grado en Trabajo Social",
+      "Grado en Turismo",
+      "Doble Grado en ADE + Derecho",
+      "Doble Grado en Derecho + Criminología y Seguridad",
+      "Doble Grado en Marketing + Turismo",
+      "Doble Grado en Publicidad + Marketing",
+      "Doble Grado en Publicidad + Turismo"
+    ]
+  },
+  {
+    title: "📍 Campus de Cádiz",
+    items: [
+      "Grado en Administración y Dirección de Empresas",
+      "Grado en Finanzas y Contabilidad",
+      "Grado en Enfermería",
+      "Grado en Fisioterapia",
+      "Grado en Medicina",
+      "Grado en Estudios Árabes e Islámicos",
+      "Grado en Estudios Franceses",
+      "Grado en Estudios Ingleses",
+      "Grado en Filología Clásica",
+      "Grado en Filología Hispánica",
+      "Grado en Historia",
+      "Grado en Humanidades",
+      "Grado en Lingüística y Lenguas Aplicadas",
+      "Doble Grado en ADE + Finanzas y Contabilidad"
+    ]
+  },
+  {
+    title: "📍 Campus de Puerto Real",
+    items: [
+      "Grado en Ingeniería Informática",
+      "Grado en Arquitectura Naval e Ingeniería Marítima",
+      "Grado en Ingeniería Aeroespacial",
+      "Grado en Ingeniería en Diseño Industrial",
+      "Grado en Ingeniería Química",
+      "Grado en Biotecnología",
+      "Grado en Ciencias Ambientales",
+      "Grado en Ciencias del Mar",
+      "Grado en Enología",
+      "Grado en Matemáticas",
+      "Grado en Química",
+      "Grado en Ciencias de la Actividad Física y del Deporte",
+      "Grado en Educación Infantil",
+      "Grado en Educación Primaria",
+      "Grado en Psicología"
+    ]
+  },
+  {
+    title: "🏫 Formación Profesional (Provincia de Cádiz)",
+    items: [
+      "FP Técnico Superior en Desarrollo de Aplicaciones Web (DAW)",
+      "FP Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)",
+      "FP Técnico Superior en Administración de Sistemas en Red (ASIR)",
+      "FP Técnico Superior en Automoción",
+      "FP Técnico Superior en Mantenimiento Aeromecánico",
+      "FP Técnico Superior en Marketing y Publicidad"
+    ]
+  }
+];
+
+const creatorOptions = {
+  APARIENCIA: {
+    piel: [
+      { label: "Clara", type: "skin", value: "#ffdbac", preview: "#ffdbac" },
+      { label: "Media", type: "skin", value: "#e0ac69", preview: "#e0ac69" },
+      { label: "Oscura", type: "skin", value: "#8d5524", preview: "#8d5524" }
+    ],
+    ojos: [
+      { label: "Marrón", type: "eyes", value: "#4b2d0b", preview: "#4b2d0b" },
+      { label: "Azul", type: "eyes", value: "#2b75ff", preview: "#2b75ff" },
+      { label: "Verde", type: "eyes", value: "#2bff88", preview: "#2bff88" }
+    ],
+    nariz: [
+      { label: "Normal", type: "nose", value: "normal", preview: "👃" },
+      { label: "Fina", type: "nose", value: "fina", preview: "✏️" },
+      { label: "Ancha", type: "nose", value: "ancha", preview: "🛑" },
+      { label: "Respingona", type: "nose", value: "respingona", preview: "🔺" }
+    ],
+    boca: [
+      { label: "Sonrisa", type: "mouth", value: "sonrisa", preview: "😊" },
+      { label: "Neutra", type: "mouth", value: "neutra", preview: "😐" },
+      { label: "Seria", type: "mouth", value: "seria", preview: "😠" },
+      { label: "Abierta", type: "mouth", value: "abierta", preview: "😃" }
+    ],
+    altura: [
+      { label: "Baja", type: "height", value: "baja", preview: "📉" },
+      { label: "Media", type: "height", value: "media", preview: "📊" },
+      { label: "Alta", type: "height", value: "alta", preview: "📈" }
+    ],
+    complexion: [
+      { label: "Delgada", type: "bodyType", value: "delgada", preview: "🚶" },
+      { label: "Media", type: "bodyType", value: "media", preview: "🏃" },
+      { label: "Atlética", type: "bodyType", value: "atletica", preview: "🏋️" }
+    ]
+  },
+  PEINADO: {
+    estilo: [
+      { label: "Ondulado", type: "hairStyle", value: "largo_ondulado", preview: "〰️" },
+      { label: "Punk/Cresta", type: "hairStyle", value: "punk", preview: "⚡" },
+      { label: "Moño Alto", type: "hairStyle", value: "mono", preview: "⚪" },
+      { label: "Corte Bob", type: "hairStyle", value: "bob", preview: "✂️" },
+      { label: "Rapado", type: "hairStyle", value: "rapado", preview: "💈" },
+      { label: "Afro", type: "hairStyle", value: "afro", preview: "🦱" },
+      { label: "Coletas", type: "hairStyle", value: "coletas", preview: "🎀" },
+      { label: "Flequillo", type: "hairStyle", value: "flequillo", preview: "💇" }
+    ],
+    color: [
+      { label: "Castaño", type: "hairColor", value: "#3a1e05", preview: "#3a1e05" },
+      { label: "Rubio", type: "hairColor", value: "#e6c86e", preview: "#e6c86e" },
+      { label: "Pelirrojo", type: "hairColor", value: "#b83b1d", preview: "#b83b1d" },
+      { label: "Morado", type: "hairColor", value: "#bd68ff", preview: "#bd68ff" }
+    ],
+    barba: [
+      { label: "Sin Barba", type: "beardStyle", value: "ninguna", preview: "🚫" },
+      { label: "Corta", type: "beardStyle", value: "corta", preview: "🧔" },
+      { label: "Perilla", type: "beardStyle", value: "perilla", preview: "🐐" },
+      { label: "Poblada", type: "beardStyle", value: "poblada", preview: "🧔‍♂️" },
+      { label: "Bigote", type: "beardStyle", value: "bigote", preview: "🥸" }
+    ]
+  },
+  ROPA: {
+    camisetas: [
+      { label: "Casual", type: "clothesCategory", value: "casual", preview: "👕" },
+      { label: "Sudadera", type: "clothesCategory", value: "sudadera", preview: "🧥" }
+    ],
+    chaquetas: [
+      { label: "Sin Chaqueta", type: "jacketType", value: "ninguna", preview: "🚫" },
+      { label: "Blazer", type: "jacketType", value: "blazer", preview: "👔" }
+    ],
+    colores: [
+      { label: "Morado", type: "shirtColor", value: "#bd68ff", preview: "#bd68ff" },
+      { label: "Negro", type: "shirtColor", value: "#222222", preview: "#222222" },
+      { label: "Rojo", type: "shirtColor", value: "#ff4444", preview: "#ff4444" }
+    ]
+  },
+  ACCESORIOS: {
+    gafas: [
+      { label: "Sin Gafas", type: "glasses", value: "ninguna", preview: "🚫" },
+      { label: "Pasta", type: "glasses", value: "pasta", preview: "👓" }
+    ],
+    pendientes: [
+      { label: "Sin Pendientes", type: "earrings", value: "ninguno", preview: "🚫" },
+      { label: "Aros", type: "earrings", value: "aros", preview: "🟡" }
+    ],
+    piercings: [
+      { label: "Sin Piercing", type: "piercing", value: "ninguno", preview: "🚫" },
+      { label: "Nariz", type: "piercing", value: "nariz", preview: "💎" }
+    ],
+    gorros_y_cascos: [
+      { label: "Sin Cascos", type: "headwear", value: "ninguno", preview: "🚫" },
+      { label: "Cascos", type: "headwear", value: "cascos", preview: "🎧" }
+    ]
+  }
+};
+
+// MANEJADOR DE ANIMACIÓN AL PULSAR/CLIC
+document.addEventListener('click', (e) => {
+  const target = e.target.closest('button, .pixel-opt-card, .location-card, .career-card, .tier-card');
+  if (target) {
+    target.classList.remove('pixel-select-anim');
+    void target.offsetWidth;
+    target.classList.add('pixel-select-anim');
+  }
+});
+
+function checkSavedGame() {
+  const savedData = localStorage.getItem('gamuca_saved_character');
+  const btnCreate = document.getElementById('btnCreateMain');
+  const btnContinue = document.getElementById('btnContinue');
+  const btnExplore = document.getElementById('btnExploreMain');
+  const btnSeason = document.getElementById('btnSeasonPassMain');
+  const btnDel = document.getElementById('btnDeleteMain');
+
+  if(savedData) {
+    const parsed = JSON.parse(savedData);
+    if(parsed && parsed.career) {
+      btnCreate.style.display = 'none';
+      btnContinue.classList.remove('disabled');
+      btnExplore.classList.remove('disabled');
+      btnSeason.classList.remove('disabled');
+      btnDel.style.display = 'block';
+      return true;
+    }
+  }
+
+  btnCreate.style.display = 'block';
+  btnContinue.classList.add('disabled');
+  btnExplore.classList.add('disabled');
+  btnSeason.classList.add('disabled');
+  btnDel.style.display = 'none';
+  return false;
+}
+
+function saveGame() {
+  localStorage.setItem('gamuca_saved_character', JSON.stringify(character));
+}
+
+function deleteCharacter() {
+  if(confirm("¿Estás seguro/a de borrar tu personaje y todos tus datos de expediente? Esta acción no se puede deshacer.")) {
+    localStorage.removeItem('gamuca_saved_character');
+    character = {
+      name: "Estudiante",
+      gender: "femenino",
+      career: "",
+      skin: "#ffdbac",
+      eyes: "#4b2d0b",
+      nose: "normal",
+      mouth: "sonrisa",
+      height: "media",
+      bodyType: "media",
+      hairStyle: "largo_ondulado",
+      hairColor: "#3a1e05",
+      beardStyle: "ninguna",
+      clothesCategory: "casual",
+      shirtColor: "#bd68ff",
+      jacketType: "ninguna",
+      glasses: "ninguna",
+      earrings: "ninguno",
+      piercing: "ninguno",
+      headwear: "ninguno",
+      equippedPet: null,
+      ucanedas: 0,
+      xp: 0,
+      pets: [],
+      ownedCosmetics: [],
+      skillsUnlocked: [],
+      solvedCases: [],
+      discoveredLocations: [],
+      claimedSeasonTiers: [],
+      weeklyChallengeCompleted: false,
+      dailyQuestCompleted: false,
+      completedMissionsCount: 0,
+      maxStreakDays: 1,
+      duelsCount: 0,
+      eventsCount: 0,
+      quizStreak: 0,
+      hometown: "",
+      birthday: "",
+      mood: "",
+      bio: "",
+      grades: [],
+      friends: []
+    };
+    checkSavedGame();
+    showScreen('home');
+    showMessage("Personaje y datos eliminados correctamente.");
+  }
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() { 
+  checkSavedGame();
+  showScreen('home'); 
+}
+
+function openCreator() { 
+  showScreen('creator');
+  switchCategory('APARIENCIA', document.querySelector('#creator .tab-btn'));
+  renderCharacterPreview();
+}
+
+function openWardrobe() {
+  showScreen('wardrobe');
+  switchWardrobeCategory('ROPA', document.querySelector('#wardrobe .tab-btn'));
+  renderWardrobePreview();
+}
+
+function openExplorationFromHome() {
+  if(!checkSavedGame()) {
+    showMessage("🔒 Debes crear tu personaje y elegir carrera antes de explorar.");
+    return;
+  }
+  const savedData = localStorage.getItem('gamuca_saved_character');
+  if(savedData) character = JSON.parse(savedData);
+  openExplorationScreen();
+}
+
+function openSeasonPassFromHome() {
+  if(!checkSavedGame()) {
+    showMessage("🔒 Debes crear tu personaje y elegir carrera para ver el Pase.");
+    return;
+  }
+  const savedData = localStorage.getItem('gamuca_saved_character');
+  if(savedData) character = JSON.parse(savedData);
+  openSeasonPassScreen();
+}
+
+function openGamucaAwardsModal() {
+  renderGamucaAwards();
+  document.getElementById('gamucaAwardsModal').classList.add('open');
+}
+
+function renderGamucaAwards() {
+  const container = document.getElementById('gamucaAwardsContent');
+  
+  const xpVal = character.xp || 18420;
+  const missionsVal = (character.discoveredLocations ? character.discoveredLocations.length * 10 : 0) + (character.grades ? character.grades.length * 5 : 0) + 12;
+  const streakVal = character.quizStreak > 0 ? character.quizStreak * 4 : 34;
+  const petsVal = character.pets ? character.pets.length : 0;
+  const achievementsVal = achievements.filter(a => a.unlocked).length;
+  const duelsVal = character.solvedCases ? character.solvedCases.length * 3 : 12;
+  const eventsVal = character.discoveredLocations ? character.discoveredLocations.length + 4 : 9;
+  const coinsVal = character.ucanedas || 4820;
+
+  container.innerHTML = `
+    <h2 style="color:#ffd700; margin:0 0 5px 0;">🏆 TU CURSO 2026/27</h2>
+    <p style="color:#a995a9; font-size:11px; margin:0 0 15px 0;">Resumen del rendimiento universitario y méritos acumulados durante el curso escolar.</p>
+
+    <div class="awards-stat-grid">
+      <div class="awards-stat-item"><strong style="color:#2bff88; font-size:14px;">⭐ ${xpVal}</strong><br><span style="color:#a995a9;">XP Total</span></div>
+      <div class="awards-stat-item"><strong style="color:#2b75ff; font-size:14px;">🎯 ${missionsVal}</strong><br><span style="color:#a995a9;">Misiones</span></div>
+      <div class="awards-stat-item"><strong style="color:#ff4444; font-size:14px;">🔥 ${streakVal} Días</strong><br><span style="color:#a995a9;">Racha Máxima</span></div>
+      <div class="awards-stat-item"><strong style="color:#bd68ff; font-size:14px;">🐾 ${petsVal}</strong><br><span style="color:#a995a9;">Mascotas</span></div>
+      <div class="awards-stat-item"><strong style="color:#ffd700; font-size:14px;">🏆 ${achievementsVal}</strong><br><span style="color:#a995a9;">Logros</span></div>
+      <div class="awards-stat-item"><strong style="color:#f3c9dc; font-size:14px;">⚔️ ${duelsVal}</strong><br><span style="color:#a995a9;">Duelos/Casos</span></div>
+      <div class="awards-stat-item"><strong style="color:#2bff88; font-size:14px;">🎭 ${eventsVal}</strong><br><span style="color:#a995a9;">Eventos</span></div>
+      <div class="awards-stat-item"><strong style="color:#ffd700; font-size:14px;">🪙 ${coinsVal}</strong><br><span style="color:#a995a9;">UCAcoins</span></div>
+    </div>
+
+    <div style="background:#251a36; border:1px dashed #ffd700; padding:12px; border-radius:6px; margin-top:15px;">
+      <span style="color:#a995a9; font-size:10px;">TÍTULO CONSEGUIDO DEL CURSO:</span><br>
+      <strong style="color:#ffd700; font-size:14px; display:block; margin-top:4px;">🎓 Superviviente del curso 2026/27</strong>
+    </div>
+
+    <button class="btn-pixel" style="margin-top:15px; background:#ffd700; color:#000; width:100%;" onclick="closeModal('gamucaAwardsModal'); showMessage('¡Insignia de Temporada Guardada!');">GUARDAR RECUERDO Y CERRAR CURSO</button>
+  `;
+}
+
+function openRoomScreen() {
+  showScreen('roomScreen');
+  renderMyRoom();
+  updateFriendRoomSelector();
+}
+
+function renderMyRoom() {
+  document.getElementById('roomOwnerTitle').innerText = `Sala GAMUCA de ${character.name}`;
+  document.getElementById('btnReturnMyRoom').style.display = 'none';
+  drawRoomCanvas(character);
+  renderRoomItemsList(character);
+}
+
+function updateFriendRoomSelector() {
+  const select = document.getElementById('visitFriendRoomSelect');
+  select.innerHTML = '<option value="">-- Elige un amigo/a para visitar --</option>';
+
+  if(character.friends && character.friends.length > 0) {
+    character.friends.forEach((f, idx) => {
+      select.innerHTML += `<option value="${idx}">${f.name} (${f.career})</option>`;
+    });
+  } else {
+    select.innerHTML = '<option value="">No tienes amigos añadidos aún</option>';
+  }
+}
+
+function visitSelectedFriendRoom() {
+  const select = document.getElementById('visitFriendRoomSelect');
+  const idx = select.value;
+
+  if(idx === "" || !character.friends[idx]) {
+    showMessage("Selecciona un amigo/a válido/a.");
+    return;
+  }
+
+  const f = character.friends[idx];
+  document.getElementById('roomOwnerTitle').innerText = `🏠 Sala GAMUCA de ${f.name}`;
+  document.getElementById('btnReturnMyRoom').style.display = 'inline-block';
+
+  const mockFriendRoom = {
+    name: f.name,
+    discoveredLocations: ["loc_biblio", "loc_cafeteria"],
+    solvedCases: ["case_014"],
+    equippedPet: "cat",
+    grades: f.grades || []
+  };
+
+  drawRoomCanvas(mockFriendRoom);
+  renderRoomItemsList(mockFriendRoom);
+  showMessage(`Estás visitando la sala personal de ${f.name}.`);
+}
+
+function drawRoomCanvas(targetChar) {
+  const canvas = document.getElementById('roomCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#1e142b";
+  ctx.fillRect(0,0, canvas.width, 160);
+
+  ctx.fillStyle = "#120a1c";
+  ctx.fillRect(0,160, canvas.width, 80);
+  ctx.strokeStyle = "#3b2a40";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(0,160, canvas.width, 80);
+
+  ctx.fillStyle = "#0c0812";
+  ctx.fillRect(30, 20, 80, 60);
+  ctx.strokeStyle = "#bd68ff";
+  ctx.strokeRect(30, 20, 80, 60);
+  ctx.fillStyle = "#f3c9dc";
+  ctx.font = "10px Courier New";
+  ctx.fillText("UCA 2026/27", 38, 55);
+
+  ctx.fillStyle = "#3b2a40";
+  ctx.fillRect(160, 40, 150, 8);
+  ctx.fillRect(160, 80, 150, 8);
+
+  if(targetChar.solvedCases && targetChar.solvedCases.length > 0) {
+    ctx.font = "20px Courier New";
+    ctx.fillText("🏆", 170, 36);
+  }
+
+  if(targetChar.discoveredLocations && targetChar.discoveredLocations.length > 0) {
+    ctx.font = "18px Courier New";
+    ctx.fillText("📜", 210, 36);
+    ctx.fillText("🔖", 250, 36);
+  }
+
+  ctx.font = "18px Courier New";
+  ctx.fillText("🎓", 180, 76);
+  ctx.fillText("🎒", 230, 76);
+
+  ctx.fillStyle = "#2c1a38";
+  ctx.fillRect(220, 130, 110, 40);
+  ctx.fillRect(230, 170, 10, 30);
+  ctx.fillRect(310, 170, 10, 30);
+
+  ctx.fillStyle = "#bd68ff";
+  ctx.fillRect(250, 120, 30, 12);
+
+  if(targetChar.equippedPet) {
+    const pet = petsDatabase.find(p => p.id === targetChar.equippedPet);
+    if(pet) {
+      ctx.font = "26px Courier New";
+      ctx.fillText(pet.icon, 80, 200);
+    }
+  }
+}
+
+function renderRoomItemsList(targetChar) {
+  const container = document.getElementById('roomItemsList');
+  container.innerHTML = '';
+
+  const items = [
+    { title: "Diploma UCA", icon: "🎓", desc: "Acredita tu matrícula oficial." },
+    { title: "Mochila Píxel", icon: "🎒", desc: "Equipamiento de estudio." }
+  ];
+
+  if(targetChar.solvedCases && targetChar.solvedCases.length > 0) {
+    items.push({ title: "Trofeo Detective", icon: "🏆", desc: "Otorgado por resolver el Caso #014." });
+  }
+
+  if(targetChar.discoveredLocations && targetChar.discoveredLocations.length > 0) {
+    items.push({ title: "Recuerdo de Campus", icon: "🔖", desc: "Conseguido explorando zonas." });
+  }
+
+  if(targetChar.equippedPet) {
+    const pet = petsDatabase.find(p => p.id === targetChar.equippedPet);
+    if(pet) items.push({ title: pet.name, icon: pet.icon, desc: `Mascota [Rareza: ${pet.rarity}]` });
+  }
+
+  items.forEach(it => {
+    const card = document.createElement('div');
+    card.className = 'pixel-opt-card';
+    card.innerHTML = `
+      <div style="font-size:20px;">${it.icon}</div>
+      <strong>${it.title}</strong>
+      <small style="color:#a995a9; font-size:9px;">${it.desc}</small>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function openSeasonPassScreen() {
+  showScreen('seasonPassScreen');
+  renderSeasonPass();
+}
+
+function renderSeasonPass() {
+  const xp = character.xp || 0;
+  const currentLvl = Math.floor(xp / 100) + 1;
+  const maxXP = 5000;
+  const percentage = Math.min(100, Math.floor((xp / maxXP) * 100));
+
+  const filledBlocks = Math.floor(percentage / 10);
+  const emptyBlocks = 10 - filledBlocks;
+  const barStr = "█".repeat(filledBlocks) + "░".repeat(emptyBlocks) + ` ${percentage}%`;
+
+  document.getElementById('seasonLevelText').innerText = `Nivel Actual: ${currentLvl} (Máx: 50)`;
+  document.getElementById('seasonProgressBar').innerText = barStr;
+  document.getElementById('seasonXpText').innerText = `${xp} / ${maxXP} XP acumulados`;
+
+  const container = document.getElementById('seasonTiersContainer');
+  container.innerHTML = '';
+
+  if(!character.claimedSeasonTiers) character.claimedSeasonTiers = [];
+
+  seasonTiers.forEach(tier => {
+    const isUnlocked = currentLvl >= tier.level;
+    const isClaimed = character.claimedSeasonTiers.includes(tier.level);
+
+    const card = document.createElement('div');
+    card.className = `tier-card ${isUnlocked ? 'unlocked' : ''}`;
+    
+    card.innerHTML = `
+      <div>
+        <strong style="color:#f3c9dc; font-size:13px;">NIVEL ${tier.level}</strong><br>
+        <span style="color:#d9a86c;">${tier.rewardText}</span>
+      </div>
+      <div>
+        ${isClaimed ? `
+          <span style="color:#2bff88; font-weight:bold;">RECLAMADO ✅</span>
+        ` : `
+          <button class="btn-pixel" style="font-size:9px; padding:6px;" ${!isUnlocked ? 'disabled' : ''} onclick="claimSeasonReward(${tier.level})">
+            ${isUnlocked ? 'RECLAMAR' : 'BLOQUEADO 🔒'}
+          </button>
+        `}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function claimSeasonReward(lvl) {
+  const tier = seasonTiers.find(t => t.level === lvl);
+  if(!tier) return;
+
+  if(!character.claimedSeasonTiers) character.claimedSeasonTiers = [];
+  if(character.claimedSeasonTiers.includes(lvl)) return;
+
+  character.claimedSeasonTiers.push(lvl);
+
+  if(tier.type === "coins") {
+    character.ucanedas = (character.ucanedas || 0) + tier.amount;
+  } else if(tier.type === "pet") {
+    if(!character.pets) character.pets = [];
+    if(!character.pets.includes(tier.petId)) character.pets.push(tier.petId);
+  } else if(tier.type === "cosmetic") {
+    if(!character.ownedCosmetics) character.ownedCosmetics = [];
+    if(!character.ownedCosmetics.includes(tier.cosmeticId)) character.ownedCosmetics.push(tier.cosmeticId);
+  }
+
+  saveGame();
+  renderSeasonPass();
+  updateCoinsDisplay();
+  showMessage(`🎉 ¡RECOMPENSA DE PASE RECLAMADA!: ${tier.rewardText}`);
+}
+
+function openExplorationScreen() {
+  showScreen('explorationScreen');
+  renderExplorationGrid();
+}
+
+function renderExplorationGrid() {
+  const container = document.getElementById('explorationGrid');
+  container.innerHTML = '';
+
+  if(!character.discoveredLocations) character.discoveredLocations = [];
+
+  explorationLocations.forEach(loc => {
+    const isDiscovered = character.discoveredLocations.includes(loc.id);
+    const card = document.createElement('div');
+    card.className = `location-card ${isDiscovered ? 'discovered' : ''}`;
+    
+    card.innerHTML = `
+      <h3 style="margin:0; color:#f3c9dc; font-size:1rem;">${loc.title}</h3>
+      <p style="font-size:11px; color:#a995a9; margin:0;">${loc.desc}</p>
+      
+      ${isDiscovered ? `
+        <div style="background:#180e20; padding:6px; border-radius:4px; font-size:10px; color:#2bff88; margin-top:4px;">
+          ✓ ZONA DESCUBIERTA<br>
+          <small style="color:#ffd700;">Secreto: ${loc.secret}</small><br>
+          <small style="color:#d9a86c;">${loc.mission}</small>
+        </div>
+      ` : `
+        <button class="btn-pixel" style="font-size:10px; padding:6px; margin-top:5px;" onclick="exploreZone('${loc.id}')">
+          📍 EXPLORAR Y DESCUBRIR ZONA
+        </button>
+      `}
+    `;
+    container.appendChild(card);
+  });
+}
+
+function exploreZone(locId) {
+  const loc = explorationLocations.find(l => l.id === locId);
+  if(!loc) return;
+
+  if(!character.discoveredLocations) character.discoveredLocations = [];
+  if(!character.discoveredLocations.includes(locId)) {
+    character.discoveredLocations.push(locId);
+    character.ucanedas = (character.ucanedas || 0) + loc.rewardCoins;
+    character.xp = (character.xp || 0) + loc.rewardXp;
+
+    saveGame();
+    updateCoinsDisplay();
+    checkAchievements();
+    renderExplorationGrid();
+    showMessage(`📍 ¡Has descubierto ${loc.title}! (+${loc.rewardCoins} 🪙, +${loc.rewardXp} XP y Objeto Secreto)`);
+  }
+}
+
+function renderDailyQuests() {
+  const box = document.getElementById('dailyQuestsBox');
+  const dq = dailyQuests[0];
+  const isCompleted = character.dailyQuestCompleted;
+
+  box.innerHTML = `
+    <div style="font-size:11px; color:#fff;">
+      <strong>"${dq.text}"</strong>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+      <span style="font-size:10px; color:#2bff88;">Recompensa: +${dq.rewardCoins} 🪙 | +${dq.rewardXp} XP</span>
+      ${isCompleted ? `
+        <span style="color:#2bff88; font-weight:bold; font-size:10px;">COMPLETADA ✅</span>
+      ` : `
+        <button class="btn-pixel" style="font-size:9px; padding:4px;" onclick="completeDailyQuest()">COMPLETAR</button>
+      `}
+    </div>
+  `;
+}
+
+function completeDailyQuest() {
+  const dq = dailyQuests[0];
+  character.dailyQuestCompleted = true;
+  character.ucanedas = (character.ucanedas || 0) + dq.rewardCoins;
+  character.xp = (character.xp || 0) + dq.rewardXp;
+
+  saveGame();
+  updateCoinsDisplay();
+  renderDailyQuests();
+  showMessage(`🎉 ¡Misión diaria completada! (+${dq.rewardCoins} 🪙 y +${dq.rewardXp} XP)`);
+}
+
+function renderWeeklyChallenge() {
+  const box = document.getElementById('weeklyChallengeBox');
+  const ch = weeklyChallenges[0];
+  const isCompleted = character.weeklyChallengeCompleted;
+
+  box.innerHTML = `
+    <div style="font-size:11px; color:#fff;">
+      <strong>"${ch.text}"</strong>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+      <span style="font-size:10px; color:#2bff88;">Recompensa: +${ch.rewardCoins} 🪙 | +${ch.rewardXp} XP</span>
+      ${isCompleted ? `
+        <span style="color:#2bff88; font-weight:bold; font-size:10px;">COMPLETADO ✅</span>
+      ` : `
+        <button class="btn-pixel" style="font-size:9px; padding:4px;" onclick="completeWeeklyChallenge()">COMPLETAR</button>
+      `}
+    </div>
+  `;
+}
+
+function completeWeeklyChallenge() {
+  const ch = weeklyChallenges[0];
+  character.weeklyChallengeCompleted = true;
+  character.ucanedas = (character.ucanedas || 0) + ch.rewardCoins;
+  character.xp = (character.xp || 0) + ch.rewardXp;
+
+  saveGame();
+  updateCoinsDisplay();
+  renderWeeklyChallenge();
+  showMessage(`🎉 ¡Desafío semanal completado! (+${ch.rewardCoins} 🪙 y +${ch.rewardXp} XP)`);
+}
+
+function showMessage(msg) {
+  const toast = document.getElementById('toast');
+  toast.innerText = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function switchCategory(cat, btn) {
+  if(btn) {
+    document.querySelectorAll('#creator .tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const panel = document.getElementById('optionsPanel');
+  panel.innerHTML = '';
+
+  const catData = creatorOptions[cat];
+  Object.keys(catData).forEach(subCat => {
+    const title = document.createElement('div');
+    title.className = 'sub-section-title';
+    title.innerText = subCat.replace('_', ' ').toUpperCase();
+    panel.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'pixel-grid';
+
+    catData[subCat].forEach(opt => {
+      grid.appendChild(createOptCard(opt, false));
+    });
+    panel.appendChild(grid);
+  });
+}
+
+function switchWardrobeCategory(cat, btn) {
+  if(btn) {
+    document.querySelectorAll('#wardrobe .tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const panel = document.getElementById('wardrobeOptionsPanel');
+  panel.innerHTML = '';
+
+  if(cat === 'COMPRADOS') {
+    renderOwnedCosmeticsInWardrobe(panel);
+    return;
+  }
+
+  const catData = creatorOptions[cat];
+  Object.keys(catData).forEach(subCat => {
+    const title = document.createElement('div');
+    title.className = 'sub-section-title';
+    title.innerText = subCat.replace('_', ' ').toUpperCase();
+    panel.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'pixel-grid';
+
+    catData[subCat].forEach(opt => {
+      grid.appendChild(createOptCard(opt, true));
+    });
+    panel.appendChild(grid);
+  });
+}
+
+function renderOwnedCosmeticsInWardrobe(panel) {
+  panel.innerHTML = `<div class="sub-section-title">COSMÉTICOS COMPRADOS EN LA TIENDA</div>`;
+  const grid = document.createElement('div');
+  grid.className = 'pixel-grid';
+
+  if(!character.ownedCosmetics || character.ownedCosmetics.length === 0) {
+    panel.innerHTML += `<small style="color:#666;">No has comprado ningún cosmético en la tienda aún.</small>`;
+    return;
+  }
+
+  character.ownedCosmetics.forEach(itemId => {
+    const item = shopCosmeticsDatabase.find(c => c.id === itemId);
+    if(!item) return;
+
+    const isEquipped = character[item.type] === item.value;
+    const card = document.createElement('div');
+    card.className = `pixel-opt-card ${isEquipped ? 'selected' : ''}`;
+    card.innerHTML = `
+      <div class="opt-preview-swatch" style="font-size:16px;">${item.icon}</div>
+      <span>${item.name}</span>
+      <small style="color:${isEquipped ? '#2bff88' : '#a995a9'};">${isEquipped ? 'EQUIPADO' : 'DESEQUIPADO'}</small>
+    `;
+    card.onclick = () => {
+      if(isEquipped) character[item.type] = "ninguna";
+      else character[item.type] = item.value;
+      renderWardrobePreview();
+      switchWardrobeCategory('COMPRADOS', null);
+    };
+    grid.appendChild(card);
+  });
+
+  panel.appendChild(grid);
+}
+
+function createOptCard(opt, isWardrobe) {
+  const card = document.createElement('div');
+  card.className = 'pixel-opt-card';
+
+  let previewHTML = opt.preview.startsWith('#') 
+    ? `<div class="opt-preview-swatch" style="background:${opt.preview};"></div>`
+    : `<div class="opt-preview-swatch" style="font-size:16px;">${opt.preview}</div>`;
+
+  card.innerHTML = `${previewHTML}<span>${opt.label}</span>`;
+  card.onclick = () => {
+    character[opt.type] = opt.value;
+    if(isWardrobe) renderWardrobePreview();
+    else renderCharacterPreview();
+  };
+  return card;
+}
+
+function drawCharacterSprite(ctx, cx, cy, scale) {
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  let legHeight = 32;
+  if(character.height === "baja") legHeight = 22;
+  if(character.height === "alta") legHeight = 44;
+
+  let bodyWidth = 24;
+  if(character.bodyType === "delgada") bodyWidth = 20;
+  if(character.bodyType === "atletica") bodyWidth = 28;
+
+  ctx.scale(scale, scale);
+
+  ctx.fillStyle = "rgba(0,0,0,0.3)";
+  ctx.beginPath();
+  ctx.ellipse(0, 20 + legHeight, bodyWidth + 8, 6, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#222533";
+  ctx.fillRect(-bodyWidth/2 + 2, 16, bodyWidth/2 - 3, legHeight);
+  ctx.fillRect(1, 16, bodyWidth/2 - 3, legHeight);
+
+  ctx.fillStyle = "#111";
+  ctx.fillRect(-bodyWidth/2, 16 + legHeight - 4, bodyWidth/2, 6);
+  ctx.fillRect(1, 16 + legHeight - 4, bodyWidth/2, 6);
+
+  ctx.fillStyle = character.skin;
+  ctx.fillRect(-16, -36, 32, 32);
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(-16, -36, 32, 32);
+
+  ctx.fillStyle = "#d1a075";
+  ctx.fillRect(-4, -5, 8, 4);
+
+  ctx.fillStyle = character.shirtColor;
+  ctx.fillRect(-bodyWidth/2, -2, bodyWidth, 18);
+  ctx.strokeRect(-bodyWidth/2, -2, bodyWidth, 18);
+
+  if(character.jacketType === "blazer") {
+    ctx.fillStyle = "#1b1424";
+    ctx.fillRect(-bodyWidth/2 - 1, -2, 6, 18);
+    ctx.fillRect(bodyWidth/2 - 5, -2, 6, 18);
+  } else if(character.jacketType === "dorada") {
+    ctx.fillStyle = "#ffd700";
+    ctx.fillRect(-bodyWidth/2 - 1, -2, bodyWidth + 2, 18);
+  }
+
+  ctx.fillStyle = character.skin;
+  ctx.fillRect(-bodyWidth/2 - 6, 0, 5, 16);
+  ctx.fillRect(bodyWidth/2 + 1, 0, 5, 16);
+
+  ctx.fillRect(-bodyWidth/2 - 7, 14, 6, 5);
+  ctx.fillRect(bodyWidth/2 + 1, 14, 6, 5);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(-10, -24, 6, 7);
+  ctx.fillRect(4, -24, 6, 7);
+
+  ctx.fillStyle = character.eyes;
+  ctx.fillRect(-8, -23, 4, 5);
+  ctx.fillRect(6, -23, 4, 5);
+
+  ctx.fillStyle = "#000";
+  ctx.fillRect(-7, -22, 2, 2);
+  ctx.fillRect(7, -22, 2, 2);
+
+  ctx.fillStyle = character.hairColor;
+  ctx.fillRect(-10, -27, 6, 2);
+  ctx.fillRect(4, -27, 6, 2);
+
+  ctx.fillStyle = "#8d5524";
+  if(character.nose === "fina") ctx.fillRect(-1, -16, 2, 5);
+  else if(character.nose === "ancha") ctx.fillRect(-3, -15, 6, 3);
+  else if(character.nose === "respingona") {
+    ctx.fillRect(-2, -17, 4, 2);
+    ctx.fillRect(-1, -15, 2, 2);
+  } else ctx.fillRect(-2, -16, 4, 3);
+
+  ctx.fillStyle = "#a83232";
+  if(character.mouth === "sonrisa") {
+    ctx.fillRect(-5, -8, 10, 2);
+    ctx.fillRect(-3, -6, 6, 2);
+  } else if(character.mouth === "seria") {
+    ctx.fillRect(-5, -7, 10, 2);
+  } else if(character.mouth === "abierta") {
+    ctx.fillRect(-4, -8, 8, 4);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(-2, -8, 4, 1);
+  } else {
+    ctx.fillRect(-4, -7, 8, 2);
+  }
+
+  ctx.fillStyle = character.hairColor;
+  if(character.hairStyle === "largo_ondulado") {
+    ctx.fillRect(-19, -41, 38, 12);
+    ctx.fillRect(-19, -30, 8, 38);
+    ctx.fillRect(11, -30, 8, 38);
+  } else if(character.hairStyle === "punk") {
+    ctx.fillRect(-6, -50, 12, 15);
+  } else if(character.hairStyle === "mono") {
+    ctx.fillRect(-17, -39, 34, 9);
+    ctx.fillRect(-7, -48, 14, 10);
+  } else if(character.hairStyle === "bob") {
+    ctx.fillRect(-18, -39, 36, 12);
+    ctx.fillRect(-18, -28, 6, 22);
+    ctx.fillRect(12, -28, 6, 22);
+  } else if(character.hairStyle === "rapado") {
+    ctx.fillRect(-14, -39, 28, 6);
+  } else if(character.hairStyle === "afro") {
+    ctx.beginPath();
+    ctx.arc(0, -25, 23, 0, Math.PI * 2);
+    ctx.fill();
+  } else if(character.hairStyle === "coletas") {
+    ctx.fillRect(-17, -39, 34, 9);
+    ctx.fillRect(-23, -29, 8, 22);
+    ctx.fillRect(15, -29, 8, 22);
+  } else if(character.hairStyle === "flequillo") {
+    ctx.fillRect(-17, -39, 34, 16);
+  }
+
+  ctx.fillStyle = character.hairColor;
+  if(character.beardStyle === "corta") ctx.fillRect(-12, -6, 24, 5);
+  else if(character.beardStyle === "perilla") ctx.fillRect(-4, -6, 8, 6);
+  else if(character.beardStyle === "poblada") ctx.fillRect(-14, -8, 28, 10);
+  else if(character.beardStyle === "bigote") ctx.fillRect(-9, -10, 18, 3);
+
+  if(character.glasses === "pasta" || character.glasses === "oro") {
+    ctx.strokeStyle = character.glasses === "oro" ? "#ffd700" : "#111";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(-11, -25, 9, 9);
+    ctx.strokeRect(2, -25, 9, 9);
+  }
+
+  if(character.headwear === "cascos") {
+    ctx.fillStyle = "#00e5ff";
+    ctx.fillRect(-19, -26, 4, 14);
+    ctx.fillRect(15, -26, 4, 14);
+    ctx.fillRect(-19, -40, 38, 4);
+  } else if(character.headwear === "cyber") {
+    ctx.fillStyle = "#bd68ff";
+    ctx.fillRect(-19, -31, 38, 6);
+  }
+
+  if(character.earrings === "aros") {
+    ctx.fillStyle = "#ffd700";
+    ctx.beginPath();
+    ctx.arc(-18, -16, 3, 0, Math.PI * 2);
+    ctx.arc(18, -16, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  if(character.piercing === "nariz") {
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(3, -15, 2, 2);
+  }
+
+  if(character.equippedPet) {
+    const pet = petsDatabase.find(p => p.id === character.equippedPet);
+    if(pet) {
+      ctx.save();
+      ctx.translate(32, 10);
+
+      ctx.fillStyle = "rgba(0,0,0,0.3)";
+      ctx.beginPath();
+      ctx.ellipse(0, 16, 10, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      if(pet.id === "cat") {
+        ctx.fillStyle = "#888888";
+        ctx.fillRect(-8, -6, 16, 16);
+        ctx.beginPath(); ctx.moveTo(-8, -6); ctx.lineTo(-4, -13); ctx.lineTo(-1, -6); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(8, -6); ctx.lineTo(4, -13); ctx.lineTo(1, -6); ctx.fill();
+        ctx.fillStyle = "#2bff88"; ctx.fillRect(-5, -2, 3, 3); ctx.fillRect(2, -2, 3, 3);
+        ctx.fillStyle = "#ff8888"; ctx.fillRect(-1, 3, 2, 2);
+      } 
+      else if(pet.id === "dog") {
+        ctx.fillStyle = "#b87333";
+        ctx.fillRect(-8, -6, 16, 16);
+        ctx.fillRect(-11, -4, 4, 8); ctx.fillRect(7, -4, 4, 8);
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(-5, -2, 3, 3); ctx.fillRect(2, -2, 3, 3);
+        ctx.fillStyle = "#000000"; ctx.fillRect(-4, -1, 1, 1); ctx.fillRect(3, -1, 1, 1);
+        ctx.fillRect(-2, 3, 4, 3);
+      } 
+      else if(pet.id === "owl") {
+        ctx.fillStyle = "#2b75ff";
+        ctx.fillRect(-9, -10, 18, 20);
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(-7, -7, 6, 6); ctx.fillRect(1, -7, 6, 6);
+        ctx.fillStyle = "#000000"; ctx.fillRect(-4, -4, 2, 2); ctx.fillRect(3, -4, 2, 2);
+        ctx.fillStyle = "#ffd700"; ctx.fillRect(-1, -1, 3, 3);
+      } 
+      else if(pet.id === "fox") {
+        ctx.fillStyle = "#bd68ff";
+        ctx.fillRect(-8, -6, 16, 16);
+        ctx.beginPath(); ctx.moveTo(-8, -6); ctx.lineTo(-5, -14); ctx.lineTo(-1, -6); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(8, -6); ctx.lineTo(5, -14); ctx.lineTo(1, -6); ctx.fill();
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(-8, 3, 16, 7);
+        ctx.fillStyle = "#000000"; ctx.fillRect(-5, -2, 2, 2); ctx.fillRect(3, -2, 2, 2); ctx.fillRect(-1, 3, 3, 2);
+      } 
+      else if(pet.id === "penguin") {
+        ctx.fillStyle = "#222222"; ctx.fillRect(-8, -10, 16, 20);
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(-5, -5, 10, 13);
+        ctx.fillStyle = "#ffd700"; ctx.fillRect(-2, -3, 4, 3);
+        ctx.fillRect(-6, 10, 4, 2); ctx.fillRect(2, 10, 4, 2);
+      } 
+      else if(pet.id === "dragon") {
+        ctx.fillStyle = "#ffd700"; ctx.fillRect(-9, -8, 18, 18);
+        ctx.fillStyle = "#ff4444"; ctx.fillRect(-12, -12, 4, 8); ctx.fillRect(8, -12, 4, 8);
+        ctx.fillStyle = "#000000"; ctx.fillRect(-5, -3, 3, 3); ctx.fillRect(2, -3, 3, 3);
+        ctx.fillStyle = "#ffea00"; ctx.fillRect(-4, -2, 1, 1); ctx.fillRect(3, -2, 1, 1);
+      }
+
+      ctx.restore();
+    }
+  }
+
+  ctx.restore();
+}
+
+function renderCharacterPreview() {
+  const canvas = document.getElementById('characterCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width, canvas.height);
+  drawCharacterSprite(ctx, canvas.width / 2, canvas.height / 2 + 10, 1.7);
+}
+
+function renderWardrobePreview() {
+  const canvas = document.getElementById('wardrobeCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width, canvas.height);
+  drawCharacterSprite(ctx, canvas.width / 2, canvas.height / 2 + 10, 1.7);
+}
+
+function saveCharacterAndOpenCareer() {
+  const nameVal = document.getElementById('charNameInput').value.trim();
+  if(nameVal) character.name = nameVal;
+  openCareerModal();
+}
+
+function openCareerModal() {
+  document.getElementById('careerModal').classList.add('open');
+  filterCareers();
+}
+
+function openAchievementsModal() {
+  const container = document.getElementById('modalAchievementsContent');
+  container.innerHTML = '';
+
+  const savedData = localStorage.getItem('gamuca_saved_character');
+  if(savedData) {
+    const parsed = JSON.parse(savedData);
+    if(parsed && parsed.career) {
+      character = parsed;
+      checkAchievements();
+    }
+  }
+
+  achievements.forEach(a => {
+    const card = document.createElement('div');
+    card.className = `achievement-card ${a.unlocked ? 'unlocked' : ''}`;
+    card.innerHTML = `
+      <div style="font-weight:bold; color:#f3c9dc;">${a.name} ${a.unlocked ? '✅' : '🔒'} (+${a.coins} 🪙)</div>
+      <small style="color:#a995a9;">${a.desc}</small>
+    `;
+    container.appendChild(card);
+  });
+
+  document.getElementById('achievementsModal').classList.add('open');
+}
+
+function openInvestigationModal() {
+  const container = document.getElementById('investigationContent');
+  container.innerHTML = '';
+
+  if(!character.solvedCases) character.solvedCases = [];
+  const isSolved = character.solvedCases.includes(investigationCase014.id);
+
+  const card = document.createElement('div');
+  card.className = 'case-card';
+
+  let cluesHTML = '';
+  investigationCase014.clues.forEach(c => {
+    cluesHTML += `<div style="background:#100818; padding:6px; border-radius:4px; margin-top:4px; font-size:11px;">${c}</div>`;
+  });
+
+  let decisionsHTML = '';
+  if(!isSolved) {
+    investigationCase014.decisions.forEach((d, idx) => {
+      decisionsHTML += `
+        <button class="btn-pixel" style="font-size:10px; padding:8px; margin-top:6px; text-align:left;" onclick="makeCaseDecision(${idx})">
+          ${d.text}
+        </button>
+      `;
+    });
+  } else {
+    decisionsHTML = `<div style="color:#2bff88; margin-top:10px; font-weight:bold;">¡CASO RESUELTO CON ÉXITO!</div>`;
+  }
+
+  card.innerHTML = `
+    <h3 style="color:#d9a86c; margin:0 0 6px 0;">${investigationCase014.title}</h3>
+    <p style="font-size:11px; color:#a995a9; margin-bottom:10px;">${investigationCase014.intro}</p>
+    <strong style="color:#bd68ff; font-size:11px;">PISTAS RECOPILADAS:</strong>
+    ${cluesHTML}
+    <div style="margin-top:12px;"><strong style="color:#f3c9dc; font-size:11px;">TOMAR DECISIÓN FINAL:</strong></div>
+    <div style="display:flex; flex-direction:column; gap:4px;">${decisionsHTML}</div>
+  `;
+
+  container.appendChild(card);
+  document.getElementById('investigationModal').classList.add('open');
+}
+
+function makeCaseDecision(idx) {
+  const dec = investigationCase014.decisions[idx];
+  if(!dec) return;
+
+  if(!character.solvedCases) character.solvedCases = [];
+  character.solvedCases.push(investigationCase014.id);
+
+  character.ucanedas = (character.ucanedas || 0) + dec.rewardCoins;
+  character.xp = (character.xp || 0) + dec.rewardXp;
+
+  saveGame();
+  updateCoinsDisplay();
+  checkAchievements();
+  openInvestigationModal();
+  showMessage(dec.desc);
+}
+
+function openSkillsModal() {
+  renderSkillTree();
+  document.getElementById('skillsModal').classList.add('open');
+}
+
+function renderSkillTree() {
+  const container = document.getElementById('skillsContainer');
+  container.innerHTML = '';
+
+  if(!character.skillsUnlocked) character.skillsUnlocked = [];
+  const currentLevel = Math.floor((character.xp || 0) / 100) + 1;
+
+  container.innerHTML = `
+    <div style="text-align:center; margin-bottom:12px; background:#180e20; padding:8px; border-radius:4px; border:1px solid #2bff88;">
+      <span style="color:#2bff88; font-weight:bold;">⚡ Experiencia Actual: ${character.xp || 0} XP (Nivel ${currentLevel})</span>
+    </div>
+  `;
+
+  skillTreeData.forEach(branch => {
+    const box = document.createElement('div');
+    box.className = 'skill-tree-branch';
+    box.innerHTML = `<h4 style="margin:0 0 6px 0; color:#d9a86c;">${branch.branch}</h4>`;
+
+    branch.nodes.forEach(node => {
+      const isUnlocked = character.skillsUnlocked.includes(node.id);
+      const canUnlock = (character.xp || 0) >= node.xpCost;
+
+      const row = document.createElement('div');
+      row.className = `skill-node ${isUnlocked ? 'unlocked' : ''}`;
+      row.innerHTML = `
+        <div>
+          <strong>${node.name}</strong><br>
+          <small style="color:${canUnlock ? '#2bff88' : '#a995a9'};">Requiere: ${node.xpCost} XP</small>
+        </div>
+        <button class="btn-pixel" style="font-size:9px; padding:4px;" onclick="unlockSkill('${node.id}', ${node.xpCost})">
+          ${isUnlocked ? 'DESBLOQUEADO ✅' : 'DESBLOQUEAR'}
+        </button>
+      `;
+      box.appendChild(row);
+    });
+
+    container.appendChild(box);
+  });
+}
+
+function unlockSkill(skillId, xpCost) {
+  if(!character.skillsUnlocked) character.skillsUnlocked = [];
+
+  if(character.skillsUnlocked.includes(skillId)) {
+    showMessage("¡Ya has desbloqueado esta habilidad!");
+    return;
+  }
+
+  if((character.xp || 0) < xpCost) {
+    showMessage("¡Necesitas más Experiencia (XP) para desbloquear esta habilidad!");
+    return;
+  }
+
+  character.skillsUnlocked.push(skillId);
+  saveGame();
+  renderSkillTree();
+  showMessage("🎉 ¡Nueva Habilidad Desbloqueada con XP!");
+}
+
+function openShopModal() {
+  updateCoinsDisplay();
+  renderShopCosmetics();
+  renderPetsInventory();
+  document.getElementById('shopModal').classList.add('open');
+}
+
+function openPersonalDataModal() {
+  document.getElementById('personalHometown').value = character.hometown || '';
+  document.getElementById('personalBirthday').value = character.birthday || '';
+  document.getElementById('personalMood').value = character.mood || '';
+  document.getElementById('personalBio').value = character.bio || '';
+  document.getElementById('personalDataModal').classList.add('open');
+}
+
+function savePersonalData() {
+  character.hometown = document.getElementById('personalHometown').value.trim();
+  character.birthday = document.getElementById('personalBirthday').value;
+  character.mood = document.getElementById('personalMood').value.trim();
+  character.bio = document.getElementById('personalBio').value.trim();
+
+  saveGame();
+  checkAchievements();
+  closeModal('personalDataModal');
+  showMessage("¡Datos personales actualizados!");
+}
+
+function renderShopCosmetics() {
+  const grid = document.getElementById('shopCosmeticsGrid');
+  grid.innerHTML = '';
+
+  shopCosmeticsDatabase.forEach(item => {
+    const isOwned = character.ownedCosmetics && character.ownedCosmetics.includes(item.id);
+    const card = document.createElement('div');
+    card.className = 'shop-item-card epica';
+    card.innerHTML = `
+      <div style="font-size:20px;">${item.icon}</div>
+      <strong>${item.name}</strong>
+      <small style="color:#ffd700;">Coste: ${item.cost} 🪙</small>
+      <button class="btn-pixel" style="font-size:9px; padding:4px;" onclick="buyCosmetic('${item.id}')">
+        ${isOwned ? 'COMPRADO' : 'COMPRAR'}
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function buyCosmetic(itemId) {
+  const item = shopCosmeticsDatabase.find(c => c.id === itemId);
+  if(!item) return;
+
+  if(!character.ownedCosmetics) character.ownedCosmetics = [];
+
+  if(character.ownedCosmetics.includes(itemId)) {
+    showMessage("¡Ya posees este cosmético!");
+    return;
+  }
+
+  if((character.ucanedas || 0) < item.cost) {
+    showMessage("¡UCAnedas insuficientes!");
+    return;
+  }
+
+  character.ucanedas -= item.cost;
+  character.ownedCosmetics.push(itemId);
+
+  saveGame();
+  updateCoinsDisplay();
+  renderShopCosmetics();
+  showMessage(`🎉 ¡Has comprado: ${item.name}! Ya disponible en Armario.`);
+}
+
+function updateCoinsDisplay() {
+  const lvl = Math.floor((character.xp || 0) / 100) + 1;
+  document.getElementById('dashCoinsBadge').innerText = `🪙 ${character.ucanedas || 0} UCAnedas`;
+  document.getElementById('dashXpBadge').innerText = `⚡ ${character.xp || 0} XP (Lvl ${lvl})`;
+  document.getElementById('shopCoinsBadge').innerText = `🪙 ${character.ucanedas || 0} UCAnedas`;
+}
+
+function rollGachapon() {
+  if((character.ucanedas || 0) < 100) {
+    showMessage("¡Necesitas 100 UCAnedas para tirar!");
+    return;
+  }
+
+  character.ucanedas -= 100;
+
+  const rand = Math.random() * 100;
+  let rolledPet;
+
+  if(rand < 60) rolledPet = Math.random() < 0.5 ? petsDatabase[0] : petsDatabase[1];
+  else if(rand < 85) rolledPet = petsDatabase[2];
+  else if(rand < 95) rolledPet = Math.random() < 0.5 ? petsDatabase[3] : petsDatabase[4];
+  else rolledPet = petsDatabase[5];
+
+  if(!character.pets) character.pets = [];
+  if(!character.pets.includes(rolledPet.id)) character.pets.push(rolledPet.id);
+
+  saveGame();
+  updateCoinsDisplay();
+  renderPetsInventory();
+  showMessage(`🎉 ¡GACHAPÓN!: Te ha tocado ${rolledPet.name} [Rareza: ${rolledPet.rarity}]!`);
+}
+
+function renderPetsInventory() {
+  const grid = document.getElementById('petsInventoryGrid');
+  grid.innerHTML = '';
+
+  if(!character.pets || character.pets.length === 0) {
+    grid.innerHTML = `<small style="color:#666; grid-column:1/-1;">No tienes mascotas aún. ¡Tira al gachapón!</small>`;
+    return;
+  }
+
+  character.pets.forEach(petId => {
+    const pet = petsDatabase.find(p => p.id === petId);
+    if(!pet) return;
+
+    const card = document.createElement('div');
+    card.className = `shop-item-card ${pet.rarity.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
+    const isEquipped = character.equippedPet === pet.id;
+
+    card.innerHTML = `
+      <div style="font-size:24px;">${pet.icon}</div>
+      <strong>${pet.name}</strong>
+      <small style="color:#d9a86c;">${pet.rarity}</small>
+      <button class="btn-pixel" style="font-size:9px; padding:4px;" onclick="equipPet('${pet.id}')">
+        ${isEquipped ? 'EQUIPADO' : 'EQUIPAR'}
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function equipPet(petId) {
+  character.equippedPet = character.equippedPet === petId ? null : petId;
+  saveGame();
+  checkAchievements();
+  renderPetsInventory();
+  renderCharacterPreview();
+  openDashboard();
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function filterCareers() {
+  const q = document.getElementById('careerSearch').value.toLowerCase();
+  const container = document.getElementById('careerAccordionContainer');
+  container.innerHTML = "";
+
+  careersByCampus.forEach((campus) => {
+    const filteredItems = campus.items.filter(item => item.toLowerCase().includes(q) || campus.title.toLowerCase().includes(q));
+
+    if(filteredItems.length > 0) {
+      const header = document.createElement('div');
+      header.className = 'accordion-header';
+      header.innerHTML = `<span>${campus.title}</span> <span>${q ? '▼' : '►'}</span>`;
+
+      const body = document.createElement('div');
+      body.className = `accordion-body ${q ? 'open' : ''}`;
+
+      header.onclick = () => {
+        body.classList.toggle('open');
+        header.querySelector('span:last-child').innerText = body.classList.contains('open') ? '▼' : '►';
+      };
+
+      filteredItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'career-card';
+        card.innerHTML = `<strong>${item}</strong>`;
+        card.onclick = () => {
+          character.career = `${item} (${campus.title.split(' ')[1] || 'UCA'})`;
+          saveGame();
+          closeModal('careerModal');
+          openDashboard();
+        };
+        body.appendChild(card);
+      });
+
+      container.appendChild(header);
+      container.appendChild(body);
+    }
+  });
+}
+
+function continueGame() {
+  const savedData = localStorage.getItem('gamuca_saved_character');
+  if(!savedData) {
+    showMessage("Sin partida guardada. ¡Crea tu personaje primero!");
+    return;
+  }
+  const parsed = JSON.parse(savedData);
+  if(!parsed || !parsed.career) {
+    showMessage("Sin partida guardada. ¡Crea tu personaje primero!");
+    return;
+  }
+  character = parsed;
+  openDashboard();
+}
+
+function openDashboard() {
+  showScreen('uniDashboard');
+  document.getElementById('dashStudentName').innerText = character.name;
+  document.getElementById('dashCareerTitle').innerText = `${character.career}`;
+  
+  const btnCrim = document.getElementById('btnCriminologyCase');
+  if(character.career && character.career.toLowerCase().includes('criminología')) {
+    btnCrim.style.display = 'block';
+  } else {
+    btnCrim.style.display = 'none';
+  }
+
+  const canvas = document.getElementById('dashboardAvatarCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width, canvas.height);
+  drawCharacterSprite(ctx, canvas.width/2, canvas.height/2 + 10, 1.1);
+
+  const select = document.getElementById('friendCareerSelect');
+  select.innerHTML = '';
+  careersByCampus.forEach(c => {
+    c.items.forEach(it => {
+      select.innerHTML += `<option value="${it}">${it}</option>`;
+    });
+  });
+
+  updateCoinsDisplay();
+  renderDailyQuests();
+  renderWeeklyChallenge();
+  renderGrades();
+  renderAchievements();
+  renderFriends();
+}
+
+function generateQuizQuestion() {
+  const qText = document.getElementById('quizQuestionText');
+  const aBox = document.getElementById('quizAnswersBox');
+
+  const careerLower = (character.career || "").toLowerCase();
+
+  let questionPool = [
+    { q: "¿Cuál es la nota mínima para aprobar un examen universitario en España?", options: ["4.0", "5.0", "6.0"], correct: 1 },
+    { q: "¿Qué significan las siglas ECTS?", options: ["European Credit Transfer System", "Examen Crédito Titulación Superior", "Evaluación Continua Trabajo Subordinado"], correct: 0 },
+    { q: "¿Cuántos créditos ECTS estándar suele tener un Grado de 4 años?", options: ["180 ECTS", "240 ECTS", "300 ECTS"], correct: 1 }
+  ];
+
+  if(careerLower.includes("informática") || careerLower.includes("daw") || careerLower.includes("dam") || careerLower.includes("asir")) {
+    questionPool = [
+      { q: "¿Cuál de los siguientes no es un lenguaje de programación?", options: ["Python", "HTML", "C++"], correct: 1 },
+      { q: "¿Qué estructura de datos funciona bajo el principio LIFO?", options: ["Cola (Queue)", "Pila (Stack)", "Lista Enlazada"], correct: 1 }
+    ];
+  } else if(careerLower.includes("derecho") || careerLower.includes("criminología")) {
+    questionPool = [
+      { q: "¿En qué año se aprobó la Constitución Española actual?", options: ["1975", "1978", "1982"], correct: 1 },
+      { q: "¿Cuál es el órgano supremo del poder judicial en España?", options: ["Tribunal Constitucional", "Tribunal Supremo", "Audiencia Nacional"], correct: 1 }
+    ];
+  }
+
+  const currentQ = questionPool[Math.floor(Math.random() * questionPool.length)];
+  qText.innerText = currentQ.q;
+  aBox.innerHTML = '';
+
+  currentQ.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-pixel';
+    btn.style.fontSize = '10px';
+    btn.style.padding = '6px';
+    btn.innerText = opt;
+    btn.onclick = () => {
+      if(idx === currentQ.correct) {
+        character.ucanedas = (character.ucanedas || 0) + 25;
+        character.xp = (character.xp || 0) + 50;
+        character.quizStreak = (character.quizStreak || 0) + 1;
+        saveGame();
+        updateCoinsDisplay();
+        checkAchievements();
+        showMessage("¡Correcto! +25 🪙 y +50 XP ⚡");
+      } else {
+        showMessage("Incorrecto. ¡Sigue estudiando!");
+      }
+      qText.innerText = "¡Sigue respondiendo para conseguir más UCAnedas y XP!";
+      aBox.innerHTML = '';
+    };
+    aBox.appendChild(btn);
+  });
+}
+
+function handleGradeSubmit(e) {
+  e.preventDefault();
+  const subj = document.getElementById('gradeSubject').value.trim();
+  const type = document.getElementById('gradeType').value;
+  const score = parseFloat(document.getElementById('gradeScore').value);
+  const editIdx = parseInt(document.getElementById('editingGradeIndex').value);
+
+  if(!subj || isNaN(score)) return;
+
+  if(editIdx >= 0 && editIdx < character.grades.length) {
+    character.grades[editIdx] = { subject: subj, type: type, score: score };
+    showMessage("¡Nota modificada correctamente!");
+  } else {
+    character.grades.push({ subject: subj, type: type, score: score });
+    if(score >= 5) character.xp = (character.xp || 0) + 100;
+    showMessage("¡Nota registrada! (+100 XP por aprobado)");
+  }
+
+  saveGame();
+  cancelGradeEdit();
+  renderGrades();
+  updateCoinsDisplay();
+  checkAchievements();
+}
+
+function editGrade(index) {
+  const g = character.grades[index];
+  if(!g) return;
+
+  document.getElementById('editingGradeIndex').value = index;
+  document.getElementById('gradeSubject').value = g.subject;
+  document.getElementById('gradeType').value = g.type;
+  document.getElementById('gradeScore').value = g.score;
+
+  document.getElementById('formPanelTitle').innerText = "✏️ Modificar Nota";
+  document.getElementById('gradeFormSubmitBtn').innerText = "GUARDAR CAMBIOS";
+  document.getElementById('cancelEditBtn').style.display = "block";
+}
+
+function cancelGradeEdit() {
+  document.getElementById('editingGradeIndex').value = "-1";
+  document.getElementById('gradeSubject').value = '';
+  document.getElementById('gradeScore').value = '';
+  document.getElementById('formPanelTitle').innerText = "📝 Anotar Examen / Tarea";
+  document.getElementById('gradeFormSubmitBtn').innerText = "REGISTRAR NOTA";
+  document.getElementById('cancelEditBtn').style.display = "none";
+}
+
+function deleteGrade(index) {
+  if(confirm("¿Quieres eliminar esta nota de tu expediente?")) {
+    character.grades.splice(index, 1);
+    saveGame();
+    renderGrades();
+    checkAchievements();
+    showMessage("Nota eliminada.");
+  }
+}
+
+function renderGrades() {
+  const container = document.getElementById('gradesList');
+  if(!character.grades || character.grades.length === 0) {
+    container.innerHTML = `<small style="color:#666;">Aún no has añadido ninguna nota.</small>`;
+    document.getElementById('dashGpaBadge').innerText = `MEDIA: -- / 10`;
+    return;
+  }
+
+  container.innerHTML = '';
+  let sum = 0;
+
+  character.grades.forEach((g, idx) => {
+    sum += g.score;
+    const item = document.createElement('div');
+    item.className = `grade-item ${g.score >= 5 ? 'pass' : 'fail'}`;
+    item.innerHTML = `
+      <div>
+        <strong>${g.subject}</strong> (${g.type})
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-weight:bold; color:${g.score >= 5 ? '#2bff88' : '#ff4444'}">${g.score.toFixed(1)}</span>
+        <div class="grade-actions">
+          <button class="btn-small" onclick="editGrade(${idx})">✏️</button>
+          <button class="btn-small delete" onclick="deleteGrade(${idx})">🗑️</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+
+  const avg = (sum / character.grades.length).toFixed(2);
+  document.getElementById('dashGpaBadge').innerText = `MEDIA: ${avg} / 10`;
+}
+
+function addFriend() {
+  const nameInput = document.getElementById('friendNameInput');
+  const careerSelect = document.getElementById('friendCareerSelect');
+  const name = nameInput.value.trim();
+  if(!name) return;
+
+  character.friends.push({
+    name: name,
+    career: careerSelect.value,
+    online: Math.random() > 0.4,
+    grades: [
+      { subject: "Asignatura 1", type: "Examen", score: (Math.random() * 4 + 6).toFixed(1) }
+    ]
+  });
+
+  saveGame();
+  nameInput.value = '';
+  renderFriends();
+  checkAchievements();
+  showMessage(`¡${name} añadido/a a tu lista de amigos!`);
+}
+
+function renderFriends() {
+  const container = document.getElementById('friendsList');
+  if(!character.friends || character.friends.length === 0) {
+    container.innerHTML = `<small style="color:#666;">Tu lista de amigos está vacía.</small>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  character.friends.forEach((f, idx) => {
+    const item = document.createElement('div');
+    item.className = 'friend-item';
+    item.innerHTML = `
+      <div>
+        <span class="status-indicator ${f.online ? 'status-online' : 'status-offline'}"></span>
+        <strong style="color:#f3c9dc;">${f.name}</strong> 
+        <small style="color:${f.online ? '#2bff88' : '#888'};">(${f.online ? 'En línea' : 'Desconectado/a'})</small><br>
+        <small style="color:#a995a9;">${f.career}</small>
+      </div>
+      <button class="btn-small" onclick="viewFriendProfile(${idx})">PERFIL</button>
+    `;
+    container.appendChild(item);
+  });
+}
+
+function viewFriendProfile(index) {
+  const f = character.friends[index];
+  if(!f) return;
+
+  document.getElementById('friendModalTitle').innerText = `PERFIL DE ${f.name.toUpperCase()}`;
+  const content = document.getElementById('friendModalContent');
+
+  let gradesHTML = '';
+  let sum = 0;
+  if(f.grades && f.grades.length > 0) {
+    f.grades.forEach(g => {
+      sum += parseFloat(g.score);
+      gradesHTML += `<div style="background:#110b17; padding:6px; border-radius:4px; margin-top:4px;">${g.subject} (${g.type}): <strong style="color:#2bff88">${g.score}</strong></div>`;
+    });
+  } else {
+    gradesHTML = '<div>Sin notas registradas aún.</div>';
+  }
+
+  const avg = f.grades && f.grades.length > 0 ? (sum / f.grades.length).toFixed(2) : '--';
+
+  content.innerHTML = `
+    <div><strong>Carrera:</strong> ${f.career}</div>
+    <div><strong>Estado:</strong> <span style="color:${f.online ? '#2bff88' : '#888'}; font-weight:bold;">${f.online ? 'En línea' : 'Desconectado/a'}</span></div>
+    <div><strong>Media Actual:</strong> <span style="color:#d9a86c; font-weight:bold;">${avg} / 10</span></div>
+    <div style="margin-top:8px;"><strong>Expediente de ${f.name}:</strong>${gradesHTML}</div>
+  `;
+
+  document.getElementById('friendProfileModal').classList.add('open');
+}
+
+function checkAchievements() {
+  if(character.grades && character.grades.length >= 1) unlockAchievement('first_grade');
+  
+  if(character.grades) {
+    character.grades.forEach(g => {
+      if(g.score >= 5) unlockAchievement('pass_exam');
+      if(g.score === 10) unlockAchievement('perfect_ten');
+    });
+  }
+
+  if(character.friends && character.friends.length >= 3) unlockAchievement('friends_quad');
+  if((character.quizStreak || 0) >= 5) unlockAchievement('quiz_master');
+  if(character.equippedPet) unlockAchievement('pet_lover');
+  if(character.ownedCosmetics && character.ownedCosmetics.length > 0) unlockAchievement('style_icon');
+  if(character.hometown && character.birthday && character.mood) unlockAchievement('full_profile');
+  if(character.solvedCases && character.solvedCases.length >= 1) unlockAchievement('detective');
+  if(character.discoveredLocations && character.discoveredLocations.length >= 3) unlockAchievement('explorer');
+}
+
+function unlockAchievement(id) {
+  const ach = achievements.find(a => a.id === id);
+  if(ach && !ach.unlocked) {
+    ach.unlocked = true;
+    character.ucanedas = (character.ucanedas || 0) + ach.coins;
+    saveGame();
+    updateCoinsDisplay();
+    showMessage(`🏆 ¡LOGRO CONSEGUIDO (+${ach.coins} UCAnedas)!: ${ach.name}`);
+    renderAchievements();
+  }
+}
+
+function renderAchievements() {
+  const container = document.getElementById('achievementsList');
+  container.innerHTML = '';
+
+  achievements.forEach(a => {
+    const card = document.createElement('div');
+    card.className = `achievement-card ${a.unlocked ? 'unlocked' : ''}`;
+    card.innerHTML = `
+      <div style="font-weight:bold; color:#f3c9dc;">${a.name} ${a.unlocked ? '✅' : '🔒'} (+${a.coins} 🪙)</div>
+      <small style="color:#a995a9;">${a.desc}</small>
+    `;
+    container.appendChild(card);
+  });
+}
+
+checkSavedGame();
+</script>
+
+</body>
+</html>
