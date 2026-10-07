@@ -11,17 +11,14 @@
   -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html, body{
   margin:0;
   padding:0;
   width:100%;
-  min-height:100%;
+  min-height:100vh;
   background:#08070c;
   color:#f4d9c8;
-  font-family:"Courier New",monospace;
-}
-
-body{
+  font-family:"Courier New", monospace;
   overflow-x:hidden;
 }
 
@@ -33,297 +30,178 @@ button{
   cursor:pointer;
 }
 
-/* CONTENEDOR GENERAL */
+/* =========================================================
+   CONTENEDOR GENERAL (RELACIÓN DE ASPECTO 9:16)
+========================================================= */
+
 .game{
   width:100%;
   min-height:100vh;
   background:#08070c;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
 .screen{
   display:none;
   position:relative;
-  width:100%;
-  min-height:100vh;
+  width:min(100vw, 56.25vh);
+  height:min(177.7777778vw, 100vh);
+  aspect-ratio:9/16;
   overflow:hidden;
+  margin: auto;
 }
 
 .screen.active{
   display:block;
 }
 
-/* PORTADA */
+/* =========================================================
+   PORTADA
+========================================================= */
+
 #home{
-  width:min(100vw, 56.25vh);
-  height:min(177.7777778vw, 100vh);
-  min-height:0;
-  aspect-ratio:9/16;
-  margin:0 auto;
-  position:relative;
-  overflow:hidden;
-  background: radial-gradient(circle at center, #261238 0%, #08070c 80%);
-  border: 2px solid #5a2a82;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background: #08080c url("file_00000000b9d881f4b24a2fea9f042d49.png") center center / cover no-repeat;
 }
 
-.home-title {
-  text-align: center;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px #bd68ff;
+.home-hit{
+  position:absolute;
+  background:transparent;
+  border:0;
+  z-index:10;
 }
 
-.home-title h1 {
-  font-size: 38px;
-  color: #e8aaff;
-  margin: 0;
-  letter-spacing: 4px;
-}
+/* Alineación exacta con los botones dibujados en la portada */
+.home-play      { left:26.5%; width:47%; top:62.8%; height:5.8%; }
+.home-create    { left:27.5%; width:45%; top:69.5%; height:5.2%; }
+.home-continue  { left:27.5%; width:45%; top:75.2%; height:5.2%; }
+.home-options   { left:32.0%; width:36%; top:81.0%; height:5.0%; }
 
-.home-title p {
-  font-size: 12px;
-  color: #a995a9;
-  margin-top: 5px;
-}
+/* Botones inferiores */
+.home-about     { left:16%; width:16%; bottom:2.5%; height:5%; }
+.home-ranking   { left:34%; width:16%; bottom:2.5%; height:5%; }
+.home-achievements { left:52%; width:16%; bottom:2.5%; height:5%; }
+.home-shop      { left:70%; width:16%; bottom:2.5%; height:5%; }
 
-.home-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 70%;
-  z-index: 10;
-}
+/* =========================================================
+   CREADOR DE PERSONAJE
+========================================================= */
 
-.home-btn {
-  background: #17101d;
-  border: 2px solid #9b4cff;
-  color: #f1c9ff;
-  padding: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-  transition: all 0.2s;
-  box-shadow: 0 4px 0 #3b195e;
-}
-
-.home-btn:hover, .home-btn:active {
-  background: #9b4cff;
-  color: #fff;
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #3b195e;
-}
-
-.home-bottom-nav {
-  position: absolute;
-  bottom: 15px;
-  display: flex;
-  justify-content: space-around;
-  width: 90%;
-  z-index: 10;
-}
-
-.home-sub-btn {
-  background: #100c13;
-  border: 1px solid #6e4a78;
-  color: #d48cff;
-  padding: 8px 10px;
-  font-size: 11px;
-}
-
-/* CREADOR */
 #creator{
-  background:#09070d;
+  background: #09070d url("file_000000008f9081f48664970b19944855.png") center top / cover no-repeat;
 }
 
-.creator-stage{
-  position:relative;
-  width:100%;
-  min-height:100vh;
-  aspect-ratio:9/16;
-  max-width:1000px;
-  margin:auto;
-  background: linear-gradient(180deg, #140c1d 0%, #08070c 100%);
-  border: 1px solid #3b2a40;
-  overflow:hidden;
+/* Botón "X" arriba a la derecha */
+.close-stage-hit {
+  position: absolute;
+  top: 1.5%;
+  right: 3%;
+  width: 10%;
+  height: 5.5%;
+  background: transparent;
+  border: 0;
+  z-index: 40;
 }
 
-.creator-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  background: rgba(20, 12, 29, 0.8);
-  border-bottom: 1px solid #49374d;
+/* Personaje montado sobre el espejo */
+.character-base-img {
+  position: absolute;
+  top: 11.2%;
+  left: 17.5%;
+  width: 20%;
+  height: auto;
+  z-index: 12;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
+}
+
+/* Pestañas de Personalización (Alineadas con la rejilla beige/negra) */
+.creator-tab {
+  position: absolute;
+  top: 51.0%;
+  height: 4.2%;
+  background: transparent;
+  border: 0;
   z-index: 30;
-  position: relative;
 }
 
-.btn-back {
-  background: #241427;
-  border: 1px solid #d48cff;
-  color: #f1c9ff;
-  padding: 6px 12px;
-}
+.tab-apariencia { left: 6%;   width: 18.5%; }
+.tab-peinado    { left: 24.5%; width: 17%; }
+.tab-ropa       { left: 41.5%; width: 18.5%; }
+.tab-pendientes { left: 60%;   width: 18%; }
+.tab-extras     { left: 78%;   width: 16%; }
 
-.tabs-bar {
+/* Hitboxes transparentes sobre los elementos dinámicos dentro del recuadro del arte */
+.options-overlay-panel {
+  position: absolute;
+  top: 56.5%;
+  left: 6%;
+  width: 88%;
+  height: 29.5%;
+  z-index: 35;
+  overflow-y: auto;
+  padding: 6px 4px;
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.options-overlay-panel::-webkit-scrollbar {
+  width: 4px;
+}
+.options-overlay-panel::-webkit-scrollbar-thumb {
+  background: #49374d;
+}
+
+.pixel-section-title {
+  color: #d9a86c;
+  font-size: 9px;
+  text-transform: uppercase;
+  margin-top: 2px;
+  letter-spacing: 1px;
+}
+
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 5px;
-  overflow-x: auto;
-  padding: 10px 15px;
-  background: #100c13;
-  border-bottom: 1px solid #281930;
-  z-index: 30;
-  position: relative;
 }
 
-.tab-btn {
-  background: #17101d;
-  border: 1px solid #49374d;
-  color: #c9a8db;
-  padding: 6px 10px;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.tab-btn:hover, .tab-btn.active {
-  background: #9b4cff;
-  color: #fff;
-  border-color: #e8aaff;
-}
-
-/* PERSONAJE PREVIEW */
-.avatar-preview {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 0;
-  z-index: 25;
-  position: relative;
-}
-
-.avatar-box {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  border: 3px solid #9b4cff;
-  background: #1c1326;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 50px;
-  box-shadow: 0 0 20px rgba(155, 76, 255, 0.4);
-}
-
-.avatar-info {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.avatar-info h3 {
-  margin: 0;
-  color: #e8aaff;
-  font-size: 16px;
-}
-
-.avatar-info p {
-  margin: 3px 0 0;
-  font-size: 12px;
-  color: #a995a9;
-}
-
-/* PANEL DE CONFIGURACIÓN */
-.creator-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0 20px;
-  z-index: 30;
-  position: relative;
-}
-
-.control-btn {
-  background: #120d15;
-  border: 1px solid #49374d;
+.pixel-opt-btn {
+  background: rgba(18, 13, 21, 0.75);
+  border: 1px solid #3b2a40;
+  border-radius: 3px;
   color: #f0d8e9;
-  padding: 12px;
-  text-align: left;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.control-btn:hover {
-  border-color: #c26bff;
-  background: #24152d;
-}
-
-.control-btn.primary {
-  background: #9b4cff;
-  color: #fff;
-  font-weight: bold;
+  padding: 5px 2px;
+  font-size: 9px;
   text-align: center;
-  justify-content: center;
-  margin-top: 10px;
-  box-shadow: 0 0 15px rgba(155, 76, 255, 0.5);
+  transition: all 0.15s ease;
 }
 
-/* EFECTOS AMBIENTALES */
-.ambient{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:20;
-  overflow:hidden;
+.pixel-opt-btn:hover, .pixel-opt-btn.selected {
+  border-color: #f3c9dc;
+  background: rgba(189, 104, 255, 0.3);
+  box-shadow: 0 0 6px rgba(189, 104, 255, 0.5);
 }
 
-.light{
-  position:absolute;
-  width:8%;
-  aspect-ratio:1;
-  border-radius:50%;
-  background:rgba(255,190,100,.20);
-  filter:blur(10px);
-  animation:flicker 1.7s infinite alternate;
+/* Botón "CREAR PERSONAJE" centrado en el banner inferior */
+.create-btn-hit {
+  position: absolute;
+  top: 87.5%;
+  left: 18.5%;
+  width: 63%;
+  height: 5.2%;
+  background: transparent;
+  border: 0;
+  z-index: 40;
 }
 
-.light.l1{left:6%;top:28%;animation-duration:1.3s}
-.light.l2{left:91%;top:45%;animation-duration:2.1s}
-.light.l3{left:3%;top:74%;animation-duration:1.8s}
-.light.l4{left:94%;top:78%;animation-duration:1.5s}
-.light.l5{left:45%;top:91%;animation-duration:2.3s}
+/* =========================================================
+   EFECTOS Y MODALES
+========================================================= */
 
-@keyframes flicker{
-  0%{ opacity:.25; transform:scale(.85); }
-  35%{ opacity:.75; transform:scale(1.08); }
-  60%{ opacity:.4; transform:scale(.92); }
-  100%{ opacity:.85; transform:scale(1.12); }
-}
-
-.spark{
-  position:absolute;
-  width:3px;
-  height:3px;
-  background:#f7c99e;
-  box-shadow:0 0 5px #d98cff;
-  opacity:0;
-  animation:floatSpark 5s infinite;
-}
-
-.s1{left:15%;top:65%;animation-delay:.2s}
-.s2{left:31%;top:35%;animation-delay:1.4s}
-.s3{left:72%;top:51%;animation-delay:2.2s}
-.s4{left:87%;top:66%;animation-delay:3s}
-.s5{left:55%;top:78%;animation-delay:4s}
-
-@keyframes floatSpark{
-  0%{ opacity:0; transform:translateY(15px); }
-  30%{ opacity:.8; }
-  100%{ opacity:0; transform:translateY(-70px); }
-}
-
-/* MODALES */
 .modal{
   display:none;
   position:fixed;
@@ -341,112 +219,60 @@ button{
 }
 
 .modal-box{
-  width:min(94vw,700px);
-  max-height:90vh;
+  width:min(94vw,500px);
+  max-height:85vh;
   overflow:auto;
   background: linear-gradient(180deg,#17101d,#0c0910);
-  border:3px solid #9b4cff;
-  box-shadow: 0 0 0 3px #26142e, 0 0 30px rgba(175,77,255,.35);
-  padding:20px;
+  border:2px solid #9b4cff;
+  box-shadow:0 0 20px rgba(175,77,255,.35);
+  padding:16px;
 }
 
 .modal-title{
-  font-size:clamp(18px,4vw,24px);
+  font-size:16px;
   color:#e8aaff;
   text-align:center;
-  margin-bottom:18px;
-  text-shadow:2px 2px #26152f;
+  margin-bottom:12px;
 }
 
-.close{
+.close-modal-btn{
   float:right;
   background:#241427;
   border:1px solid #d48cff;
   color:#f1c9ff;
-  padding:7px 12px;
-}
-
-.option-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
-  margin-bottom: 15px;
-}
-
-.option{
-  min-height:50px;
-  padding:8px 5px;
-  background:#120d15;
-  border:1px solid #49374d;
-  color:#f0d8e9;
-  font-size: 12px;
-}
-
-.option:hover, .option.selected{
-  border-color:#c26bff;
-  box-shadow:0 0 12px rgba(194,107,255,.35);
-  background:#24152d;
-  color:#fff;
-}
-
-.section-title{
-  color:#e6a9c9;
-  margin:15px 0 8px;
-  font-size:14px;
-  border-bottom: 1px solid #3b2a40;
-  padding-bottom: 4px;
+  padding:4px 8px;
 }
 
 .career-search{
   width:100%;
-  padding:12px;
+  padding:10px;
   background:#0a080d;
   color:white;
   border:1px solid #6e4a78;
   outline:none;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .career-list{
   display:flex;
   flex-direction:column;
   gap:6px;
-  max-height:45vh;
+  max-height:40vh;
   overflow:auto;
 }
 
 .career-card{
   text-align:left;
-  padding:11px;
+  padding:8px;
   background:#100c13;
   border:1px solid #3b2a40;
   color:#eee;
+  font-size:12px;
 }
 
-.career-card strong{
-  display:block;
-  color:#f3c9dc;
-}
-
-.career-card small{
-  color:#a995a9;
-}
-
-.career-card:hover, .career-card.selected{
-  border-color:#bd68ff;
-  background:#21132b;
-}
-
-/* RESPONSIVE */
-@media(max-width:600px){
-  .creator-stage{
-    width:100vw;
-    min-height:100vh;
-  }
-  .modal{ padding:2vh 2vw; }
-  .modal-box{ padding:14px; }
-  .option-grid{ grid-template-columns:repeat(2,1fr); }
-}
+.career-card strong{ display:block; color:#f3c9dc; }
+.career-card small{ color:#a995a9; }
+.career-card:hover, .career-card.selected{ border-color:#bd68ff; background:#21132b; }
 
 .toast{
   position:fixed;
@@ -456,7 +282,8 @@ button{
   background:#180e20;
   border:1px solid #bd68ff;
   color:#fff;
-  padding:12px 18px;
+  padding:10px 16px;
+  font-size:12px;
   z-index:300;
   opacity:0;
   pointer-events:none;
@@ -476,142 +303,50 @@ button{
 
 <!-- PORTADA -->
 <section id="home" class="screen active">
-  <div class="home-title">
-    <h1>GAMUCA</h1>
-    <p>UNIVERSIDAD DE CÁDIZ</p>
-  </div>
+  <button class="home-hit home-play" onclick="openCreator()" aria-label="Jugar"></button>
+  <button class="home-hit home-create" onclick="openCreator()" aria-label="Crear personaje"></button>
+  <button class="home-hit home-continue" onclick="continueGame()" aria-label="Continuar partida"></button>
+  <button class="home-hit home-options" onclick="showMessage('Opciones próximamente')" aria-label="Opciones"></button>
 
-  <div class="home-menu">
-    <button class="home-btn" onclick="openCreator()">🎮 Nueva Partida</button>
-    <button class="home-btn" onclick="continueGame()">📂 Continuar</button>
-    <button class="home-btn" onclick="showMessage('Opciones próximamente')">⚙️ Opciones</button>
-  </div>
-
-  <div class="home-bottom-nav">
-    <button class="home-sub-btn" onclick="showMessage('GAMUCA · Tu carrera. Tu personaje. Tu partida.')">ℹ️ Info</button>
-    <button class="home-sub-btn" onclick="showMessage('Ranking próximamente')">🏆 Ranks</button>
-    <button class="home-sub-btn" onclick="showMessage('Logros próximamente')">⭐ Logros</button>
-    <button class="home-sub-btn" onclick="showMessage('Tienda próximamente')">🛒 Tienda</button>
-  </div>
+  <button class="home-hit home-about" onclick="showMessage('GAMUCA · Tu carrera. Tu personaje. Tu partida.')" aria-label="Sobre"></button>
+  <button class="home-hit home-ranking" onclick="showMessage('Ranking próximamente')" aria-label="Ranking"></button>
+  <button class="home-hit home-achievements" onclick="showMessage('Logros próximamente')" aria-label="Logros"></button>
+  <button class="home-hit home-shop" onclick="showMessage('Tienda próximamente')" aria-label="Tienda"></button>
 </section>
 
-<!-- CREADOR -->
+<!-- CREADOR DE PERSONAJE -->
 <section id="creator" class="screen">
-  <div class="creator-stage">
 
-    <div class="ambient">
-      <div class="light l1"></div>
-      <div class="light l2"></div>
-      <div class="light l3"></div>
-      <div class="light l4"></div>
-      <div class="light l5"></div>
-      <div class="spark s1"></div>
-      <div class="spark s2"></div>
-      <div class="spark s3"></div>
-      <div class="spark s4"></div>
-      <div class="spark s5"></div>
-    </div>
+  <!-- Botón Salir (X) -->
+  <button class="close-stage-hit" onclick="goHome()" aria-label="Cerrar"></button>
 
-    <!-- CABECERA -->
-    <div class="creator-header">
-      <button class="btn-back" onclick="goHome()">◄ Volver</button>
-      <span style="color:#e8aaff; font-weight:bold;">CREADOR</span>
-      <button class="btn-back" onclick="randomCharacter()">🎲 Random</button>
-    </div>
+  <!-- Imagen recortada del personaje montada sobre el Espejo -->
+  <img src="file_00000000dbac82109b35918672afabd5.png" alt="Personaje Base" class="character-base-img">
 
-    <!-- PESTAÑAS DE APARIENCIA -->
-    <div class="tabs-bar">
-      <button class="tab-btn" onclick="openCustomization('APARIENCIA')">👤 Apariencia</button>
-      <button class="tab-btn" onclick="openCustomization('PEINADO')">✂️ Peinado</button>
-      <button class="tab-btn" onclick="openCustomization('ROPA')">👕 Ropa</button>
-      <button class="tab-btn" onclick="openCustomization('PENDIENTES')">💎 Pendientes</button>
-      <button class="tab-btn" onclick="openCustomization('EXTRAS')">🎒 Extras</button>
-    </div>
+  <!-- Pestañas transparentes sobre el diseño -->
+  <button class="creator-tab tab-apariencia" onclick="switchCategory('APARIENCIA')"></button>
+  <button class="creator-tab tab-peinado"    onclick="switchCategory('PEINADO')"></button>
+  <button class="creator-tab tab-ropa"       onclick="switchCategory('ROPA')"></button>
+  <button class="creator-tab tab-pendientes" onclick="switchCategory('PENDIENTES')"></button>
+  <button class="creator-tab tab-extras"     onclick="switchCategory('EXTRAS')"></button>
 
-    <!-- VISTA PREVIA DEL PERSONAJE -->
-    <div class="avatar-preview">
-      <div class="avatar-box" id="avatarEmoji">🎓</div>
-      <div class="avatar-info">
-        <h3 id="previewCareer">Selecciona tu Carrera</h3>
-        <p id="previewSub">Curso / Personalidad no asignados</p>
-      </div>
-    </div>
+  <!-- Opciones internas dinámicas -->
+  <div class="options-overlay-panel" id="optionsPanel"></div>
 
-    <!-- CONTROLES PRINCIPALES -->
-    <div class="creator-controls">
-      <button class="control-btn" onclick="openCareer()">
-        <span>🎓 Carrera:</span>
-        <strong id="lblCareer">Sin elegir</strong>
-      </button>
+  <!-- Botón "CREAR PERSONAJE" -->
+  <button class="create-btn-hit" onclick="createCharacter()" aria-label="Crear Personaje"></button>
 
-      <button class="control-btn" onclick="openCourse()">
-        <span>📚 Curso:</span>
-        <strong id="lblCourse">Sin elegir</strong>
-      </button>
-
-      <button class="control-btn" onclick="openPersonality()">
-        <span>🧠 Personalidad:</span>
-        <strong id="lblPersonality">Sin elegir</strong>
-      </button>
-
-      <button class="control-btn primary" onclick="createCharacter()">
-        ✨ CREAR PERSONAJE ✨
-      </button>
-    </div>
-
-  </div>
 </section>
 
 </div>
 
-<!-- MODAL PERSONALIZACIÓN -->
-<div id="customModal" class="modal">
-  <div class="modal-box">
-    <button class="close" onclick="closeModal('customModal')">✕</button>
-    <div id="customTitle" class="modal-title">APARIENCIA</div>
-    <div id="customContent"></div>
-  </div>
-</div>
-
-<!-- MODAL CARRERA -->
+<!-- MODAL DE CARRERA -->
 <div id="careerModal" class="modal">
   <div class="modal-box">
-    <button class="close" onclick="closeModal('careerModal')">✕</button>
+    <button class="close-modal-btn" onclick="closeModal('careerModal')">✕</button>
     <div class="modal-title">🎓 ELIGE TU CARRERA</div>
     <input id="careerSearch" class="career-search" placeholder="Buscar carrera..." oninput="filterCareers()">
     <div id="careerList" class="career-list"></div>
-  </div>
-</div>
-
-<!-- MODAL CURSO -->
-<div id="courseModal" class="modal">
-  <div class="modal-box">
-    <button class="close" onclick="closeModal('courseModal')">✕</button>
-    <div class="modal-title">📚 CURSO</div>
-    <div class="option-grid">
-      <button class="option" onclick="selectCourse('1º')">1º Curso</button>
-      <button class="option" onclick="selectCourse('2º')">2º Curso</button>
-      <button class="option" onclick="selectCourse('3º')">3º Curso</button>
-      <button class="option" onclick="selectCourse('4º')">4º Curso</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL PERSONALIDAD -->
-<div id="personalityModal" class="modal">
-  <div class="modal-box">
-    <button class="close" onclick="closeModal('personalityModal')">✕</button>
-    <div class="modal-title">🧠 PERSONALIDAD</div>
-    <div class="option-grid">
-      <button class="option" onclick="selectPersonality('ESTUDIOSO/A')">📚 ESTUDIOSO/A</button>
-      <button class="option" onclick="selectPersonality('SOCIAL')">💬 SOCIAL</button>
-      <button class="option" onclick="selectPersonality('REBELDE')">🔥 REBELDE</button>
-      <button class="option" onclick="selectPersonality('AMBICIOSO/A')">🎯 AMBICIOSO/A</button>
-      <button class="option" onclick="selectPersonality('CAÓTICO/A')">💀 CAÓTICO/A</button>
-      <button class="option" onclick="selectPersonality('CREATIVO/A')">🎨 CREATIVO/A</button>
-      <button class="option" onclick="selectPersonality('TRANQUILO/A')">🌙 TRANQUILO/A</button>
-      <button class="option" onclick="selectPersonality('COMPETITIVO/A')">🏆 COMPETITIVO/A</button>
-    </div>
   </div>
 </div>
 
@@ -619,129 +354,49 @@ button{
 
 <script>
 let character = {
-  name: "Estudiante UCA",
-  career: "",
-  campus: "",
-  course: "",
-  personality: "",
-  appearance: "Cara 1",
-  skin: "Tono 1",
-  eyes: "Ojos marrones",
-  brows: "Cejas 1",
-  expression: "Neutra",
-  hair: "Largo ondulado",
-  clothes: "Casual",
-  earrings: "Ninguno",
-  extras: "Ninguno"
+  career:"",
+  campus:"",
+  appearance:"Cara 1",
+  skin:"Tono 1",
+  eyes:"Ojos marrones",
+  expression:"Neutra",
+  hair:"Largo ondulado",
+  clothes:"Casual",
+  earrings:"Ninguno",
+  extras:"Ninguno"
 };
 
 const careers = [
   ["Administración y Dirección de Empresas","Jerez / Algeciras"],
-  ["Arquitectura Naval e Ingeniería Marítima","Cádiz"],
-  ["Biotecnología","Puerto Real"],
-  ["Ciencias Ambientales","Puerto Real"],
-  ["Ciencias de la Actividad Física y del Deporte","Puerto Real"],
-  ["Ciencias del Mar","Puerto Real"],
-  ["Criminología y Seguridad","Jerez"],
-  ["Derecho","Jerez / Algeciras"],
-  ["Economía Azul Sostenible (SeaBluE)","Puerto Real"],
-  ["Educación Infantil","Puerto Real"],
-  ["Educación Primaria","Puerto Real"],
-  ["Enfermería","Algeciras / Cádiz / Jerez"],
-  ["Enología","Puerto Real"],
-  ["Estudios Árabes e Islámicos","Cádiz"],
-  ["Estudios Franceses","Cádiz"],
-  ["Estudios Ingleses","Cádiz"],
-  ["Filología Clásica","Cádiz"],
-  ["Filología Hispánica","Cádiz"],
-  ["Finanzas y Contabilidad","Jerez"],
-  ["Fisioterapia","Cádiz"],
-  ["Gestión y Administración Pública","Jerez"],
-  ["Historia","Cádiz"],
-  ["Humanidades","Cádiz"],
-  ["Ingeniería Aeroespacial","Puerto Real"],
-  ["Ingeniería Civil","Algeciras"],
-  ["Ingeniería Eléctrica","Algeciras / Puerto Real"],
-  ["Ingeniería Electrónica Industrial","Algeciras / Puerto Real"],
-  ["Ingeniería en Diseño Industrial y Desarrollo de Producto","Cádiz"],
-  ["Ingeniería en Tecnologías Industriales","Algeciras / Puerto Real"],
   ["Ingeniería Informática","Cádiz"],
-  ["Ingeniería Mecánica","Algeciras / Puerto Real"],
-  ["Ingeniería Química","Puerto Real"],
-  ["Ingeniería Radioelectrónica","Cádiz"],
-  ["Ingeniería en Energías Renovables","Puerto Real"],
-  ["Lingüística y Lenguas Aplicadas","Cádiz"],
-  ["Marina","Cádiz"],
-  ["Marketing e Investigación de Mercados","Jerez"],
-  ["Matemáticas","Puerto Real"],
+  ["Derecho","Jerez / Algeciras"],
   ["Medicina","Cádiz"],
-  ["Náutica y Transporte Marítimo","Cádiz"],
-  ["Psicología","Cádiz"],
-  ["Publicidad y Relaciones Públicas","Jerez"],
-  ["Química","Puerto Real"],
-  ["Relaciones Laborales y Recursos Humanos","Jerez"],
-  ["Trabajo Social","Jerez"],
-  ["Turismo","Jerez"],
-  ["Doble Grado: ADE + Derecho","Jerez"],
-  ["Doble Grado: ADE + Finanzas y Contabilidad","Jerez"],
-  ["Doble Grado: Ciencias del Mar + Ambientales","Puerto Real"],
-  ["Doble Grado: Derecho + Criminología y Seguridad","Jerez"],
-  ["Doble Grado: Derecho + Relaciones Laborales","Jerez"],
-  ["Doble Grado: Estudios Árabes + Estudios Ingleses","Cádiz"],
-  ["Doble Grado: Estudios Franceses + Estudios Ingleses","Cádiz"],
-  ["Doble Grado: Finanzas + Relaciones Laborales","Jerez"],
-  ["Doble Grado: Filología Clásica + Estudios Ingleses","Cádiz"],
-  ["Doble Grado: Filología Hispánica + Estudios Ingleses","Cádiz"],
-  ["Doble Grado: Ingeniería Eléctrica + Electrónica Industrial","Puerto Real"],
-  ["Doble Grado: Ingeniería Mecánica + Diseño Industrial","Cádiz"],
-  ["Doble Grado: Ingeniería Mecánica + Ingeniería Eléctrica","Puerto Real"],
-  ["Doble Grado: Ingeniería Química + Biotecnología","Puerto Real"],
-  ["Doble Grado: Lingüística + Estudios Ingleses","Cádiz"],
-  ["Doble Grado: Marketing + Turismo","Jerez"],
-  ["Doble Grado: Matemáticas + Ingeniería Informática","Puerto Real"],
-  ["Doble Grado: Publicidad + Turismo","Jerez"],
-  ["Doble Grado: Publicidad + Marketing","Jerez"],
-  ["Doble Grado: Química + Enología","Puerto Real"]
+  ["Criminología y Seguridad","Jerez"],
+  ["Biotecnología","Puerto Real"],
+  ["Marketing e Investigación de Mercados","Jerez"],
+  ["Psicología","Cádiz"]
 ];
 
 const customization = {
   APARIENCIA:{
-    "TIPO DE CARA":["Cara 1","Cara 2","Cara 3","Cara 4","Cara 5","Cara 6","Cara 7"],
-    "COLOR DE PIEL":["Tono 1","Tono 2","Tono 3","Tono 4","Tono 5","Tono 6"],
-    "OJOS":["Ojos marrones","Ojos avellana","Ojos verdes","Ojos grises","Ojos azules","Ojos oscuros"],
-    "CEJAS":["Cejas 1","Cejas 2","Cejas 3","Cejas 4","Cejas 5","Cejas 6"],
-    "EXPRESIÓN":["Neutra","Sonriente","Seria","Tímida","Enfadada","Cansada"]
+    "TIPO DE CARA":["Cara 1","Cara 2","Cara 3","Cara 4","Cara 5"],
+    "TONO DE PIEL":["Claro","Neutro","Bronze","Oscuro","Muy Oscuro"],
+    "EXPRESIÓN":["Neutra","Sonriente","Seria","Tímida","Enfadada"],
+    "COLOR DE OJOS":["Marrón","Avellana","Verde","Azul","Gris","Rojo"]
   },
   PEINADO:{
-    "CORTES":["Largo ondulado","Largo liso","Corto","Bob","Pixie","Coleta","Coletas","Trenzas","Moño","Media melena","Rizos","Flequillo","Undercut","Mohicano"],
-    "COLORES":["Negro","Castaño","Rubio","Pelirrojo","Blanco","Rosa","Morado","Azul","Verde"]
+    "CORTES":["Largo","Corto","Bob","Pixie","Coleta","Rizos","Flequillo","Undercut"]
   },
   ROPA:{
-    "ESTILOS":["Casual","Universitario","Gótico","Formal","Deportivo","Vintage","⚖️ Abogado/a","🎀 Cayetana","🇪🇸 España","⚽ Fútbol","🖤 Rock","🎸 Metal","👑 Elegante"],
-    "PRENDAS":["Camiseta básica","Sudadera universitaria","Chaqueta de cuero","Camisa blanca","Jersey clásico","Traje de abogado","Toga jurídica","Camisa + corbata","Maletín","Polo clásico","Jersey sobre los hombros","Cazadora elegante","Mocasines","Camiseta de fútbol","Camiseta del Betis","Bufanda de fútbol","Vestido","Corsé","Abrigo largo","Botas"]
+    "ESTILOS":["Casual","Universitario","Gótico","Formal","Deportivo","Rock","Metal"]
   },
   PENDIENTES:{
-    "PENDIENTES":["Ninguno","Aros pequeños","Aros grandes","Pendientes de cruz","Pendientes de estrella","Pendientes de luna","Pendientes de corazón","Cadenas","Piercings"]
+    "OPCIONES":["Ninguno","Aros","Cruz","Estrella","Piercing"]
   },
   EXTRAS:{
-    "ESPAÑA":["🇪🇸 Pulsera de España","🇪🇸 Pulsera roja y amarilla","🇪🇸 Pin de España","🇪🇸 Mini bandera","🇪🇸 Abanico"],
-    "ACCESORIOS":["Gafas","Gafas de sol","Mochila","Bolso","Maletín","Collar","Cadena","Pulseras","Anillos","Medalla","Rosario"],
-    "UNIVERSIDAD":["Libro","Carpeta","Apuntes","Portátil","Café","Mochila UCA"]
+    "UNIVERSIDAD":["Mochila UCA","Portátil","Apuntes","Gafas","Café"]
   }
 };
-
-function updateUI() {
-  document.getElementById("lblCareer").textContent = character.career || "Sin elegir";
-  document.getElementById("lblCourse").textContent = character.course || "Sin elegir";
-  document.getElementById("lblPersonality").textContent = character.personality || "Sin elegir";
-
-  document.getElementById("previewCareer").textContent = character.career || "Selecciona tu Carrera";
-  let sub = [];
-  if(character.campus) sub.push("Campus: " + character.campus);
-  if(character.course) sub.push(character.course);
-  if(character.personality) sub.push(character.personality);
-  document.getElementById("previewSub").textContent = sub.length ? sub.join(" • ") : "Curso / Personalidad no asignados";
-}
 
 function showScreen(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
@@ -749,75 +404,47 @@ function showScreen(id){
   window.scrollTo(0,0);
 }
 
-function openCreator(){ showScreen("creator"); updateUI(); }
-function goHome(){ showScreen("home"); }
-
-function continueGame(){
-  const saved = localStorage.getItem("gamucaCharacter");
-  if(saved){
-    character = JSON.parse(saved);
-    updateUI();
-    showMessage("Partida cargada: " + (character.career || "Personaje"));
-    openCreator();
-  }else{
-    showMessage("No hay ninguna partida guardada.");
-  }
+function openCreator(){
+  showScreen("creator");
+  switchCategory("APARIENCIA");
 }
 
-function closeModal(id){
-  document.getElementById(id).classList.remove("open");
+function goHome(){
+  showScreen("home");
 }
 
-function openCustomization(category){
-  const modal = document.getElementById("customModal");
-  const title = document.getElementById("customTitle");
-  const content = document.getElementById("customContent");
-
-  title.textContent = category;
-  content.innerHTML = "";
+function switchCategory(category){
+  const panel = document.getElementById("optionsPanel");
+  panel.innerHTML = "";
 
   const groups = customization[category];
+  if(!groups) return;
 
-  Object.entries(groups).forEach(([group, items])=>{
-    const heading = document.createElement("div");
-    heading.className = "section-title";
-    heading.textContent = group;
-    content.appendChild(heading);
+  Object.entries(groups).forEach(([groupName, items]) => {
+    const title = document.createElement("div");
+    title.className = "pixel-section-title";
+    title.textContent = "◆ " + groupName;
+    panel.appendChild(title);
 
     const grid = document.createElement("div");
-    grid.className = "option-grid";
+    grid.className = "pixel-grid";
 
     items.forEach(item => {
-      const button = document.createElement("button");
-      button.className = "option";
-      button.textContent = item;
+      const btn = document.createElement("button");
+      btn.className = "pixel-opt-btn";
+      btn.textContent = item;
 
-      button.onclick = () => {
-        grid.querySelectorAll(".option").forEach(b => b.classList.remove("selected"));
-        button.classList.add("selected");
-
-        if(category==="APARIENCIA"){
-          if(group==="TIPO DE CARA") character.appearance=item;
-          if(group==="COLOR DE PIEL") character.skin=item;
-          if(group==="OJOS") character.eyes=item;
-          if(group==="CEJAS") character.brows=item;
-          if(group==="EXPRESIÓN") character.expression=item;
-        }
-        if(category==="PEINADO") character.hair=item;
-        if(category==="ROPA") character.clothes=item;
-        if(category==="PENDIENTES") character.earrings=item;
-        if(category==="EXTRAS") character.extras=item;
-
+      btn.onclick = () => {
+        grid.querySelectorAll(".pixel-opt-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
         showMessage("Seleccionado: " + item);
       };
 
-      grid.appendChild(button);
+      grid.appendChild(btn);
     });
 
-    content.appendChild(grid);
+    panel.appendChild(grid);
   });
-
-  modal.classList.add("open");
 }
 
 function openCareer(){
@@ -832,14 +459,11 @@ function renderCareers(list){
   list.forEach(([name, campus]) => {
     const button = document.createElement("button");
     button.className = "career-card";
-    if(character.career === name) button.classList.add("selected");
-
     button.innerHTML = "<strong>" + name + "</strong><small>Campus: " + campus + "</small>";
 
     button.onclick = () => {
       character.career = name;
       character.campus = campus;
-      updateUI();
       closeModal("careerModal");
       showMessage("Carrera: " + name);
     };
@@ -856,48 +480,28 @@ function filterCareers(){
   renderCareers(filtered);
 }
 
-function openCourse(){ document.getElementById("courseModal").classList.add("open"); }
-
-function selectCourse(course){
-  character.course = course;
-  updateUI();
-  closeModal("courseModal");
-  showMessage("Curso: " + course);
+function closeModal(id){
+  document.getElementById(id).classList.remove("open");
 }
 
-function openPersonality(){ document.getElementById("personalityModal").classList.add("open"); }
-
-function selectPersonality(personality){
-  character.personality = personality;
-  updateUI();
-  closeModal("personalityModal");
-  showMessage("Personalidad: " + personality);
-}
-
-function randomItem(array){
-  return array[Math.floor(Math.random() * array.length)];
-}
-
-function randomCharacter(){
-  const car = randomItem(careers);
-  character.career = car[0];
-  character.campus = car[1];
-  character.course = randomItem(["1º", "2º", "3º", "4º"]);
-  character.personality = randomItem(["ESTUDIOSO/A", "SOCIAL", "REBELDE", "AMBICIOSO/A", "CAÓTICO/A", "CREATIVO/A"]);
-  character.hair = randomItem(customization.PEINADO["CORTES"]);
-  character.clothes = randomItem(customization.ROPA["PRENDAS"]);
-
-  updateUI();
-  showMessage("🎲 Personaje aleatorio generado");
+function continueGame(){
+  const saved = localStorage.getItem("gamucaCharacter");
+  if(saved){
+    character = JSON.parse(saved);
+    showMessage("Cargando partida guardada...");
+    openCreator();
+  }else{
+    showMessage("No hay ninguna partida guardada.");
+  }
 }
 
 function createCharacter(){
-  if(!character.career){ showMessage("Elige una carrera."); openCareer(); return; }
-  if(!character.course){ showMessage("Elige tu curso."); openCourse(); return; }
-  if(!character.personality){ showMessage("Elige una personalidad."); openPersonality(); return; }
-
+  if(!character.career){
+    openCareer();
+    return;
+  }
   localStorage.setItem("gamucaCharacter", JSON.stringify(character));
-  showMessage("✓ ¡Personaje creado y guardado con éxito!");
+  showMessage("✓ ¡Personaje guardado correctamente!");
 }
 
 let toastTimer;
@@ -908,18 +512,6 @@ function showMessage(message){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { toast.classList.remove("show"); }, 2200);
 }
-
-document.querySelectorAll(".modal").forEach(modal => {
-  modal.addEventListener("click", event => {
-    if(event.target === modal) modal.classList.remove("open");
-  });
-});
-
-document.addEventListener("keydown", event => {
-  if(event.key === "Escape"){
-    document.querySelectorAll(".modal").forEach(m => m.classList.remove("open"));
-  }
-});
 </script>
 
 </body>
