@@ -1228,7 +1228,7 @@ let character = {
   name: "Estudiante",
   gender: "femenino",
   career: "",
-  skin: "#ffdbac",
+  skin: "#e0ac69",
   eyes: "#4b2d0b",
   nose: "normal",
   mouth: "sonrisa",
@@ -1520,7 +1520,6 @@ const careersByCampus = [
 const creatorOptions = {
   APARIENCIA: {
     piel: [
-      { label: "Clara", type: "skin", value: "#ffdbac", preview: "#ffdbac" },
       { label: "Media", type: "skin", value: "#e0ac69", preview: "#e0ac69" },
       { label: "Oscura", type: "skin", value: "#8d5524", preview: "#8d5524" }
     ],
@@ -1549,7 +1548,7 @@ const creatorOptions = {
     complexion: [
       { label: "Delgada", type: "bodyType", value: "delgada", preview: "🚶" },
       { label: "Media", type: "bodyType", value: "media", preview: "🏃" },
-      { label: "Atlética", type: "bodyType", value: "atletica", preview: "🏋️" }
+      { label: "Ancho", type: "bodyType", value: "ancho", preview: "🏋️‍♂️" }
     ]
   },
   PEINADO: {
@@ -1595,8 +1594,7 @@ const creatorOptions = {
   ACCESORIOS: {
     gafas: [
       { label: "Sin Gafas", type: "glasses", value: "ninguna", preview: "🚫" },
-      { label: "Pasta", type: "glasses", value: "pasta", preview: "👓" },
-      { label: "Gafas de Oro", type: "glasses", value: "oro", preview: "👓" }
+      { label: "Pasta", type: "glasses", value: "pasta", preview: "👓" }
     ],
     pendientes: [
       { label: "Sin Pendientes", type: "earrings", value: "ninguno", preview: "🚫" },
@@ -1608,8 +1606,7 @@ const creatorOptions = {
     ],
     gorros_y_cascos: [
       { label: "Sin Cascos", type: "headwear", value: "ninguno", preview: "🚫" },
-      { label: "Cascos", type: "headwear", value: "cascos", preview: "🎧" },
-      { label: "Cascos Cyber", type: "headwear", value: "cyber", preview: "🎧" }
+      { label: "Cascos", type: "headwear", value: "cascos", preview: "🎧" }
     ]
   }
 };
@@ -1663,7 +1660,7 @@ function deleteCharacter() {
       name: "Estudiante",
       gender: "femenino",
       career: "",
-      skin: "#ffdbac",
+      skin: "#e0ac69",
       eyes: "#4b2d0b",
       nose: "normal",
       mouth: "sonrisa",
@@ -2256,7 +2253,7 @@ function drawCharacterSprite(ctx, cx, cy, scale) {
 
   let bodyWidth = 24;
   if(character.bodyType === "delgada") bodyWidth = 20;
-  if(character.bodyType === "atletica") bodyWidth = 28;
+  if(character.bodyType === "ancho") bodyWidth = 32;
 
   ctx.scale(scale, scale);
 
