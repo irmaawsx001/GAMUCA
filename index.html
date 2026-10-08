@@ -6,6 +6,14 @@
 <title>GAMUCA - Tu Vida Universitaria</title>
 
 <style>
+/* DECLARACIÓN DE FUENTE PERSONALIZADA SOLO PARA EL TÍTULO */
+@font-face {
+  font-family: 'Pixelta';
+  src: url('Pixelta.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -48,7 +56,7 @@ button{ cursor:pointer; }
   flex-direction:column;
 }
 
-/* TRANSICIÓN Y EFECTO HOVER (AGRANDADO) */
+/* TRANSICIÓN Y EFECTO HOVER */
 button,
 .pixel-opt-card,
 .location-card,
@@ -91,13 +99,21 @@ button:hover,
   animation: pixelSelect 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* PORTADA */
+/* PORTADA A PANTALLA COMPLETA CON IMAGEN DE FONDO */
 #home {
-  background: linear-gradient(180deg, #09070f 0%, #1c0e2a 60%, #08070c 100%);
-  justify-style: space-between;
+  background: linear-gradient(180deg, rgba(9, 7, 15, 0.7) 0%, rgba(28, 14, 42, 0.6) 60%, rgba(8, 7, 12, 0.85) 100%),
+              url('menuprincipal.jpg') center/cover no-repeat;
   justify-content: space-between;
   align-items: center;
   padding: 40px 20px;
+}
+
+/* IMAGEN ADAPTADA PARA DISPOSITIVOS MÓVILES */
+@media (max-width: 768px) {
+  #home {
+    background: linear-gradient(180deg, rgba(9, 7, 15, 0.7) 0%, rgba(28, 14, 42, 0.6) 60%, rgba(8, 7, 12, 0.85) 100%),
+                url('menuprincipalmovil.jpg') center/cover no-repeat;
+  }
 }
 
 .title-box {
@@ -105,17 +121,33 @@ button:hover,
   margin-top: 10px;
 }
 
+/* TÍTULO PRINCIPAL CON FUENTE EXCLUSIVA Y ESTILOS */
 .title-box h1 {
+  font-family: 'Pixelta', "Courier New", monospace;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
-  color: #f3c9dc;
-  text-shadow: 0 0 16px #bd68ff, 4px 4px 0px #000;
   margin: 0;
   letter-spacing: 6px;
 }
 
+.title-box h1 .title-gam {
+  color: #2bff88;
+  text-shadow: 0 0 16px #2bff88, 4px 4px 0px #000;
+}
+
+.title-box h1 .title-u {
+  color: #ff9900;
+  text-shadow: 0 0 16px #ff9900, 4px 4px 0px #000;
+}
+
+.title-box h1 .title-ca {
+  color: #2b75ff;
+  text-shadow: 0 0 16px #2b75ff, 4px 4px 0px #000;
+}
+
 .title-box p {
   font-size: clamp(0.8rem, 2vw, 1.1rem);
-  color: #a995a9;
+  color: #ffffff;
+  text-shadow: 1px 1px 4px #000;
   margin-top: 8px;
 }
 
@@ -127,7 +159,7 @@ button:hover,
 }
 
 .btn-pixel {
-  background: #180e20;
+  background: rgba(24, 14, 32, 0.85);
   border: 2px solid #bd68ff;
   color: #f0d8e9;
   padding: 12px;
@@ -136,6 +168,7 @@ button:hover,
   text-transform: uppercase;
   letter-spacing: 2px;
   box-shadow: 3px 3px 0 #000;
+  backdrop-filter: blur(2px);
 }
 
 .btn-pixel:active {
@@ -163,15 +196,17 @@ button:hover,
   gap: 15px;
   flex-wrap: wrap;
   width: 100%;
-  border-top: 1px solid #3b2a40;
+  border-top: 1px solid rgba(59, 42, 64, 0.6);
   padding-top: 15px;
+  background: rgba(8, 7, 12, 0.4);
 }
 
 .btn-icon {
   background: transparent;
   border: none;
-  color: #d9a86c;
+  color: #ffd700;
   font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+  text-shadow: 1px 1px 2px #000;
 }
 
 /* CREADOR, ARMARIO, EXPLORACIÓN Y SALA */
@@ -329,6 +364,20 @@ button:hover,
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.pixel-icon-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.pixel-icon-large {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 /* PASE DE TEMPORADA */
@@ -763,7 +812,7 @@ button:hover,
   <!-- PORTADA -->
   <section id="home" class="screen active">
     <div class="title-box">
-      <h1>GAMUCA</h1>
+      <h1><span class="title-gam">GAM</span><span class="title-u">U</span><span class="title-ca">CA</span></h1>
       <p>Tu carrera. Tu personaje. Tu expediente.</p>
     </div>
 
@@ -1138,6 +1187,42 @@ button:hover,
 <div id="toast" class="toast"></div>
 
 <script>
+/* ==========================================================================
+   GAMUCA - SPRITES VECTORIALES PIXEL ART INDEPENDIENTES
+   ========================================================================== */
+const GAMUCA_SPRITES = {
+  // MASCOTAS
+  cat: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23888888' d='M2,4 h3 v2 h-3 z M11,4 h3 v2 h-3 z M3,6 h10 v8 h-10 z'/><path fill='%232bff88' d='M4,8 h2 v2 h-2 z M10,8 h2 v2 h-2 z'/><path fill='%23ff8888' d='M7,10 h2 v2 h-2 z'/><path fill='%23000000' d='M5,9 h1 v1 h-1 z M11,9 h1 v1 h-1 z'/></svg>",
+  dog: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23b87333' d='M1,6 h3 v5 h-3 z M12,6 h3 v5 h-3 z M3,5 h10 v9 h-10 z'/><path fill='%23ffffff' d='M4,7 h2 v2 h-2 z M10,7 h2 v2 h-2 z'/><path fill='%23000000' d='M5,8 h1 v1 h-1 z M11,8 h1 v1 h-1 z M7,10 h2 v2 h-2 z'/></svg>",
+  owl: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%232b75ff' d='M3,3 h10 v11 h-10 z'/><path fill='%23ffffff' d='M4,5 h3 v3 h-3 z M9,5 h3 v3 h-3 z'/><path fill='%23000000' d='M5,6 h1 v1 h-1 z M10,6 h1 v1 h-1 z'/><path fill='%23ffd700' d='M7,8 h2 v2 h-2 z'/></svg>",
+  fox: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23bd68ff' d='M2,3 h3 v3 h-3 z M11,3 h3 v3 h-3 z M3,6 h10 v8 h-10 z'/><path fill='%23ffffff' d='M3,11 h10 v3 h-10 z'/><path fill='%23000000' d='M4,8 h2 v2 h-2 z M10,8 h2 v2 h-2 z M7,11 h2 v2 h-2 z'/></svg>",
+  penguin: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23222222' d='M3,3 h10 v12 h-10 z'/><path fill='%23ffffff' d='M5,6 h6 v7 h-6 z'/><path fill='%23ffd700' d='M7,8 h2 v2 h-2 z M4,14 h3 v1 h-3 z M9,14 h3 v1 h-3 z'/></svg>",
+  dragon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23ffd700' d='M3,4 h10 v10 h-10 z'/><path fill='%23ff4444' d='M1,2 h3 v3 h-3 z M12,2 h3 v3 h-3 z'/><path fill='%23000000' d='M4,7 h3 v3 h-3 z M9,7 h3 v3 h-3 z'/><path fill='%23ffea00' d='M5,8 h1 v1 h-1 z M10,8 h1 v1 h-1 z'/></svg>",
+
+  // OBJETOS Y SALA
+  golden_glasses: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23ffd700' d='M1,6 h5 v4 h-5 z M10,6 h5 v4 h-5 z M6,7 h4 v1 h-4 z'/><path fill='%23000000' fill-opacity='0.3' d='M2,7 h3 v2 h-3 z M11,7 h3 v2 h-3 z'/></svg>",
+  cyber_headphones: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23bd68ff' d='M3,2 h10 v2 h-10 z M2,4 h2 v8 h-2 z M12,4 h2 v8 h-2 z'/><path fill='%2300e5ff' d='M1,7 h3 v4 h-3 z M12,7 h3 v4 h-3 z'/></svg>",
+  gold_jacket: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23ffd700' d='M2,3 h12 v11 h-12 z'/><path fill='%23111111' d='M6,3 h4 v11 h-4 z'/><path fill='%23ffffff' d='M7,5 h2 v2 h-2 z M7,9 h2 v2 h-2 z'/></svg>",
+  backpack: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23bd68ff' d='M3,4 h10 v10 h-10 z'/><path fill='%23180e20' d='M5,2 h6 v2 h-6 z M4,8 h8 v5 h-8 z'/><path fill='%23ffd700' d='M7,10 h2 v1 h-2 z'/></svg>",
+  trophy: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23ffd700' d='M4,2 h8 v6 h-8 z M7,8 h2 v4 h-2 z M4,12 h8 v2 h-8 z'/><path fill='%23ffffff' d='M1,3 h3 v3 h-3 z M12,3 h3 v3 h-3 z'/></svg>",
+  diploma: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23f0d8e9' d='M3,2 h10 v12 h-10 z'/><path fill='%233b2a40' d='M5,4 h6 v1 h-6 z M5,6 h6 v1 h-6 z M5,8 h4 v1 h-4 z'/><path fill='%23bd68ff' d='M10,10 h2 v3 h-2 z'/></svg>",
+
+  // LUGARES UCA
+  loc_biblio: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%232b75ff' d='M2,3 h12 v10 h-12 z'/><path fill='%23ffffff' d='M3,4 h4 v8 h-4 z M9,4 h4 v8 h-4 z'/><path fill='%23ff4444' d='M11,4 h1 v5 h-1 z'/></svg>",
+  loc_cafeteria: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23ffffff' d='M4,5 h7 v8 h-7 z'/><path fill='%23b87333' d='M3,3 h9 v2 h-9 z M11,7 h2 v4 h-2 z'/><path fill='%23bd68ff' d='M6,7 h3 v4 h-3 z'/></svg>",
+  loc_aulario: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%233b2a40' d='M1,6 h14 v8 h-14 z M8,1 L15,6 L1,6 Z'/><path fill='%232bff88' d='M3,8 h3 v3 h-3 z M10,8 h3 v3 h-3 z'/><path fill='%23ffd700' d='M7,10 h2 v4 h-2 z'/></svg>",
+  loc_secretaria: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23d9a86c' d='M2,2 h12 v12 h-12 z'/><path fill='%23120c1a' d='M4,4 h8 v2 h-8 z M4,8 h8 v4 h-8 z'/></svg>",
+  loc_decanato: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='64' height='64' style='image-rendering:pixelated;'><path fill='%23ffd700' d='M1,5 h14 v9 h-14 z M8,1 L14,5 L2,5 Z'/><path fill='%23120c1a' d='M3,7 h3 v3 h-3 z M10,7 h3 v3 h-3 z M7,9 h2 v5 h-2 z'/></svg>"
+};
+
+// Carga de imágenes para dibujo en Canvas
+const loadedSpriteImages = {};
+Object.keys(GAMUCA_SPRITES).forEach(key => {
+  const img = new Image();
+  img.src = GAMUCA_SPRITES[key];
+  loadedSpriteImages[key] = img;
+});
+
 // Estado Global
 let character = {
   name: "Estudiante",
@@ -1210,6 +1295,7 @@ const seasonTiers = [
 const explorationLocations = [
   {
     id: "loc_biblio",
+    spriteKey: "loc_biblio",
     title: "📚 Biblioteca Central",
     desc: "El corazón del estudio. Encuentras un rincón de concentración máxima.",
     rewardCoins: 40,
@@ -1219,6 +1305,7 @@ const explorationLocations = [
   },
   {
     id: "loc_cafeteria",
+    spriteKey: "loc_cafeteria",
     title: "☕ Cafetería del Campus",
     desc: "Lugar ideal para socializar y recuperar energía entre clases.",
     rewardCoins: 30,
@@ -1228,6 +1315,7 @@ const explorationLocations = [
   },
   {
     id: "loc_aulario",
+    spriteKey: "loc_aulario",
     title: "🏛️ Aulario Principal",
     desc: "Aulas magnas y pasillos llenos de carteles informativos.",
     rewardCoins: 50,
@@ -1237,6 +1325,7 @@ const explorationLocations = [
   },
   {
     id: "loc_secretaria",
+    spriteKey: "loc_secretaria",
     title: "📋 Secretaría e Información",
     desc: "Ventanillas administrativas y entrega de solicitudes oficiales.",
     rewardCoins: 60,
@@ -1246,6 +1335,7 @@ const explorationLocations = [
   },
   {
     id: "loc_decanato",
+    spriteKey: "loc_decanato",
     title: "🏢 Decanato y Despachos",
     desc: "La zona más formal. El ambiente respira respeto y conocimiento.",
     rewardCoins: 80,
@@ -1325,18 +1415,18 @@ const achievements = [
 ];
 
 const petsDatabase = [
-  { id: "cat", name: "Gato Píxel", rarity: "Común", color: "#888", icon: "🐱" },
-  { id: "dog", name: "Perro Píxel", rarity: "Común", color: "#b87333", icon: "🐶" },
-  { id: "owl", name: "Búho Sabio", rarity: "Rara", color: "#2b75ff", icon: "🦉" },
-  { id: "fox", name: "Zorro Místico", rarity: "Épica", color: "#bd68ff", icon: "🦊" },
-  { id: "penguin", name: "Pingüino Píxel", rarity: "Épica", color: "#2bff88", icon: "🐧" },
-  { id: "dragon", name: "Dragón Dorado", rarity: "Mítica", color: "#ffd700", icon: "🐉" }
+  { id: "cat", name: "Gato Píxel", rarity: "Común", color: "#888", spriteKey: "cat" },
+  { id: "dog", name: "Perro Píxel", rarity: "Común", color: "#b87333", spriteKey: "dog" },
+  { id: "owl", name: "Búho Sabio", rarity: "Rara", color: "#2b75ff", spriteKey: "owl" },
+  { id: "fox", name: "Zorro Místico", rarity: "Épica", color: "#bd68ff", spriteKey: "fox" },
+  { id: "penguin", name: "Pingüino Píxel", rarity: "Épica", color: "#2bff88", spriteKey: "penguin" },
+  { id: "dragon", name: "Dragón Dorado", rarity: "Mítica", color: "#ffd700", spriteKey: "dragon" }
 ];
 
 const shopCosmeticsDatabase = [
-  { id: "golden_glasses", name: "Gafas de Oro", type: "glasses", value: "oro", cost: 150, icon: "👓" },
-  { id: "cyber_headphones", name: "Cascos Cyber", type: "headwear", value: "cyber", cost: 200, icon: "🎧" },
-  { id: "gold_jacket", name: "Chaqueta Dorada", type: "jacketType", value: "dorada", cost: 300, icon: "🧥" }
+  { id: "golden_glasses", name: "Gafas de Oro", type: "glasses", value: "oro", cost: 150, spriteKey: "golden_glasses" },
+  { id: "cyber_headphones", name: "Cascos Cyber", type: "headwear", value: "cyber", cost: 200, spriteKey: "cyber_headphones" },
+  { id: "gold_jacket", name: "Chaqueta Dorada", type: "jacketType", value: "dorada", cost: 300, spriteKey: "gold_jacket" }
 ];
 
 const careersByCampus = [
@@ -1505,7 +1595,8 @@ const creatorOptions = {
   ACCESORIOS: {
     gafas: [
       { label: "Sin Gafas", type: "glasses", value: "ninguna", preview: "🚫" },
-      { label: "Pasta", type: "glasses", value: "pasta", preview: "👓" }
+      { label: "Pasta", type: "glasses", value: "pasta", preview: "👓" },
+      { label: "Gafas de Oro", type: "glasses", value: "oro", preview: "👓" }
     ],
     pendientes: [
       { label: "Sin Pendientes", type: "earrings", value: "ninguno", preview: "🚫" },
@@ -1517,7 +1608,8 @@ const creatorOptions = {
     ],
     gorros_y_cascos: [
       { label: "Sin Cascos", type: "headwear", value: "ninguno", preview: "🚫" },
-      { label: "Cascos", type: "headwear", value: "cascos", preview: "🎧" }
+      { label: "Cascos", type: "headwear", value: "cascos", preview: "🎧" },
+      { label: "Cascos Cyber", type: "headwear", value: "cyber", preview: "🎧" }
     ]
   }
 };
@@ -1765,32 +1857,30 @@ function drawRoomCanvas(targetChar) {
   ctx.lineWidth = 1;
   ctx.strokeRect(0,160, canvas.width, 80);
 
-  ctx.fillStyle = "#0c0812";
-  ctx.fillRect(30, 20, 80, 60);
-  ctx.strokeStyle = "#bd68ff";
-  ctx.strokeRect(30, 20, 80, 60);
+  // Cuadro con Diploma SVG en Canvas
+  if(loadedSpriteImages.diploma && loadedSpriteImages.diploma.complete) {
+    ctx.drawImage(loadedSpriteImages.diploma, 35, 20, 50, 50);
+  }
+
   ctx.fillStyle = "#f3c9dc";
   ctx.font = "10px Courier New";
-  ctx.fillText("UCA 2026/27", 38, 55);
+  ctx.fillText("UCA 2026/27", 25, 85);
 
   ctx.fillStyle = "#3b2a40";
   ctx.fillRect(160, 40, 150, 8);
   ctx.fillRect(160, 80, 150, 8);
 
+  // Trofeo SVG
   if(targetChar.solvedCases && targetChar.solvedCases.length > 0) {
-    ctx.font = "20px Courier New";
-    ctx.fillText("🏆", 170, 36);
+    if(loadedSpriteImages.trophy && loadedSpriteImages.trophy.complete) {
+      ctx.drawImage(loadedSpriteImages.trophy, 170, 10, 30, 30);
+    }
   }
 
-  if(targetChar.discoveredLocations && targetChar.discoveredLocations.length > 0) {
-    ctx.font = "18px Courier New";
-    ctx.fillText("📜", 210, 36);
-    ctx.fillText("🔖", 250, 36);
+  // Mochila SVG
+  if(loadedSpriteImages.backpack && loadedSpriteImages.backpack.complete) {
+    ctx.drawImage(loadedSpriteImages.backpack, 220, 10, 30, 30);
   }
-
-  ctx.font = "18px Courier New";
-  ctx.fillText("🎓", 180, 76);
-  ctx.fillText("🎒", 230, 76);
 
   ctx.fillStyle = "#2c1a38";
   ctx.fillRect(220, 130, 110, 40);
@@ -1802,9 +1892,8 @@ function drawRoomCanvas(targetChar) {
 
   if(targetChar.equippedPet) {
     const pet = petsDatabase.find(p => p.id === targetChar.equippedPet);
-    if(pet) {
-      ctx.font = "26px Courier New";
-      ctx.fillText(pet.icon, 80, 200);
+    if(pet && loadedSpriteImages[pet.spriteKey] && loadedSpriteImages[pet.spriteKey].complete) {
+      ctx.drawImage(loadedSpriteImages[pet.spriteKey], 70, 175, 45, 45);
     }
   }
 }
@@ -1814,28 +1903,28 @@ function renderRoomItemsList(targetChar) {
   container.innerHTML = '';
 
   const items = [
-    { title: "Diploma UCA", icon: "🎓", desc: "Acredita tu matrícula oficial." },
-    { title: "Mochila Píxel", icon: "🎒", desc: "Equipamiento de estudio." }
+    { title: "Diploma UCA", spriteKey: "diploma", desc: "Acredita tu matrícula oficial." },
+    { title: "Mochila Píxel", spriteKey: "backpack", desc: "Equipamiento de estudio." }
   ];
 
   if(targetChar.solvedCases && targetChar.solvedCases.length > 0) {
-    items.push({ title: "Trofeo Detective", icon: "🏆", desc: "Otorgado por resolver el Caso #014." });
+    items.push({ title: "Trofeo Detective", spriteKey: "trophy", desc: "Otorgado por resolver el Caso #014." });
   }
 
   if(targetChar.discoveredLocations && targetChar.discoveredLocations.length > 0) {
-    items.push({ title: "Recuerdo de Campus", icon: "🔖", desc: "Conseguido explorando zonas." });
+    items.push({ title: "Recuerdo de Campus", spriteKey: "loc_biblio", desc: "Conseguido explorando zonas." });
   }
 
   if(targetChar.equippedPet) {
     const pet = petsDatabase.find(p => p.id === targetChar.equippedPet);
-    if(pet) items.push({ title: pet.name, icon: pet.icon, desc: `Mascota [Rareza: ${pet.rarity}]` });
+    if(pet) items.push({ title: pet.name, spriteKey: pet.spriteKey, desc: `Mascota [Rareza: ${pet.rarity}]` });
   }
 
   items.forEach(it => {
     const card = document.createElement('div');
     card.className = 'pixel-opt-card';
     card.innerHTML = `
-      <div style="font-size:20px;">${it.icon}</div>
+      <img src="${GAMUCA_SPRITES[it.spriteKey]}" class="pixel-icon-img" alt="${it.title}">
       <strong>${it.title}</strong>
       <small style="color:#a995a9; font-size:9px;">${it.desc}</small>
     `;
@@ -1935,8 +2024,13 @@ function renderExplorationGrid() {
     card.className = `location-card ${isDiscovered ? 'discovered' : ''}`;
     
     card.innerHTML = `
-      <h3 style="margin:0; color:#f3c9dc; font-size:1rem;">${loc.title}</h3>
-      <p style="font-size:11px; color:#a995a9; margin:0;">${loc.desc}</p>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <img src="${GAMUCA_SPRITES[loc.spriteKey]}" class="pixel-icon-large" alt="${loc.title}">
+        <div>
+          <h3 style="margin:0; color:#f3c9dc; font-size:1rem;">${loc.title}</h3>
+          <p style="font-size:11px; color:#a995a9; margin:2px 0 0 0;">${loc.desc}</p>
+        </div>
+      </div>
       
       ${isDiscovered ? `
         <div style="background:#180e20; padding:6px; border-radius:4px; font-size:10px; color:#2bff88; margin-top:4px;">
@@ -2118,7 +2212,7 @@ function renderOwnedCosmeticsInWardrobe(panel) {
     const card = document.createElement('div');
     card.className = `pixel-opt-card ${isEquipped ? 'selected' : ''}`;
     card.innerHTML = `
-      <div class="opt-preview-swatch" style="font-size:16px;">${item.icon}</div>
+      <img src="${GAMUCA_SPRITES[item.spriteKey]}" class="pixel-icon-img" alt="${item.name}">
       <span>${item.name}</span>
       <small style="color:${isEquipped ? '#2bff88' : '#a995a9'};">${isEquipped ? 'EQUIPADO' : 'DESEQUIPADO'}</small>
     `;
@@ -2151,6 +2245,7 @@ function createOptCard(opt, isWardrobe) {
   return card;
 }
 
+// MOTOR DE DIBUJO DEL AVATAR ACTUALIZADO CON SPRITES REALES
 function drawCharacterSprite(ctx, cx, cy, scale) {
   ctx.save();
   ctx.translate(cx, cy);
@@ -2165,28 +2260,34 @@ function drawCharacterSprite(ctx, cx, cy, scale) {
 
   ctx.scale(scale, scale);
 
+  // Sombra base
   ctx.fillStyle = "rgba(0,0,0,0.3)";
   ctx.beginPath();
   ctx.ellipse(0, 20 + legHeight, bodyWidth + 8, 6, 0, 0, Math.PI * 2);
   ctx.fill();
 
+  // Piernas
   ctx.fillStyle = "#222533";
   ctx.fillRect(-bodyWidth/2 + 2, 16, bodyWidth/2 - 3, legHeight);
   ctx.fillRect(1, 16, bodyWidth/2 - 3, legHeight);
 
+  // Zapatos
   ctx.fillStyle = "#111";
   ctx.fillRect(-bodyWidth/2, 16 + legHeight - 4, bodyWidth/2, 6);
   ctx.fillRect(1, 16 + legHeight - 4, bodyWidth/2, 6);
 
+  // Cabeza / Piel
   ctx.fillStyle = character.skin;
   ctx.fillRect(-16, -36, 32, 32);
   ctx.strokeStyle = "#000";
   ctx.lineWidth = 1;
   ctx.strokeRect(-16, -36, 32, 32);
 
+  // Cuello
   ctx.fillStyle = "#d1a075";
   ctx.fillRect(-4, -5, 8, 4);
 
+  // Torso / Ropa
   ctx.fillStyle = character.shirtColor;
   ctx.fillRect(-bodyWidth/2, -2, bodyWidth, 18);
   ctx.strokeRect(-bodyWidth/2, -2, bodyWidth, 18);
@@ -2195,18 +2296,18 @@ function drawCharacterSprite(ctx, cx, cy, scale) {
     ctx.fillStyle = "#1b1424";
     ctx.fillRect(-bodyWidth/2 - 1, -2, 6, 18);
     ctx.fillRect(bodyWidth/2 - 5, -2, 6, 18);
-  } else if(character.jacketType === "dorada") {
-    ctx.fillStyle = "#ffd700";
-    ctx.fillRect(-bodyWidth/2 - 1, -2, bodyWidth + 2, 18);
+  } else if(character.jacketType === "dorada" && loadedSpriteImages.gold_jacket && loadedSpriteImages.gold_jacket.complete) {
+    ctx.drawImage(loadedSpriteImages.gold_jacket, -bodyWidth/2 - 2, -4, bodyWidth + 4, 22);
   }
 
+  // Brazos
   ctx.fillStyle = character.skin;
   ctx.fillRect(-bodyWidth/2 - 6, 0, 5, 16);
   ctx.fillRect(bodyWidth/2 + 1, 0, 5, 16);
-
   ctx.fillRect(-bodyWidth/2 - 7, 14, 6, 5);
   ctx.fillRect(bodyWidth/2 + 1, 14, 6, 5);
 
+  // Ojos
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(-10, -24, 6, 7);
   ctx.fillRect(4, -24, 6, 7);
@@ -2219,10 +2320,12 @@ function drawCharacterSprite(ctx, cx, cy, scale) {
   ctx.fillRect(-7, -22, 2, 2);
   ctx.fillRect(7, -22, 2, 2);
 
+  // Cejas
   ctx.fillStyle = character.hairColor;
   ctx.fillRect(-10, -27, 6, 2);
   ctx.fillRect(4, -27, 6, 2);
 
+  // Nariz
   ctx.fillStyle = "#8d5524";
   if(character.nose === "fina") ctx.fillRect(-1, -16, 2, 5);
   else if(character.nose === "ancha") ctx.fillRect(-3, -15, 6, 3);
@@ -2231,6 +2334,7 @@ function drawCharacterSprite(ctx, cx, cy, scale) {
     ctx.fillRect(-1, -15, 2, 2);
   } else ctx.fillRect(-2, -16, 4, 3);
 
+  // Boca
   ctx.fillStyle = "#a83232";
   if(character.mouth === "sonrisa") {
     ctx.fillRect(-5, -8, 10, 2);
@@ -2245,6 +2349,7 @@ function drawCharacterSprite(ctx, cx, cy, scale) {
     ctx.fillRect(-4, -7, 8, 2);
   }
 
+  // Peinado
   ctx.fillStyle = character.hairColor;
   if(character.hairStyle === "largo_ondulado") {
     ctx.fillRect(-19, -41, 38, 12);
@@ -2273,27 +2378,30 @@ function drawCharacterSprite(ctx, cx, cy, scale) {
     ctx.fillRect(-17, -39, 34, 16);
   }
 
+  // Barba
   ctx.fillStyle = character.hairColor;
   if(character.beardStyle === "corta") ctx.fillRect(-12, -6, 24, 5);
   else if(character.beardStyle === "perilla") ctx.fillRect(-4, -6, 8, 6);
   else if(character.beardStyle === "poblada") ctx.fillRect(-14, -8, 28, 10);
   else if(character.beardStyle === "bigote") ctx.fillRect(-9, -10, 18, 3);
 
-  if(character.glasses === "pasta" || character.glasses === "oro") {
-    ctx.strokeStyle = character.glasses === "oro" ? "#ffd700" : "#111";
+  // Accesorios (Gafas, Cascos, Piercings) integrados con Sprites
+  if(character.glasses === "oro" && loadedSpriteImages.golden_glasses && loadedSpriteImages.golden_glasses.complete) {
+    ctx.drawImage(loadedSpriteImages.golden_glasses, -16, -28, 32, 14);
+  } else if(character.glasses === "pasta") {
+    ctx.strokeStyle = "#111";
     ctx.lineWidth = 2;
     ctx.strokeRect(-11, -25, 9, 9);
     ctx.strokeRect(2, -25, 9, 9);
   }
 
-  if(character.headwear === "cascos") {
+  if(character.headwear === "cyber" && loadedSpriteImages.cyber_headphones && loadedSpriteImages.cyber_headphones.complete) {
+    ctx.drawImage(loadedSpriteImages.cyber_headphones, -20, -36, 40, 24);
+  } else if(character.headwear === "cascos") {
     ctx.fillStyle = "#00e5ff";
     ctx.fillRect(-19, -26, 4, 14);
     ctx.fillRect(15, -26, 4, 14);
     ctx.fillRect(-19, -40, 38, 4);
-  } else if(character.headwear === "cyber") {
-    ctx.fillStyle = "#bd68ff";
-    ctx.fillRect(-19, -31, 38, 6);
   }
 
   if(character.earrings === "aros") {
@@ -2309,62 +2417,11 @@ function drawCharacterSprite(ctx, cx, cy, scale) {
     ctx.fillRect(3, -15, 2, 2);
   }
 
+  // Renderizado de Mascota al lado del jugador
   if(character.equippedPet) {
     const pet = petsDatabase.find(p => p.id === character.equippedPet);
-    if(pet) {
-      ctx.save();
-      ctx.translate(32, 10);
-
-      ctx.fillStyle = "rgba(0,0,0,0.3)";
-      ctx.beginPath();
-      ctx.ellipse(0, 16, 10, 4, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      if(pet.id === "cat") {
-        ctx.fillStyle = "#888888";
-        ctx.fillRect(-8, -6, 16, 16);
-        ctx.beginPath(); ctx.moveTo(-8, -6); ctx.lineTo(-4, -13); ctx.lineTo(-1, -6); ctx.fill();
-        ctx.beginPath(); ctx.moveTo(8, -6); ctx.lineTo(4, -13); ctx.lineTo(1, -6); ctx.fill();
-        ctx.fillStyle = "#2bff88"; ctx.fillRect(-5, -2, 3, 3); ctx.fillRect(2, -2, 3, 3);
-        ctx.fillStyle = "#ff8888"; ctx.fillRect(-1, 3, 2, 2);
-      } 
-      else if(pet.id === "dog") {
-        ctx.fillStyle = "#b87333";
-        ctx.fillRect(-8, -6, 16, 16);
-        ctx.fillRect(-11, -4, 4, 8); ctx.fillRect(7, -4, 4, 8);
-        ctx.fillStyle = "#ffffff"; ctx.fillRect(-5, -2, 3, 3); ctx.fillRect(2, -2, 3, 3);
-        ctx.fillStyle = "#000000"; ctx.fillRect(-4, -1, 1, 1); ctx.fillRect(3, -1, 1, 1);
-        ctx.fillRect(-2, 3, 4, 3);
-      } 
-      else if(pet.id === "owl") {
-        ctx.fillStyle = "#2b75ff";
-        ctx.fillRect(-9, -10, 18, 20);
-        ctx.fillStyle = "#ffffff"; ctx.fillRect(-7, -7, 6, 6); ctx.fillRect(1, -7, 6, 6);
-        ctx.fillStyle = "#000000"; ctx.fillRect(-4, -4, 2, 2); ctx.fillRect(3, -4, 2, 2);
-        ctx.fillStyle = "#ffd700"; ctx.fillRect(-1, -1, 3, 3);
-      } 
-      else if(pet.id === "fox") {
-        ctx.fillStyle = "#bd68ff";
-        ctx.fillRect(-8, -6, 16, 16);
-        ctx.beginPath(); ctx.moveTo(-8, -6); ctx.lineTo(-5, -14); ctx.lineTo(-1, -6); ctx.fill();
-        ctx.beginPath(); ctx.moveTo(8, -6); ctx.lineTo(5, -14); ctx.lineTo(1, -6); ctx.fill();
-        ctx.fillStyle = "#ffffff"; ctx.fillRect(-8, 3, 16, 7);
-        ctx.fillStyle = "#000000"; ctx.fillRect(-5, -2, 2, 2); ctx.fillRect(3, -2, 2, 2); ctx.fillRect(-1, 3, 3, 2);
-      } 
-      else if(pet.id === "penguin") {
-        ctx.fillStyle = "#222222"; ctx.fillRect(-8, -10, 16, 20);
-        ctx.fillStyle = "#ffffff"; ctx.fillRect(-5, -5, 10, 13);
-        ctx.fillStyle = "#ffd700"; ctx.fillRect(-2, -3, 4, 3);
-        ctx.fillRect(-6, 10, 4, 2); ctx.fillRect(2, 10, 4, 2);
-      } 
-      else if(pet.id === "dragon") {
-        ctx.fillStyle = "#ffd700"; ctx.fillRect(-9, -8, 18, 18);
-        ctx.fillStyle = "#ff4444"; ctx.fillRect(-12, -12, 4, 8); ctx.fillRect(8, -12, 4, 8);
-        ctx.fillStyle = "#000000"; ctx.fillRect(-5, -3, 3, 3); ctx.fillRect(2, -3, 3, 3);
-        ctx.fillStyle = "#ffea00"; ctx.fillRect(-4, -2, 1, 1); ctx.fillRect(3, -2, 1, 1);
-      }
-
-      ctx.restore();
+    if(pet && loadedSpriteImages[pet.spriteKey] && loadedSpriteImages[pet.spriteKey].complete) {
+      ctx.drawImage(loadedSpriteImages[pet.spriteKey], 22, 12, 30, 30);
     }
   }
 
@@ -2580,7 +2637,7 @@ function renderShopCosmetics() {
     const card = document.createElement('div');
     card.className = 'shop-item-card epica';
     card.innerHTML = `
-      <div style="font-size:20px;">${item.icon}</div>
+      <img src="${GAMUCA_SPRITES[item.spriteKey]}" class="pixel-icon-img" alt="${item.name}">
       <strong>${item.name}</strong>
       <small style="color:#ffd700;">Coste: ${item.cost} 🪙</small>
       <button class="btn-pixel" style="font-size:9px; padding:4px;" onclick="buyCosmetic('${item.id}')">
@@ -2666,7 +2723,7 @@ function renderPetsInventory() {
     const isEquipped = character.equippedPet === pet.id;
 
     card.innerHTML = `
-      <div style="font-size:24px;">${pet.icon}</div>
+      <img src="${GAMUCA_SPRITES[pet.spriteKey]}" class="pixel-icon-img" alt="${pet.name}">
       <strong>${pet.name}</strong>
       <small style="color:#d9a86c;">${pet.rarity}</small>
       <button class="btn-pixel" style="font-size:9px; padding:4px;" onclick="equipPet('${pet.id}')">
